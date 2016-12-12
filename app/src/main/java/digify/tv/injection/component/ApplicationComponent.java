@@ -10,4 +10,5 @@ import digify.tv.injection.module.ApplicationModule;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
+
 }

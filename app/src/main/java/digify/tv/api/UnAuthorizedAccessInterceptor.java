@@ -15,8 +15,6 @@ public class UnAuthorizedAccessInterceptor implements Interceptor {
 
     private Application app;
 
-
-
     public UnAuthorizedAccessInterceptor(Application app) {
         this.app = app;
     }

@@ -37,7 +37,7 @@ public class ApplicationModule {
 
                     @Override
                     public boolean isDebugEnabled() {
-                        return true;
+                        return false;
                     }
 
                     @Override
@@ -48,14 +48,20 @@ public class ApplicationModule {
                     @Override
                     public void e(Throwable t, String text, Object... args) {
                         Log.e(TAG, String.format(text, args), t);
+
                     }
 
                     @Override
                     public void e(String text, Object... args) {
                         Log.e(TAG, String.format(text, args));
+
                     }
 
+                    @Override
+                    public void v(String text, Object... args) {
+                        Log.e(TAG, String.format(text, args));
 
+                    }
                 })
                 .minConsumerCount(1)//always keep at least one consumer alive
                 .maxConsumerCount(3)//up to 3 consumers at a time
