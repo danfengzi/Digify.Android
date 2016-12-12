@@ -6,11 +6,16 @@ import android.util.Log;
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.log.CustomLogger;
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import digify.tv.api.DigifyApiService;
+import digify.tv.api.RetrofitHelper;
+import digify.tv.core.PreferenceManager;
 
 /**
  * Created by Joel on 12/8/2016.
@@ -22,6 +27,24 @@ public class ApplicationModule {
 
     public ApplicationModule(Application app) {
         this.app = app;
+    }
+
+    @Singleton
+    @Provides
+    PreferenceManager providePreferenceManager() {
+        return new PreferenceManager(app);
+    }
+
+    @Singleton
+    @Provides
+    DigifyApiService provideDigifyService() {
+        return new RetrofitHelper().newDigifyApiService();
+    }
+
+    @Singleton
+    @Provides
+    Bus provideOttoBus() {
+        return new Bus(ThreadEnforcer.ANY);
     }
 
     @Singleton
