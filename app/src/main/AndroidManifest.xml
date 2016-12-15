@@ -34,6 +34,9 @@
         <activity android:name=".ui.activities.DetailsActivity" />
         <activity android:name=".ui.activities.PlaybackOverlayActivity" />
         <activity android:name=".ui.activities.BrowseErrorActivity" />
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

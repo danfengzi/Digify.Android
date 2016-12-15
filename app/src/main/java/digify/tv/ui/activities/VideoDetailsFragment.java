@@ -47,6 +47,7 @@ import java.util.Collections;
 import java.util.List;
 
 import digify.tv.R;
+import digify.tv.util.Utils;
 
 /*
  * LeanbackDetailsFragment extends DetailsFragment, a Wrapper fragment for leanback details screens.
