@@ -5,4 +5,6 @@ package digify.tv.db.models;
  */
 
 public enum MediaType {
+    Picture,
+    Video
 }

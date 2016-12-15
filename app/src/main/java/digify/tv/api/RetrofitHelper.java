@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
     public DigifyApiService newDigifyApiService() {
+
         final GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(DateTime.class, new DateTimeConverter());
 
@@ -42,7 +43,7 @@ public class RetrofitHelper {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(builder.create()))
-                .baseUrl("put url here soon")
+                .baseUrl("api.digify.tv/api/")
                 .build();
 
         return retrofit.create(DigifyApiService.class);
