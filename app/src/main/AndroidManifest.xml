@@ -37,6 +37,7 @@
         <activity android:name=".ui.activities.BrowseErrorActivity" />
         <activity
             android:name=".ui.activities.LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:label="@string/title_activity_login"></activity>
     </application>
 

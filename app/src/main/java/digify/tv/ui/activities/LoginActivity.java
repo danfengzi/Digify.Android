@@ -1,6 +1,5 @@
 package digify.tv.ui.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
@@ -24,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends LoginBaseActivity {
 
     @Inject
     DigifyApiService digifyApiService;
@@ -44,6 +43,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
 
         applicationComponent().inject(this);
         EasyGcm.init(this);
