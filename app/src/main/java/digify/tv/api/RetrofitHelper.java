@@ -19,7 +19,6 @@ public class RetrofitHelper {
     public DigifyApiService newDigifyApiService() {
 
         final GsonBuilder builder = new GsonBuilder();
-        //builder.registerTypeAdapter(DateTime.class, new DateTimeConverter());
         builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         builder.setDateFormat("yyyy-MM-dd HH:mm:ss");
 
