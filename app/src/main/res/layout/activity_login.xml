@@ -69,6 +69,8 @@
                 android:textSize="120sp" />
         </RelativeLayout>
         <LinearLayout
+            android:id="@+id/sync_info"
+            android:visibility="gone"
             android:layout_marginTop="30dp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"

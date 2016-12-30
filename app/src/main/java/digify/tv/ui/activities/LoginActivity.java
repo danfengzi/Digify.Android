@@ -2,6 +2,9 @@ package digify.tv.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,6 +40,10 @@ public class LoginActivity extends LoginBaseActivity {
     AVLoadingIndicatorView loadingView;
     @BindView(R.id.activity_login)
     RelativeLayout activityLogin;
+    @BindView(R.id.sync_button)
+    ImageView syncButton;
+    @BindView(R.id.sync_info)
+    LinearLayout syncInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +72,11 @@ public class LoginActivity extends LoginBaseActivity {
         loginCall.enqueue(new Callback<LoginResponseModel>() {
             @Override
             public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
-                if(response.body()!=null)
-                {
+                if (response.body() != null) {
                     instruction.setText("Enter this code into your dashboard");
                     loadingView.smoothToHide();
                     code.setText(response.body().getCode());
+                    syncInfo.setVisibility(View.VISIBLE);
                 }
 
             }
