@@ -2,12 +2,14 @@ package digify.tv.ui.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
+import digify.tv.api.models.LoginResponseModel;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.util.*;
 import eu.inloop.easygcm.EasyGcm;
@@ -36,17 +38,17 @@ public class LoginActivity extends Activity {
         if(!Utils.isGooglePlayServicesAvailable(this))
             return;
 
-        Call<Void> loginCall = digifyApiService.assignmentRequest(EasyGcm.getRegistrationId(this),Utils.getUniquePsuedoID());
+        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(EasyGcm.getRegistrationId(this),Utils.getUniquePsuedoID());
 
-        loginCall.enqueue(new Callback<Void>() {
+        loginCall.enqueue(new Callback<LoginResponseModel>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
+                Log.v("test",response.body().getCode());
 
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
+            public void onFailure(Call<LoginResponseModel> call, Throwable t) {
             }
         });
     }
