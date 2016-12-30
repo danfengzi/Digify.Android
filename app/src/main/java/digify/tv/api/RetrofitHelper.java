@@ -43,7 +43,7 @@ public class RetrofitHelper {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(builder.create()))
-                .baseUrl("api.digify.tv/api/")
+                .baseUrl("http://digify.tv/api/")
                 .build();
 
         return retrofit.create(DigifyApiService.class);

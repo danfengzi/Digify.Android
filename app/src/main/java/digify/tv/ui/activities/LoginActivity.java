@@ -1,18 +1,21 @@
 package digify.tv.ui.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import javax.inject.Inject;
 
+import digify.tv.DigifyApp;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
+import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.util.*;
 import eu.inloop.easygcm.EasyGcm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends Activity {
 
     @Inject
     DigifyApiService digifyApiService;
@@ -30,6 +33,9 @@ public class LoginActivity extends BaseActivity {
 
     public void login()
     {
+        if(!Utils.isGooglePlayServicesAvailable(this))
+            return;
+
         Call<Void> loginCall = digifyApiService.assignmentRequest(EasyGcm.getRegistrationId(this),Utils.getUniquePsuedoID());
 
         loginCall.enqueue(new Callback<Void>() {
@@ -44,5 +50,10 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
+    protected ApplicationComponent applicationComponent() {
+        return DigifyApp.get(this).getComponent();
+    }
+
 
 }

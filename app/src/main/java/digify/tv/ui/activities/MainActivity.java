@@ -14,7 +14,6 @@
 
 package digify.tv.ui.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import digify.tv.R;
@@ -22,7 +21,7 @@ import digify.tv.R;
 /*
  * MainActivity class that loads MainFragment
  */
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
     /**
      * Called when the activity is first created.
      */
