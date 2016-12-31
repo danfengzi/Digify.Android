@@ -62,7 +62,8 @@ public class DigifyApp extends Application implements GcmListener{
 
     @Override
     public void onMessage(String s, Bundle bundle) {
-        Log.v("GCM",s);
+        Log.v("gcm_message",bundle.getString("message"));
+        Log.v("gcm_id",s);
     }
 
     @Override

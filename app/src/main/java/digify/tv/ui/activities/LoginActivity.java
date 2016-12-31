@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import digify.tv.R;
 import digify.tv.api.DigifyApiService;
 import digify.tv.api.models.LoginResponseModel;
 import digify.tv.injection.component.ApplicationComponent;
+import digify.tv.ui.events.DeviceAssignedEvent;
 import digify.tv.util.Utils;
 import eu.inloop.easygcm.EasyGcm;
 import retrofit2.Call;
@@ -84,7 +86,7 @@ public class LoginActivity extends LoginBaseActivity {
                             code.setText(response.body().getCode());
                             syncInfo.setVisibility(View.VISIBLE);
                         }
-                    }, 5000);
+                    },5000);
 
                 }
 
@@ -103,6 +105,11 @@ public class LoginActivity extends LoginBaseActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Subscribe public void deviceAssigned(DeviceAssignedEvent event)
+    {
+
     }
 
 
