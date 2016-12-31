@@ -2,6 +2,7 @@ package digify.tv.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -71,12 +72,20 @@ public class LoginActivity extends LoginBaseActivity {
 
         loginCall.enqueue(new Callback<LoginResponseModel>() {
             @Override
-            public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
+            public void onResponse(Call<LoginResponseModel> call, final Response<LoginResponseModel> response) {
                 if (response.body() != null) {
-                    instruction.setText("Enter this code into your dashboard");
-                    loadingView.smoothToHide();
-                    code.setText(response.body().getCode());
-                    syncInfo.setVisibility(View.VISIBLE);
+                    Handler handler = new Handler();
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            instruction.setText("Enter this code into your dashboard");
+                            loadingView.hide();
+                            code.setText(response.body().getCode());
+                            syncInfo.setVisibility(View.VISIBLE);
+                        }
+                    }, 5000);
+
                 }
 
             }

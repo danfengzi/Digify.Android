@@ -3,6 +3,7 @@ package digify.tv;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.Iconics;
@@ -61,7 +62,7 @@ public class DigifyApp extends Application implements GcmListener{
 
     @Override
     public void onMessage(String s, Bundle bundle) {
-
+        Log.v("GCM",s);
     }
 
     @Override
