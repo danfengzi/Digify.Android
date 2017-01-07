@@ -10,19 +10,29 @@ import com.mikepenz.iconics.Iconics;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import javax.inject.Inject;
+
+import digify.tv.api.DigifyApiService;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.injection.component.DaggerApplicationComponent;
 import digify.tv.injection.module.ApplicationModule;
+import digify.tv.util.Utils;
 import eu.inloop.easygcm.GcmListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by Joel on 12/7/2016.
  */
 
-public class DigifyApp extends Application implements GcmListener{
+public class DigifyApp extends Application implements GcmListener {
 
     ApplicationComponent applicationComponent;
+
+    @Inject
+    DigifyApiService digifyApiService;
 
     @Override
     public void onCreate() {
@@ -35,6 +45,8 @@ public class DigifyApp extends Application implements GcmListener{
         JodaTimeAndroid.init(this);
 
         initializeCustomFontAndIconProvider();
+
+        getComponent().inject(this);
     }
 
     public static DigifyApp get(Context context) {
@@ -62,12 +74,24 @@ public class DigifyApp extends Application implements GcmListener{
 
     @Override
     public void onMessage(String s, Bundle bundle) {
-        Log.v("gcm_message",bundle.getString("message"));
-        Log.v("gcm_id",s);
+        Log.v("gcm_message", bundle.getString("message"));
+        Log.v("gcm_id", s);
     }
 
     @Override
-    public void sendRegistrationIdToBackend(String s) {
+    public void sendRegistrationIdToBackend(String pushId) {
+        Call<Void> request = digifyApiService.updatePushId(Utils.getUniquePsuedoID(), pushId);
 
+        request.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 }

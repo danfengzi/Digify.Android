@@ -2,6 +2,7 @@ package digify.tv.api;
 
 import digify.tv.api.models.LoginResponseModel;
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -16,4 +17,7 @@ public interface DigifyApiService {
 
     @POST("device/push_id/{device_id}")
     Call<Void> updatePushId(@Path("device_id") String deviceId, @Query("push_id") String pushId);
+
+    @GET("device/playlist/{device_id}")
+    Call<Void> getDevicePlaylist(@Path("device_id") String deviceId);
 }

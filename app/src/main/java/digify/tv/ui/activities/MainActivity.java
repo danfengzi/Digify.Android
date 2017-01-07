@@ -16,12 +16,21 @@ package digify.tv.ui.activities;
 
 import android.os.Bundle;
 
+import com.birbit.android.jobqueue.JobManager;
+
+import javax.inject.Inject;
+
 import digify.tv.R;
+import digify.tv.jobs.FetchPlaylistJob;
 
 /*
  * MainActivity class that loads MainFragment
  */
 public class MainActivity extends BaseActivity {
+
+    @Inject
+    JobManager jobManager;
+
     /**
      * Called when the activity is first created.
      */
@@ -30,5 +39,10 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        applicationComponent().inject(this);
+
+        jobManager.addJobInBackground(new FetchPlaylistJob());
+
     }
 }
