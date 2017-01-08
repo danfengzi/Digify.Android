@@ -92,6 +92,5 @@ public class ApplicationModule {
                 .consumerKeepAlive(120);//wait 2 minute
 
         return builder.build();
-
     }
 }

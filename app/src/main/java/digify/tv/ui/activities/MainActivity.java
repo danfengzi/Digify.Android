@@ -42,6 +42,12 @@ public class MainActivity extends BaseActivity {
 
         applicationComponent().inject(this);
 
+        fetchPlaylist();
+
+    }
+
+    public void fetchPlaylist()
+    {
         jobManager.addJobInBackground(new FetchPlaylistJob());
 
     }

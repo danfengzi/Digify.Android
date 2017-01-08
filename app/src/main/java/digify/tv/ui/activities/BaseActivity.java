@@ -35,7 +35,7 @@ public class BaseActivity extends Activity {
                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
                     Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            startActivity(intent);
+            //startActivity(intent);
         }
 
 
