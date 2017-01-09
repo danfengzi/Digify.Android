@@ -2,7 +2,6 @@ package digify.tv.jobs;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
@@ -12,6 +11,7 @@ import com.squareup.otto.Bus;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
@@ -33,7 +33,7 @@ public class FetchPlaylistJob extends Job {
     @Inject
     DigifyApiService digifyApiService;
     @Inject
-    Realm database;
+    Provider<Realm> database;
     @Inject
     Bus eventBus;
 
@@ -61,7 +61,7 @@ public class FetchPlaylistJob extends Job {
                 if (response.body() != null) {
                     for (final Media media : response.body()) {
 
-                        database.executeTransaction(new Realm.Transaction() {
+                        database.get().executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
                                 realm.copyToRealmOrUpdate(media);
