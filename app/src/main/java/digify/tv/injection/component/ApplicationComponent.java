@@ -9,6 +9,7 @@ import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.ui.activities.BaseActivity;
 import digify.tv.ui.activities.LoginActivity;
 import digify.tv.ui.activities.MainActivity;
+import digify.tv.ui.activities.MainFragment;
 
 /**
  * Created by Joel on 12/8/2016.
@@ -23,4 +24,5 @@ public interface ApplicationComponent {
     void inject(MainActivity mainActivity);
     void inject(DigifyApp digifyApp);
     void inject(FetchPlaylistJob fetchPlaylistJob);
+    void inject(MainFragment mainFragment);
 }

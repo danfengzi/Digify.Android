@@ -11,12 +11,9 @@ public class PreferenceManager {
     private static SharedPreferences preferences;
     private SharedPreferences.Editor editor;
 
-    public static final String PREF_FILE_NAME = "careful_preferences";
-    public static final String KEY_FIRST = "name";
+    public static final String PREF_FILE_NAME = "digify_preferences";
+    public static final String KEY_NAME = "name";
     private static final String IS_LOGIN = "IsLoggedIn";
-    private static final String KEY_BEARER = "bearer";
-    private static final String KEY_EMAIL = "email";
-
 
 
     public PreferenceManager(Context context) {
@@ -30,33 +27,13 @@ public class PreferenceManager {
 
 
     public void setName(String name) {
-        editor.putString(KEY_FIRST, name);
+        editor.putString(KEY_NAME, name);
         editor.commit();
     }
 
 
     public String getName() {
-        return preferences.getString(KEY_FIRST, "");
-    }
-
-    public String getBearerToken() {
-        return preferences.getString(KEY_BEARER, "");
-    }
-
-    public void setBearerToken(String bearerToken) {
-        editor.putString(KEY_BEARER, bearerToken);
-        editor.commit();
-
-    }
-
-    public String getEmail() {
-        return preferences.getString(KEY_EMAIL, "");
-    }
-
-    public void setEmail(String email) {
-        editor.putString(KEY_EMAIL, email);
-        editor.commit();
-
+        return preferences.getString(KEY_NAME, "");
     }
 
 

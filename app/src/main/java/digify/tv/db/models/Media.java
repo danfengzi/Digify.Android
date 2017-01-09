@@ -1,5 +1,7 @@
 package digify.tv.db.models;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -10,25 +12,105 @@ import io.realm.annotations.PrimaryKey;
 public class Media extends RealmObject {
 
     @PrimaryKey
-    String mediaId;
-    String mediaType;
-    String name;
-    String description;
+    private Integer id;
+    private String name;
+    private Date createdAt;
+    private Date updatedAt;
+    private String contentType;
+    private String type;
+    private String location;
+    private String thumbLocation;
+    private String length;
+    private int durationSeconds;
+    private Date startTime;
+    private Date endTime;
 
-    public String getMediaId() {
-        return mediaId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setMediaId(String mediaId) {
-        this.mediaId = mediaId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getMediaType() {
-        return mediaType;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getThumbLocation() {
+        return thumbLocation;
+    }
+
+    public void setThumbLocation(String thumbLocation) {
+        this.thumbLocation = thumbLocation;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public int getDurationSeconds() {
+        return durationSeconds;
+    }
+
+    public void setDurationSeconds(int durationSeconds) {
+        this.durationSeconds = durationSeconds;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public String getName() {
@@ -37,13 +119,5 @@ public class Media extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

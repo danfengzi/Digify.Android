@@ -44,6 +44,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.net.URI;
 import java.util.Collections;
@@ -51,7 +53,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
+import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.ui.events.PlaylistUpdatedEvent;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -70,6 +76,9 @@ public class MainFragment extends BrowseFragment {
     private URI mBackgroundURI;
     private BackgroundManager mBackgroundManager;
 
+    @Inject
+    Bus eventBus;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
@@ -79,6 +88,8 @@ public class MainFragment extends BrowseFragment {
         setupUIElements();
         loadRows();
         setupEventListeners();
+        DigifyApp.get(getActivity()).getComponent().inject(this);
+        eventBus.register(this);
     }
 
     @Override
@@ -88,6 +99,8 @@ public class MainFragment extends BrowseFragment {
             Log.d(TAG, "onDestroy: " + mBackgroundTimer.toString());
             mBackgroundTimer.cancel();
         }
+
+        eventBus.unregister(this);
     }
 
     private void loadRows() {
@@ -262,6 +275,12 @@ public class MainFragment extends BrowseFragment {
         @Override
         public void onUnbindViewHolder(ViewHolder viewHolder) {
         }
+    }
+
+
+    @Subscribe public void playListUpdated(PlaylistUpdatedEvent event)
+    {
+
     }
 
 }

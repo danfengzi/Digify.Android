@@ -3,8 +3,15 @@ package digify.tv.api;
 import com.github.simonpercic.oklog3.OkLogInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.Date;
 
 import digify.tv.BuildConfig;
+import digify.tv.core.GsonDateDeserializer;
+import digify.tv.core.MediaGsonConverter;
+import digify.tv.db.models.Media;
+import io.realm.RealmList;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -20,7 +27,9 @@ public class RetrofitHelper {
 
         final GsonBuilder builder = new GsonBuilder();
         builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-        builder.setDateFormat("yyyy-MM-dd HH:mm:ss");
+        builder.registerTypeAdapter(new TypeToken<RealmList<Media>>() {
+        }.getType(), new MediaGsonConverter());
+        builder.registerTypeAdapter(Date.class, new GsonDateDeserializer());
 
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
 

@@ -1,6 +1,9 @@
 package digify.tv.api;
 
+import java.util.List;
+
 import digify.tv.api.models.LoginResponseModel;
+import digify.tv.db.models.Media;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -19,5 +22,5 @@ public interface DigifyApiService {
     Call<Void> updatePushId(@Path("device_id") String deviceId, @Query("push_id") String pushId);
 
     @GET("device/playlist/{device_id}")
-    Call<Void> getDevicePlaylist(@Path("device_id") String deviceId);
+    Call<List<Media>> getDevicePlaylist(@Path("device_id") String deviceId);
 }

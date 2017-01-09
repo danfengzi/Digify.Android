@@ -13,9 +13,12 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import digify.tv.BuildConfig;
 import digify.tv.api.DigifyApiService;
 import digify.tv.api.RetrofitHelper;
 import digify.tv.core.PreferenceManager;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by Joel on 12/8/2016.
@@ -92,5 +95,22 @@ public class ApplicationModule {
                 .consumerKeepAlive(120);//wait 2 minute
 
         return builder.build();
+    }
+
+    RealmConfiguration provideRealmConfiguration() {
+
+        Realm.init(app);
+         RealmConfiguration.Builder builder = new RealmConfiguration.Builder();
+            if (BuildConfig.DEBUG) {
+                builder = builder.deleteRealmIfMigrationNeeded();
+            }
+
+            return builder.build();
+
+    }
+
+    @Provides
+    Realm provideRealm() {
+        return Realm.getInstance(provideRealmConfiguration());
     }
 }
