@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.liulishuo.filedownloader.FileDownloader;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.Iconics;
 
@@ -47,6 +48,8 @@ public class DigifyApp extends Application implements GcmListener {
         initializeCustomFontAndIconProvider();
 
         getComponent().inject(this);
+
+        FileDownloader.init(getApplicationContext());
     }
 
     public static DigifyApp get(Context context) {
