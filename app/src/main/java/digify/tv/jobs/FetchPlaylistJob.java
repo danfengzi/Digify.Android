@@ -116,7 +116,7 @@ public class FetchPlaylistJob extends Job {
                         });
 
 
-                        tasks.add(FileDownloader.getImpl().create(media.getLocation()).setPath(""));
+                        tasks.add(FileDownloader.getImpl().create(media.getLocation()).setPath("").setTag(media.getId()));
 
                     }
 
