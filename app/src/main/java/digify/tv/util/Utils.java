@@ -20,6 +20,7 @@ import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -170,6 +172,59 @@ public class Utils {
         }
         return true;
     }
+
+    public static File getMediaFile(String id, Context context, String mediaType, String extension) {
+
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + id + extension);
+
+
+        File folder = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType);
+
+        File noMedia = new File(folder.getAbsolutePath() + "/.nomedia");
+
+
+        if (!file.exists()) {
+            return null;
+        }
+        return file;
+    }
+
+    /*
+    *Used to create a new file. If the file already exists it's deleted.
+    * */
+    public static File createMediaFile(String id, Context context, String mediaType, String extension) {
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + id + extension);
+
+        File folder = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType);
+
+        File noMedia = new File(folder.getAbsolutePath() + "/.nomedia");
+
+
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                return null;
+            }
+        }
+
+
+        if (file.exists()) {
+            file.delete();
+        }
+        return file;
+    }
+
 
 
 }
