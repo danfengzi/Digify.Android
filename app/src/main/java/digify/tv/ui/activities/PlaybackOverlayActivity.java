@@ -23,6 +23,7 @@ import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.widget.ImageView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
@@ -38,7 +39,8 @@ public class PlaybackOverlayActivity extends Activity implements
         PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
 
-    private VideoView mVideoView;
+    private VideoView videoView;
+    private ImageView imageView;
     private LeanbackPlaybackState mPlaybackState = LeanbackPlaybackState.IDLE;
     private MediaSession mSession;
 
@@ -62,7 +64,7 @@ public class PlaybackOverlayActivity extends Activity implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mVideoView.suspend();
+        videoView.suspend();
     }
 
     @Override
@@ -91,7 +93,7 @@ public class PlaybackOverlayActivity extends Activity implements
      * Implementation of OnPlayPauseClickedListener
      */
     public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
-        mVideoView.setVideoPath(mediaViewModel.getVideoUrl());
+        videoView.setVideoPath(mediaViewModel.getMediaUrl());
 
         if (position == 0 || mPlaybackState == LeanbackPlaybackState.IDLE) {
             setupCallbacks();
@@ -101,12 +103,12 @@ public class PlaybackOverlayActivity extends Activity implements
         if (playPause && mPlaybackState != LeanbackPlaybackState.PLAYING) {
             mPlaybackState = LeanbackPlaybackState.PLAYING;
             if (position > 0) {
-                mVideoView.seekTo(position);
-                mVideoView.start();
+                videoView.seekTo(position);
+                videoView.start();
             }
         } else {
             mPlaybackState = LeanbackPlaybackState.PAUSED;
-            mVideoView.pause();
+            videoView.pause();
         }
         updatePlaybackState(position);
         updateMetadata(mediaViewModel);
@@ -163,14 +165,14 @@ public class PlaybackOverlayActivity extends Activity implements
     }
 
     private void loadViews() {
-        mVideoView = (VideoView) findViewById(R.id.videoView);
-        mVideoView.setFocusable(false);
-        mVideoView.setFocusableInTouchMode(false);
+        videoView = (VideoView) findViewById(R.id.videoView);
+        videoView.setFocusable(false);
+        videoView.setFocusableInTouchMode(false);
     }
 
     private void setupCallbacks() {
 
-        mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
 
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
@@ -182,22 +184,22 @@ public class PlaybackOverlayActivity extends Activity implements
                 } else {
                     msg = getString(R.string.video_error_unknown_error);
                 }
-                mVideoView.stopPlayback();
+                videoView.stopPlayback();
                 mPlaybackState = LeanbackPlaybackState.IDLE;
                 return false;
             }
         });
 
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 if (mPlaybackState == LeanbackPlaybackState.PLAYING) {
-                    mVideoView.start();
+                    videoView.start();
                 }
             }
         });
 
-        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mPlaybackState = LeanbackPlaybackState.IDLE;
@@ -215,7 +217,7 @@ public class PlaybackOverlayActivity extends Activity implements
     @Override
     public void onPause() {
         super.onPause();
-        if (mVideoView.isPlaying()) {
+        if (videoView.isPlaying()) {
             if (!requestVisibleBehind(true)) {
                 // Try to play behind launcher, but if it fails, stop playback.
                 stopPlayback();
@@ -238,8 +240,8 @@ public class PlaybackOverlayActivity extends Activity implements
     }
 
     private void stopPlayback() {
-        if (mVideoView != null) {
-            mVideoView.stopPlayback();
+        if (videoView != null) {
+            videoView.stopPlayback();
         }
     }
 

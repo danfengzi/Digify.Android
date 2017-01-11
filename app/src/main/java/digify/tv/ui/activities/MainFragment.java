@@ -57,7 +57,7 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
-import digify.tv.ui.events.PlaylistUpdatedEvent;
+import digify.tv.ui.events.MediaDownloadStatusEvent;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -277,8 +277,7 @@ public class MainFragment extends BrowseFragment {
         }
     }
 
-
-    @Subscribe public void playListUpdated(PlaylistUpdatedEvent event)
+    @Subscribe public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event)
     {
 
     }

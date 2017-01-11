@@ -80,7 +80,7 @@ public final class MovieList {
         mediaViewModel.setCategory(category);
         mediaViewModel.setCardImageUrl(cardImageUrl);
         mediaViewModel.setBackgroundImageUrl(bgImageUrl);
-        mediaViewModel.setVideoUrl(videoUrl);
+        mediaViewModel.setMediaUrl(videoUrl);
         return mediaViewModel;
     }
 }

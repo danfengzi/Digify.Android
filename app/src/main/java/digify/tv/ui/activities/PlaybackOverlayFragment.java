@@ -212,9 +212,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         MediaViewModel mediaViewModel = mItems.get(mCurrentItem);
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mmr.setDataSource(mediaViewModel.getVideoUrl(), new HashMap<String, String>());
+            mmr.setDataSource(mediaViewModel.getMediaUrl(), new HashMap<String, String>());
         } else {
-            mmr.setDataSource(mediaViewModel.getVideoUrl());
+            mmr.setDataSource(mediaViewModel.getMediaUrl());
         }
         String time = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
         long duration = Long.parseLong(time);

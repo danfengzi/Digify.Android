@@ -20,6 +20,8 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import digify.tv.db.models.MediaType;
+
 /*
  * Movie class represents video entity with title, description, image thumbs and video url.
  *
@@ -32,9 +34,10 @@ public class MediaViewModel implements Serializable {
     private String description;
     private String bgImageUrl;
     private String cardImageUrl;
-    private String videoUrl;
+    private String mediaUrl;
     private String studio;
     private String category;
+    private MediaType mediaType;
 
     public MediaViewModel() {
     }
@@ -79,12 +82,12 @@ public class MediaViewModel implements Serializable {
         this.studio = studio;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
+    public String getMediaUrl() {
+        return mediaUrl;
     }
 
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
     }
 
     public String getBackgroundImageUrl() {
@@ -111,6 +114,14 @@ public class MediaViewModel implements Serializable {
         this.category = category;
     }
 
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
+
     public URI getBackgroundImageURI() {
         try {
             Log.d("BACK MOVIE: ", bgImageUrl);
@@ -134,10 +145,12 @@ public class MediaViewModel implements Serializable {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", videoUrl='" + videoUrl + '\'' +
+                ", mediaUrl='" + mediaUrl + '\'' +
                 ", backgroundImageUrl='" + bgImageUrl + '\'' +
                 ", backgroundImageURI='" + getBackgroundImageURI().toString() + '\'' +
                 ", cardImageUrl='" + cardImageUrl + '\'' +
                 '}';
     }
+
+
 }

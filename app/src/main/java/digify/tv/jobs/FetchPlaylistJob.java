@@ -21,7 +21,8 @@ import javax.inject.Provider;
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
 import digify.tv.db.models.Media;
-import digify.tv.ui.events.PlaylistUpdatedEvent;
+import digify.tv.ui.events.MediaDownloadStatus;
+import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.util.Utils;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -72,28 +73,31 @@ public class FetchPlaylistJob extends Job {
                     FileDownloadListener downloadListener = new FileDownloadListener() {
                         @Override
                         protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                            eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Pending));
 
                         }
 
                         @Override
                         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-
+                            eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Downloading));
 
                         }
 
                         @Override
                         protected void completed(BaseDownloadTask task) {
-                            eventBus.post(new PlaylistUpdatedEvent());
+                            eventBus.post(new MediaDownloadStatusEvent(0.0, (Integer) task.getTag(), MediaDownloadStatus.Completed));
 
                         }
 
                         @Override
                         protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                            eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Paused));
 
                         }
 
                         @Override
                         protected void error(BaseDownloadTask task, Throwable e) {
+                            eventBus.post(new MediaDownloadStatusEvent(0.0, (Integer) task.getTag(), MediaDownloadStatus.Error));
 
                         }
 
