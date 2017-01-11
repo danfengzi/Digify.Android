@@ -12,6 +12,8 @@ import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.squareup.otto.Bus;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,15 +115,33 @@ public class FetchPlaylistJob extends Job {
 
                     for (final Media media : response.body()) {
 
+                        Media item = database.get().where(Media.class).equalTo("id", media.getId()).findFirst();
+
+                        if (item == null) {
+                            tasks.add(FileDownloader.
+                                    getImpl()
+                                    .create(media.getLocation())
+                                    .setPath(
+                                            Utils.createMediaFile(String.valueOf(media.getId()), getApplicationContext(), media.getType(), Utils.returnExtensionByMediaType(media
+                                                    .getType())).getPath())
+                                    .setTag(media.getId()));
+                        } else if (new DateTime(media.getUpdatedAt()).isAfter(new DateTime(item.getUpdatedAt()))) {
+                            tasks.add(FileDownloader.
+                                    getImpl()
+                                    .create(media.getLocation())
+                                    .setPath(
+                                            Utils.createMediaFile(String.valueOf(media.getId()), getApplicationContext(), media.getType(), Utils.returnExtensionByMediaType(media
+                                                    .getType())).getPath())
+                                    .setTag(media.getId()));
+
+                        }
+
                         database.get().executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
                                 realm.copyToRealmOrUpdate(media);
                             }
                         });
-
-
-                        tasks.add(FileDownloader.getImpl().create(media.getLocation()).setPath("").setTag(media.getId()));
 
                     }
 
@@ -141,7 +161,6 @@ public class FetchPlaylistJob extends Job {
 
                 }
 
-                eventBus.unregister(this);
             }
 
             @Override

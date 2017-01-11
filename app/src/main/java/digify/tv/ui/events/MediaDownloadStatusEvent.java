@@ -1,5 +1,7 @@
 package digify.tv.ui.events;
 
+import android.util.Log;
+
 /**
  * Created by Joel on 1/10/2017.
  */
@@ -13,6 +15,9 @@ public class MediaDownloadStatusEvent {
         this.progressPercent = progressPercent;
         this.mediaId = mediaId;
         this.downloadStatus = downloadStatus;
+
+        if(downloadStatus.equals(MediaDownloadStatus.Pending))
+        Log.v("MediaDownloadStat","media id :"+mediaId+" "+downloadStatus.toString());
     }
 
     public Integer getMediaId() {

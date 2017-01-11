@@ -178,8 +178,7 @@ public class Utils {
         File file = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
                 + context.getPackageName()
-                + "/media/" + mediaType + "/" + id + extension);
-
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
 
         File folder = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -202,7 +201,7 @@ public class Utils {
         File file = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
                 + context.getPackageName()
-                + "/media/" + mediaType + "/" + id + extension);
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
 
         File folder = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -225,6 +224,15 @@ public class Utils {
         return file;
     }
 
+    public static String returnExtensionByMediaType(String mediaType) {
+        if (mediaType.toLowerCase().equals("video"))
+            return ".mp4";
+
+        if (mediaType.toLowerCase().equals("picture"))
+            return ".jpg";
+
+        return null;
+    }
 
 
 }
