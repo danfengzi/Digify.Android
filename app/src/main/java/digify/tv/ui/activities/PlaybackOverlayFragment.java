@@ -89,11 +89,11 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private SkipNextAction mSkipNextAction;
     private SkipPreviousAction mSkipPreviousAction;
     private PlaybackControlsRow mPlaybackControlsRow;
-    private ArrayList<Movie> mItems = new ArrayList<Movie>();
+    private ArrayList<MediaViewModel> mItems = new ArrayList<MediaViewModel>();
     private int mCurrentItem;
     private Handler mHandler;
     private Runnable mRunnable;
-    private Movie mSelectedMovie;
+    private MediaViewModel mSelectedMediaViewModel;
 
     private OnPlayPauseClickedListener mCallback;
 
@@ -101,15 +101,15 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mItems = new ArrayList<Movie>();
-        mSelectedMovie = (Movie) getActivity()
+        mItems = new ArrayList<MediaViewModel>();
+        mSelectedMediaViewModel = (MediaViewModel) getActivity()
                 .getIntent().getSerializableExtra(DetailsActivity.MOVIE);
 
-        List<Movie> movies = MovieList.list;
+        List<MediaViewModel> movies = MovieList.list;
 
         for (int j = 0; j < movies.size(); j++) {
             mItems.add(movies.get(j));
-            if (mSelectedMovie.getTitle().contentEquals(movies.get(j).getTitle())) {
+            if (mSelectedMediaViewModel.getTitle().contentEquals(movies.get(j).getTitle())) {
                 mCurrentItem = j;
             }
         }
@@ -209,12 +209,12 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private int getDuration() {
-        Movie movie = mItems.get(mCurrentItem);
+        MediaViewModel mediaViewModel = mItems.get(mCurrentItem);
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mmr.setDataSource(movie.getVideoUrl(), new HashMap<String, String>());
+            mmr.setDataSource(mediaViewModel.getVideoUrl(), new HashMap<String, String>());
         } else {
-            mmr.setDataSource(movie.getVideoUrl());
+            mmr.setDataSource(mediaViewModel.getVideoUrl());
         }
         String time = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
         long duration = Long.parseLong(time);
@@ -223,7 +223,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private void addPlaybackControlsRow() {
         if (SHOW_DETAIL) {
-            mPlaybackControlsRow = new PlaybackControlsRow(mSelectedMovie);
+            mPlaybackControlsRow = new PlaybackControlsRow(mSelectedMediaViewModel);
         } else {
             mPlaybackControlsRow = new PlaybackControlsRow();
         }
@@ -288,7 +288,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private void updatePlaybackRow(int index) {
         if (mPlaybackControlsRow.getItem() != null) {
-            Movie item = (Movie) mPlaybackControlsRow.getItem();
+            MediaViewModel item = (MediaViewModel) mPlaybackControlsRow.getItem();
             item.setTitle(mItems.get(mCurrentItem).getTitle());
             item.setStudio(mItems.get(mCurrentItem).getStudio());
         }
@@ -303,8 +303,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private void addOtherRows() {
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-        for (Movie movie : mItems) {
-            listRowAdapter.add(movie);
+        for (MediaViewModel mediaViewModel : mItems) {
+            listRowAdapter.add(mediaViewModel);
         }
         HeaderItem header = new HeaderItem(0, getString(R.string.related_movies));
         mRowsAdapter.add(new ListRow(header, listRowAdapter));
@@ -389,14 +389,14 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     // Container Activity must implement this interface
     public interface OnPlayPauseClickedListener {
-        void onFragmentPlayPause(Movie movie, int position, Boolean playPause);
+        void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause);
     }
 
     static class DescriptionPresenter extends AbstractDetailsDescriptionPresenter {
         @Override
         protected void onBindDescription(ViewHolder viewHolder, Object item) {
-            viewHolder.getTitle().setText(((Movie) item).getTitle());
-            viewHolder.getSubtitle().setText(((Movie) item).getStudio());
+            viewHolder.getTitle().setText(((MediaViewModel) item).getTitle());
+            viewHolder.getSubtitle().setText(((MediaViewModel) item).getStudio());
         }
     }
 }

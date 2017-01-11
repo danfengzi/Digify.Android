@@ -78,6 +78,7 @@ public class FetchPlaylistJob extends Job {
                         @Override
                         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
 
+
                         }
 
                         @Override

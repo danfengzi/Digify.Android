@@ -90,8 +90,8 @@ public class PlaybackOverlayActivity extends Activity implements
     /**
      * Implementation of OnPlayPauseClickedListener
      */
-    public void onFragmentPlayPause(Movie movie, int position, Boolean playPause) {
-        mVideoView.setVideoPath(movie.getVideoUrl());
+    public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
+        mVideoView.setVideoPath(mediaViewModel.getVideoUrl());
 
         if (position == 0 || mPlaybackState == LeanbackPlaybackState.IDLE) {
             setupCallbacks();
@@ -109,7 +109,7 @@ public class PlaybackOverlayActivity extends Activity implements
             mVideoView.pause();
         }
         updatePlaybackState(position);
-        updateMetadata(movie);
+        updateMetadata(mediaViewModel);
     }
 
     private void updatePlaybackState(int position) {
@@ -135,23 +135,23 @@ public class PlaybackOverlayActivity extends Activity implements
         return actions;
     }
 
-    private void updateMetadata(final Movie movie) {
+    private void updateMetadata(final MediaViewModel mediaViewModel) {
         final MediaMetadata.Builder metadataBuilder = new MediaMetadata.Builder();
 
-        String title = movie.getTitle().replace("_", " -");
+        String title = mediaViewModel.getTitle().replace("_", " -");
 
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE, title);
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE,
-                movie.getDescription());
+                mediaViewModel.getDescription());
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI,
-                movie.getCardImageUrl());
+                mediaViewModel.getCardImageUrl());
 
         // And at minimum the title and artist for legacy support
         metadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, title);
-        metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, movie.getStudio());
+        metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, mediaViewModel.getStudio());
 
         Glide.with(this)
-                .load(Uri.parse(movie.getCardImageUrl()))
+                .load(Uri.parse(mediaViewModel.getCardImageUrl()))
                 .asBitmap()
                 .into(new SimpleTarget<Bitmap>(500, 500) {
                     @Override

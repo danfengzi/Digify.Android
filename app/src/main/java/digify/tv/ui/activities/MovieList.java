@@ -13,10 +13,10 @@ public final class MovieList {
             "Category Five",
     };
 
-    public static List<Movie> list;
+    public static List<MediaViewModel> list;
 
-    public static List<Movie> setupMovies() {
-        list = new ArrayList<Movie>();
+    public static List<MediaViewModel> setupMovies() {
+        list = new ArrayList<MediaViewModel>();
         String title[] = {
                 "Zeitgeist 2010_ Year in Review",
                 "Google Demo Slam_ 20ft Search",
@@ -68,19 +68,19 @@ public final class MovieList {
         return list;
     }
 
-    private static Movie buildMovieInfo(String category, String title,
-                                        String description, String studio, String videoUrl, String cardImageUrl,
-                                        String bgImageUrl) {
-        Movie movie = new Movie();
-        movie.setId(Movie.getCount());
-        Movie.incCount();
-        movie.setTitle(title);
-        movie.setDescription(description);
-        movie.setStudio(studio);
-        movie.setCategory(category);
-        movie.setCardImageUrl(cardImageUrl);
-        movie.setBackgroundImageUrl(bgImageUrl);
-        movie.setVideoUrl(videoUrl);
-        return movie;
+    private static MediaViewModel buildMovieInfo(String category, String title,
+                                                 String description, String studio, String videoUrl, String cardImageUrl,
+                                                 String bgImageUrl) {
+        MediaViewModel mediaViewModel = new MediaViewModel();
+        mediaViewModel.setId(MediaViewModel.getCount());
+        MediaViewModel.incCount();
+        mediaViewModel.setTitle(title);
+        mediaViewModel.setDescription(description);
+        mediaViewModel.setStudio(studio);
+        mediaViewModel.setCategory(category);
+        mediaViewModel.setCardImageUrl(cardImageUrl);
+        mediaViewModel.setBackgroundImageUrl(bgImageUrl);
+        mediaViewModel.setVideoUrl(videoUrl);
+        return mediaViewModel;
     }
 }

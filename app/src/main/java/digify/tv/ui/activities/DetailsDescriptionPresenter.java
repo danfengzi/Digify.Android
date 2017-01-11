@@ -20,12 +20,12 @@ public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPrese
 
     @Override
     protected void onBindDescription(ViewHolder viewHolder, Object item) {
-        Movie movie = (Movie) item;
+        MediaViewModel mediaViewModel = (MediaViewModel) item;
 
-        if (movie != null) {
-            viewHolder.getTitle().setText(movie.getTitle());
-            viewHolder.getSubtitle().setText(movie.getStudio());
-            viewHolder.getBody().setText(movie.getDescription());
+        if (mediaViewModel != null) {
+            viewHolder.getTitle().setText(mediaViewModel.getTitle());
+            viewHolder.getSubtitle().setText(mediaViewModel.getStudio());
+            viewHolder.getBody().setText(mediaViewModel.getDescription());
         }
     }
 }

@@ -24,7 +24,7 @@ import java.net.URISyntaxException;
  * Movie class represents video entity with title, description, image thumbs and video url.
  *
  */
-public class Movie implements Serializable {
+public class MediaViewModel implements Serializable {
     static final long serialVersionUID = 727566175075960653L;
     private static long count = 0;
     private long id;
@@ -36,7 +36,7 @@ public class Movie implements Serializable {
     private String studio;
     private String category;
 
-    public Movie() {
+    public MediaViewModel() {
     }
 
     public static long getCount() {
