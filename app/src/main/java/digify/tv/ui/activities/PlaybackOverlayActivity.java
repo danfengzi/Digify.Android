@@ -115,6 +115,7 @@ public class PlaybackOverlayActivity extends Activity implements
     }
 
     private void updatePlaybackState(int position) {
+        @SuppressWarnings("WrongConstant")
         PlaybackState.Builder stateBuilder = new PlaybackState.Builder()
                 .setActions(getAvailableActions());
         int state = PlaybackState.STATE_PLAYING;
