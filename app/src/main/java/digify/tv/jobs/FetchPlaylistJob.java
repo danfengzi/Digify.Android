@@ -2,6 +2,7 @@ package digify.tv.jobs;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
@@ -104,6 +105,7 @@ public class FetchPlaylistJob extends Job {
 
                         @Override
                         protected void error(BaseDownloadTask task, Throwable e) {
+                            Log.e(FetchPlaylistJob.class.getName(),e.getMessage());
                             eventBus.post(new MediaDownloadStatusEvent(0.0, (MediaTag) task.getTag(), MediaDownloadStatus.Error));
 
                         }

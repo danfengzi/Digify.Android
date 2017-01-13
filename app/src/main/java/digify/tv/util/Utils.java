@@ -32,6 +32,7 @@ import java.io.File;
 import java.util.UUID;
 
 import digify.tv.db.models.Media;
+import digify.tv.db.models.MediaType;
 
 /**
  * A collection of utility methods, all static.
@@ -175,11 +176,11 @@ public class Utils {
         return true;
     }
 
-    public static File getMediaFile(Media media,Context context) {
+    public static File getMediaFile(Media media, Context context) {
 
         Integer id = media.getId();
         String mediaType = media.getType();
-        String extension = "."+media.getExtension();
+        String extension = "." + media.getExtension();
 
 
         File file = new File(Environment.getExternalStorageDirectory()
@@ -204,7 +205,7 @@ public class Utils {
     /*
     *Used to create a new file. If the file already exists it's deleted.
     * */
-    public static File createMediaFile(Media media,Context context) {
+    public static File createMediaFile(Media media, Context context) {
 
         Integer id = media.getId();
         String mediaType = media.getType();
@@ -237,10 +238,10 @@ public class Utils {
     }
 
 
-         /*
-    *Used to create a new file. If the file already exists it's deleted.
-    * */
-    public static File createThumbnailFile(Media media,Context context) {
+    /*
+*Used to create a new file. If the file already exists it's deleted.
+* */
+    public static File createThumbnailFile(Media media, Context context) {
 
         Integer id = media.getId();
         String mediaType = "thumbnail";
@@ -266,14 +267,13 @@ public class Utils {
         }
 
 
-
         if (file.exists()) {
             file.delete();
         }
         return file;
     }
 
-    public static File getThumbnailFile(Media media,Context context) {
+    public static File getThumbnailFile(Media media, Context context) {
 
         Integer id = media.getId();
         String mediaType = "thumbnail";
@@ -306,6 +306,15 @@ public class Utils {
 
         if (mediaType.toLowerCase().equals("picture"))
             return ".jpg";
+
+        return null;
+    }
+
+    public static MediaType getStrongMediaType(String mediaType) {
+        if (mediaType.toLowerCase().equals("picture"))
+            return MediaType.Picture;
+        else if (mediaType.toLowerCase().equals("video"))
+            return MediaType.Video;
 
         return null;
     }

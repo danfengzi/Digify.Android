@@ -9,10 +9,10 @@ import digify.tv.injection.component.ApplicationComponent;
  * Created by Joel on 12/10/2016.
  */
 
-public abstract class ComponentInjector {
+public abstract class BaseComponent {
     private Context context;
 
-    public ComponentInjector(Context context) {
+    public BaseComponent(Context context) {
         this.context = context;
     }
 
@@ -20,4 +20,7 @@ public abstract class ComponentInjector {
         return DigifyApp.get(context).getComponent();
     }
 
+    public Context getContext() {
+        return context;
+    }
 }
