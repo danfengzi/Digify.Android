@@ -31,6 +31,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.io.File;
 import java.util.UUID;
 
+import digify.tv.db.models.Media;
+
 /**
  * A collection of utility methods, all static.
  */
@@ -173,7 +175,12 @@ public class Utils {
         return true;
     }
 
-    public static File getMediaFile(String id, Context context, String mediaType, String extension) {
+    public static File getMediaFile(Media media,Context context) {
+
+        Integer id = media.getId();
+        String mediaType = media.getType();
+        String extension = "."+media.getExtension();
+
 
         File file = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -197,7 +204,12 @@ public class Utils {
     /*
     *Used to create a new file. If the file already exists it's deleted.
     * */
-    public static File createMediaFile(String id, Context context, String mediaType, String extension) {
+    public static File createMediaFile(Media media,Context context) {
+
+        Integer id = media.getId();
+        String mediaType = media.getType();
+        String extension = "."+media.getExtension();
+
         File file = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
                 + context.getPackageName()

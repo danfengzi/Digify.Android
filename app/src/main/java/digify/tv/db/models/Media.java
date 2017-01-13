@@ -24,6 +24,7 @@ public class Media extends RealmObject {
     private int durationSeconds;
     private Date startTime;
     private Date endTime;
+    private String extension;
 
     public Integer getId() {
         return id;
@@ -119,5 +120,13 @@ public class Media extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

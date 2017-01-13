@@ -12,8 +12,6 @@ import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.squareup.otto.Bus;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,13 +73,15 @@ public class FetchPlaylistJob extends Job {
                     FileDownloadListener downloadListener = new FileDownloadListener() {
                         @Override
                         protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                            eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Pending));
+                            if (soFarBytes > 0 && totalBytes > 0)
+                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Pending));
 
                         }
 
                         @Override
                         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                            eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Downloading));
+                            if (soFarBytes > 0 && totalBytes > 0)
+                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Downloading));
 
                         }
 
@@ -93,7 +93,8 @@ public class FetchPlaylistJob extends Job {
 
                         @Override
                         protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                            eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Paused));
+                            if (soFarBytes > 0 && totalBytes > 0)
+                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Paused));
 
                         }
 
@@ -117,13 +118,19 @@ public class FetchPlaylistJob extends Job {
 
                         Media item = database.get().where(Media.class).equalTo("id", media.getId()).findFirst();
 
+                        tasks.add(FileDownloader.
+                                getImpl()
+                                .create(media.getLocation())
+                                .setPath(
+                                        Utils.createMediaFile(media, getApplicationContext()).getAbsolutePath())
+                                .setTag(media.getId()));
+                        /*
                         if (item == null) {
                             tasks.add(FileDownloader.
                                     getImpl()
                                     .create(media.getLocation())
                                     .setPath(
-                                            Utils.createMediaFile(String.valueOf(media.getId()), getApplicationContext(), media.getType(), Utils.returnExtensionByMediaType(media
-                                                    .getType())).getPath())
+                                            Utils.createMediaFile(media,getApplicationContext()).getPath())
                                     .setTag(media.getId()));
                         } else if (new DateTime(media.getUpdatedAt()).isAfter(new DateTime(item.getUpdatedAt()))) {
                             tasks.add(FileDownloader.
@@ -135,6 +142,7 @@ public class FetchPlaylistJob extends Job {
                                     .setTag(media.getId()));
 
                         }
+                        */
 
                         database.get().executeTransaction(new Realm.Transaction() {
                             @Override
