@@ -208,7 +208,7 @@ public class Utils {
 
         Integer id = media.getId();
         String mediaType = media.getType();
-        String extension = "."+media.getExtension();
+        String extension = "." + media.getExtension();
 
         File file = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -235,6 +235,70 @@ public class Utils {
         }
         return file;
     }
+
+
+         /*
+    *Used to create a new file. If the file already exists it's deleted.
+    * */
+    public static File createThumbnailFile(Media media,Context context) {
+
+        Integer id = media.getId();
+        String mediaType = "thumbnail";
+        String extension = ".png";
+
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
+
+        File folder = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType);
+
+        File noMedia = new File(folder.getAbsolutePath() + "/.nomedia");
+
+
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                return null;
+            }
+        }
+
+
+
+        if (file.exists()) {
+            file.delete();
+        }
+        return file;
+    }
+
+    public static File getThumbnailFile(Media media,Context context) {
+
+        Integer id = media.getId();
+        String mediaType = "thumbnail";
+        String extension = ".png";
+
+
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
+
+        File folder = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType);
+
+        File noMedia = new File(folder.getAbsolutePath() + "/.nomedia");
+
+
+        if (!file.exists()) {
+            return null;
+        }
+        return file;
+    }
+
 
     public static String returnExtensionByMediaType(String mediaType) {
         if (mediaType.toLowerCase().equals("video"))

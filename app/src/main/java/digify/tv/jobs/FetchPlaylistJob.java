@@ -12,6 +12,8 @@ import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.squareup.otto.Bus;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,8 @@ import javax.inject.Provider;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
+import digify.tv.core.MediaItemType;
+import digify.tv.core.MediaTag;
 import digify.tv.db.models.Media;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
@@ -74,33 +78,33 @@ public class FetchPlaylistJob extends Job {
                         @Override
                         protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                             if (soFarBytes > 0 && totalBytes > 0)
-                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Pending));
+                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Pending));
 
                         }
 
                         @Override
                         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                             if (soFarBytes > 0 && totalBytes > 0)
-                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Downloading));
+                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Downloading));
 
                         }
 
                         @Override
                         protected void completed(BaseDownloadTask task) {
-                            eventBus.post(new MediaDownloadStatusEvent(0.0, (Integer) task.getTag(), MediaDownloadStatus.Completed));
+                            eventBus.post(new MediaDownloadStatusEvent(0.0, (MediaTag) task.getTag(), MediaDownloadStatus.Completed));
 
                         }
 
                         @Override
                         protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                             if (soFarBytes > 0 && totalBytes > 0)
-                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (Integer) task.getTag(), MediaDownloadStatus.Paused));
+                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Paused));
 
                         }
 
                         @Override
                         protected void error(BaseDownloadTask task, Throwable e) {
-                            eventBus.post(new MediaDownloadStatusEvent(0.0, (Integer) task.getTag(), MediaDownloadStatus.Error));
+                            eventBus.post(new MediaDownloadStatusEvent(0.0, (MediaTag) task.getTag(), MediaDownloadStatus.Error));
 
                         }
 
@@ -118,31 +122,40 @@ public class FetchPlaylistJob extends Job {
 
                         Media item = database.get().where(Media.class).equalTo("id", media.getId()).findFirst();
 
-                        tasks.add(FileDownloader.
-                                getImpl()
-                                .create(media.getLocation())
-                                .setPath(
-                                        Utils.createMediaFile(media, getApplicationContext()).getAbsolutePath())
-                                .setTag(media.getId()));
-                        /*
-                        if (item == null) {
-                            tasks.add(FileDownloader.
-                                    getImpl()
-                                    .create(media.getLocation())
-                                    .setPath(
-                                            Utils.createMediaFile(media,getApplicationContext()).getPath())
-                                    .setTag(media.getId()));
-                        } else if (new DateTime(media.getUpdatedAt()).isAfter(new DateTime(item.getUpdatedAt()))) {
-                            tasks.add(FileDownloader.
-                                    getImpl()
-                                    .create(media.getLocation())
-                                    .setPath(
-                                            Utils.createMediaFile(String.valueOf(media.getId()), getApplicationContext(), media.getType(), Utils.returnExtensionByMediaType(media
-                                                    .getType())).getPath())
-                                    .setTag(media.getId()));
+                        if (item != null) {
+                            if (new DateTime(media.getUpdatedAt()).isAfter(new DateTime(item.getUpdatedAt())) || Utils.getMediaFile(media, getApplicationContext()) == null) {
 
+                                tasks.add(FileDownloader.
+                                        getImpl()
+                                        .create(media.getLocation())
+                                        .setPath(
+                                                Utils.createMediaFile(media, getApplicationContext()).getPath())
+                                        .setTag(new MediaTag(media.getId(), MediaItemType.Content)));
+
+                                tasks.add(FileDownloader.
+                                        getImpl()
+                                        .create(media.getThumbLocation())
+                                        .setPath(
+                                                Utils.createThumbnailFile(media, getApplicationContext()).getPath())
+                                        .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail)));
+
+                            }
+                        } else {
+                            tasks.add(FileDownloader.
+                                    getImpl()
+                                    .create(media.getLocation())
+                                    .setPath(
+                                            Utils.createMediaFile(media, getApplicationContext()).getPath())
+                                    .setTag(new MediaTag(media.getId(), MediaItemType.Content)));
+
+                            tasks.add(FileDownloader.
+                                    getImpl()
+                                    .create(media.getThumbLocation())
+                                    .setPath(
+                                            Utils.createThumbnailFile(media, getApplicationContext()).getPath())
+                                    .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail)));
                         }
-                        */
+
 
                         database.get().executeTransaction(new Realm.Transaction() {
                             @Override
