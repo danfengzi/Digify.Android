@@ -43,10 +43,13 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.db.MediaRepository;
 import digify.tv.util.Utils;
 
 /*
@@ -74,10 +77,16 @@ public class VideoDetailsFragment extends DetailsFragment {
     private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
 
+    @Inject
+    MediaRepository mediaRepository;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate DetailsFragment");
         super.onCreate(savedInstanceState);
+
+        DigifyApp.get(getActivity()).getComponent().inject(this);
+
 
         prepareBackgroundManager();
 
@@ -190,16 +199,18 @@ public class VideoDetailsFragment extends DetailsFragment {
     }
 
     private void setupMovieListRow() {
-        String subcategories[] = {getString(R.string.related_movies)};
-        List<MediaViewModel> list = MovieList.list;
+        List<MediaViewModel> list = mediaRepository.getMedia();
 
-        Collections.shuffle(list);
-        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-        for (int j = 0; j < NUM_COLS; j++) {
-            listRowAdapter.add(list.get(j % 5));
+        CardPresenter cardPresenter = new CardPresenter();
+
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
+
+        for (MediaViewModel model : list) {
+            listRowAdapter.add(model);
+
         }
 
-        HeaderItem header = new HeaderItem(0, subcategories[0]);
+        HeaderItem header = new HeaderItem(1, "Other videos");
         mAdapter.add(new ListRow(header, listRowAdapter));
     }
 
