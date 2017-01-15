@@ -17,6 +17,7 @@ import digify.tv.BuildConfig;
 import digify.tv.api.DigifyApiService;
 import digify.tv.api.RetrofitHelper;
 import digify.tv.core.PreferenceManager;
+import digify.tv.db.MediaRepository;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -100,17 +101,22 @@ public class ApplicationModule {
     RealmConfiguration provideRealmConfiguration() {
 
         Realm.init(app);
-         RealmConfiguration.Builder builder = new RealmConfiguration.Builder();
-            if (BuildConfig.DEBUG) {
-                builder = builder.deleteRealmIfMigrationNeeded();
-            }
+        RealmConfiguration.Builder builder = new RealmConfiguration.Builder();
+        if (BuildConfig.DEBUG) {
+            builder = builder.deleteRealmIfMigrationNeeded();
+        }
 
-            return builder.build();
+        return builder.build();
 
     }
 
     @Provides
     Realm provideRealm() {
         return Realm.getInstance(provideRealmConfiguration());
+    }
+
+    @Provides
+    MediaRepository provideMediaRepository() {
+        return new MediaRepository(app);
     }
 }

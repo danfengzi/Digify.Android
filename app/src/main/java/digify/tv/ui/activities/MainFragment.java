@@ -48,7 +48,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,6 +56,7 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.db.MediaRepository;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 
 public class MainFragment extends BrowseFragment {
@@ -79,16 +79,19 @@ public class MainFragment extends BrowseFragment {
     @Inject
     Bus eventBus;
 
+    @Inject
+    MediaRepository mediaRepository;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onActivityCreated(savedInstanceState);
+        DigifyApp.get(getActivity()).getComponent().inject(this);
 
         prepareBackgroundManager();
         setupUIElements();
         loadRows();
         setupEventListeners();
-        DigifyApp.get(getActivity()).getComponent().inject(this);
         eventBus.register(this);
     }
 
@@ -104,25 +107,22 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void loadRows() {
-        List<MediaViewModel> list = MovieList.setupMovies();
+        List<MediaViewModel> list = mediaRepository.getMedia();
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         CardPresenter cardPresenter = new CardPresenter();
 
-        int i;
-        for (i = 0; i < NUM_ROWS; i++) {
-            if (i != 0) {
-                Collections.shuffle(list);
-            }
-            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
-            for (int j = 0; j < NUM_COLS; j++) {
-                listRowAdapter.add(list.get(j % 5));
-            }
-            HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i]);
-            mRowsAdapter.add(new ListRow(header, listRowAdapter));
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
+
+        for (MediaViewModel model : list) {
+            listRowAdapter.add(model);
+
         }
 
-        HeaderItem gridHeader = new HeaderItem(i, "PREFERENCES");
+        HeaderItem header = new HeaderItem(1, "Playlist");
+        mRowsAdapter.add(new ListRow(header, listRowAdapter));
+
+        HeaderItem gridHeader = new HeaderItem(2, "PREFERENCES");
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
@@ -277,8 +277,8 @@ public class MainFragment extends BrowseFragment {
         }
     }
 
-    @Subscribe public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event)
-    {
+    @Subscribe
+    public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
 
     }
 

@@ -304,15 +304,15 @@ public class Utils {
         if (mediaType.toLowerCase().equals("video"))
             return ".mp4";
 
-        if (mediaType.toLowerCase().equals("picture"))
+        if (mediaType.toLowerCase().equals("image"))
             return ".jpg";
 
         return null;
     }
 
     public static MediaType getStrongMediaType(String mediaType) {
-        if (mediaType.toLowerCase().equals("picture"))
-            return MediaType.Picture;
+        if (mediaType.toLowerCase().equals("image"))
+            return MediaType.Image;
         else if (mediaType.toLowerCase().equals("video"))
             return MediaType.Video;
 
