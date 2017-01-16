@@ -57,7 +57,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.db.MediaRepository;
+import digify.tv.db.models.MediaType;
 
 /*
  * Class for video playback with media control
@@ -97,15 +102,20 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private OnPlayPauseClickedListener mCallback;
 
+    @Inject
+    MediaRepository mediaRepository;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        DigifyApp.get(getActivity()).getComponent().inject(this);
 
         mItems = new ArrayList<MediaViewModel>();
         mSelectedMediaViewModel = (MediaViewModel) getActivity()
                 .getIntent().getSerializableExtra(DetailsActivity.MOVIE);
 
-        List<MediaViewModel> movies = MovieList.list;
+        List<MediaViewModel> movies = mediaRepository.getMedia();
 
         for (int j = 0; j < movies.size(); j++) {
             mItems.add(movies.get(j));
@@ -210,6 +220,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     private int getDuration() {
         MediaViewModel mediaViewModel = mItems.get(mCurrentItem);
+
+        if(mediaViewModel.getMediaType().equals(MediaType.Image))
+            return 0;
+
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             mmr.setDataSource(mediaViewModel.getMediaUrl(), new HashMap<String, String>());

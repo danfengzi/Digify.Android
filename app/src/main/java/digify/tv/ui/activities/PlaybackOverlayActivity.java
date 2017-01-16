@@ -16,6 +16,7 @@ package digify.tv.ui.activities;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaMetadata;
 import android.media.MediaPlayer;
 import android.media.session.MediaSession;
@@ -31,6 +32,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import digify.tv.R;
+import digify.tv.db.models.MediaType;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
@@ -93,25 +95,34 @@ public class PlaybackOverlayActivity extends Activity implements
      * Implementation of OnPlayPauseClickedListener
      */
     public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
-        videoView.setVideoPath(mediaViewModel.getMediaUrl());
 
-        if (position == 0 || mPlaybackState == LeanbackPlaybackState.IDLE) {
-            setupCallbacks();
-            mPlaybackState = LeanbackPlaybackState.IDLE;
-        }
 
-        if (playPause && mPlaybackState != LeanbackPlaybackState.PLAYING) {
-            mPlaybackState = LeanbackPlaybackState.PLAYING;
-            if (position > 0) {
-                videoView.seekTo(position);
-                videoView.start();
+        if(mediaViewModel.getMediaType().equals(MediaType.Video)) {
+            videoView.setVideoPath(mediaViewModel.getMediaUrl());
+
+            if (position == 0 || mPlaybackState == LeanbackPlaybackState.IDLE) {
+                setupCallbacks();
+                mPlaybackState = LeanbackPlaybackState.IDLE;
             }
-        } else {
-            mPlaybackState = LeanbackPlaybackState.PAUSED;
-            videoView.pause();
+
+            if (playPause && mPlaybackState != LeanbackPlaybackState.PLAYING) {
+                mPlaybackState = LeanbackPlaybackState.PLAYING;
+                if (position > 0) {
+                    videoView.seekTo(position);
+                    videoView.start();
+                }
+            } else {
+                mPlaybackState = LeanbackPlaybackState.PAUSED;
+                videoView.pause();
+            }
+            updatePlaybackState(position);
+            updateMetadata(mediaViewModel);
+
         }
-        updatePlaybackState(position);
-        updateMetadata(mediaViewModel);
+        else if(mediaViewModel.getMediaType().equals(MediaType.Image))
+        {
+            imageView.setImageBitmap(BitmapFactory.decodeFile(mediaViewModel.getMediaUrl()));
+        }
     }
 
     private void updatePlaybackState(int position) {
@@ -169,6 +180,10 @@ public class PlaybackOverlayActivity extends Activity implements
         videoView = (VideoView) findViewById(R.id.videoView);
         videoView.setFocusable(false);
         videoView.setFocusableInTouchMode(false);
+
+        imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setFocusable(false);
+        imageView.setFocusableInTouchMode(false);
     }
 
     private void setupCallbacks() {

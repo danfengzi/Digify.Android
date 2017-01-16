@@ -11,6 +11,7 @@ import digify.tv.ui.activities.BaseActivity;
 import digify.tv.ui.activities.LoginActivity;
 import digify.tv.ui.activities.MainActivity;
 import digify.tv.ui.activities.MainFragment;
+import digify.tv.ui.activities.PlaybackOverlayFragment;
 import digify.tv.ui.activities.VideoDetailsFragment;
 
 /**
@@ -29,4 +30,5 @@ public interface ApplicationComponent {
     void inject(MainFragment mainFragment);
     void inject(VideoDetailsFragment videoDetailsFragment);
     void inject(MediaRepository mediaRepository);
+    void inject(PlaybackOverlayFragment playbackOverlayFragment);
 }
