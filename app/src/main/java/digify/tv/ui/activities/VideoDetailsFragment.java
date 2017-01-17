@@ -164,10 +164,6 @@ public class VideoDetailsFragment extends DetailsFragment {
 
         row.addAction(new Action(ACTION_WATCH_TRAILER, getResources().getString(
                 R.string.watch_trailer_1), getResources().getString(R.string.watch_trailer_2)));
-        row.addAction(new Action(ACTION_RENT, getResources().getString(R.string.rent_1),
-                getResources().getString(R.string.rent_2)));
-        row.addAction(new Action(ACTION_BUY, getResources().getString(R.string.buy_1),
-                getResources().getString(R.string.buy_2)));
 
         mAdapter.add(row);
     }
@@ -210,7 +206,7 @@ public class VideoDetailsFragment extends DetailsFragment {
 
         }
 
-        HeaderItem header = new HeaderItem(1, "Other videos");
+        HeaderItem header = new HeaderItem(1, "Other content");
         mAdapter.add(new ListRow(header, listRowAdapter));
     }
 
