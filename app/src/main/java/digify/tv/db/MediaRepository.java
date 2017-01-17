@@ -41,6 +41,7 @@ public class MediaRepository extends BaseComponent {
 
             mediaViewModel.setTitle(media.getName());
             mediaViewModel.setCategory("Playlist");
+            mediaViewModel.setMediaUrl(Utils.getMediaFile(media,getContext()).getAbsolutePath());
             mediaViewModel.setMediaType(Utils.getStrongMediaType(media.getType()));
             mediaViewModel.setCardImageUrl(Utils.getThumbnailFile(media, getContext()).getAbsolutePath());
 

@@ -15,7 +15,6 @@
 package digify.tv.ui.activities;
 
 import android.app.Activity;
-
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,7 +53,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -222,11 +220,12 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         MediaViewModel mediaViewModel = mItems.get(mCurrentItem);
 
         if(mediaViewModel.getMediaType().equals(MediaType.Image))
-            return 0;
+            return 30;
 
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            mmr.setDataSource(mediaViewModel.getMediaUrl(), new HashMap<String, String>());
+            mmr.setDataSource(mediaViewModel.getMediaUrl());
         } else {
             mmr.setDataSource(mediaViewModel.getMediaUrl());
         }
