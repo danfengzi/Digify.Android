@@ -24,6 +24,7 @@ import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
@@ -98,6 +99,9 @@ public class PlaybackOverlayActivity extends Activity implements
 
 
         if(mediaViewModel.getMediaType().equals(MediaType.Video)) {
+            videoView.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.GONE);
+
             videoView.setVideoPath(mediaViewModel.getMediaUrl());
 
             if (position == 0 || mPlaybackState == LeanbackPlaybackState.IDLE) {
@@ -121,6 +125,9 @@ public class PlaybackOverlayActivity extends Activity implements
         }
         else if(mediaViewModel.getMediaType().equals(MediaType.Image))
         {
+            videoView.setVisibility(View.GONE);
+            imageView.setVisibility(View.VISIBLE);
+
             imageView.setImageBitmap(BitmapFactory.decodeFile(mediaViewModel.getMediaUrl()));
         }
     }
