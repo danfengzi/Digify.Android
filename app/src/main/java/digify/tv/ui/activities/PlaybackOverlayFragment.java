@@ -220,7 +220,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         MediaViewModel mediaViewModel = mItems.get(mCurrentItem);
 
         if(mediaViewModel.getMediaType().equals(MediaType.Image))
-            return 30;
+            return 30000;
 
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
 
