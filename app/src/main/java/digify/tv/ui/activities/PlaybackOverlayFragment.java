@@ -109,7 +109,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
         DigifyApp.get(getActivity()).getComponent().inject(this);
 
-        mItems = new ArrayList<MediaViewModel>();
+        mItems = new ArrayList<>();
         mSelectedMediaViewModel = (MediaViewModel) getActivity()
                 .getIntent().getSerializableExtra(DetailsActivity.MOVIE);
 

@@ -8,10 +8,14 @@ public class MediaTag {
 
     private Integer id;
     private MediaItemType mediaItemType;
+    private String title;
 
-    public MediaTag(Integer id, MediaItemType mediaItemType) {
+    public MediaTag(Integer id, MediaItemType mediaItemType, String title) {
+
         this.id = id;
         this.mediaItemType = mediaItemType;
+        this.title = title;
+
     }
 
     public Integer getId() {
@@ -28,5 +32,13 @@ public class MediaTag {
 
     public void setMediaItemType(MediaItemType mediaItemType) {
         this.mediaItemType = mediaItemType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

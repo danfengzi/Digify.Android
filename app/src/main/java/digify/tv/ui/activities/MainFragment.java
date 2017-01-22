@@ -163,7 +163,7 @@ public class MainFragment extends BrowseFragment {
 
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
+                Toast.makeText(getActivity(), "Search not implemented as yet.", Toast.LENGTH_LONG)
                         .show();
             }
         });
@@ -264,6 +264,7 @@ public class MainFragment extends BrowseFragment {
             view.setBackgroundColor(getResources().getColor(R.color.default_background));
             view.setTextColor(Color.WHITE);
             view.setGravity(Gravity.CENTER);
+
             return new ViewHolder(view);
         }
 
@@ -274,12 +275,13 @@ public class MainFragment extends BrowseFragment {
 
         @Override
         public void onUnbindViewHolder(ViewHolder viewHolder) {
+
         }
     }
 
     @Subscribe
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
-
+        setTitle(event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle() + " " + event.getProgressPercent());
     }
 
 }

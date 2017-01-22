@@ -56,6 +56,7 @@ public class PlaybackOverlayActivity extends Activity implements
         setContentView(R.layout.playback_controls);
         loadViews();
         setupCallbacks();
+
         mSession = new MediaSession(this, "LeanbackSampleApp");
         mSession.setCallback(new MediaSessionCallback());
         mSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS |
@@ -98,7 +99,7 @@ public class PlaybackOverlayActivity extends Activity implements
     public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
 
 
-        if(mediaViewModel.getMediaType().equals(MediaType.Video)) {
+        if (mediaViewModel.getMediaType().equals(MediaType.Video)) {
             videoView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.GONE);
 
@@ -122,9 +123,7 @@ public class PlaybackOverlayActivity extends Activity implements
             updatePlaybackState(position);
             updateMetadata(mediaViewModel);
 
-        }
-        else if(mediaViewModel.getMediaType().equals(MediaType.Image))
-        {
+        } else if (mediaViewModel.getMediaType().equals(MediaType.Image)) {
             videoView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
 

@@ -41,9 +41,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         applicationComponent().inject(this);
-
         fetchPlaylist();
-
     }
 
     public void fetchPlaylist()
@@ -51,6 +49,5 @@ public class MainActivity extends BaseActivity {
         jobManager.addJobInBackground(new FetchPlaylistJob());
 
     }
-
 
 }

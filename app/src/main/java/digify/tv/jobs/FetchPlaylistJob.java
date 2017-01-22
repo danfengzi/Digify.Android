@@ -132,14 +132,14 @@ public class FetchPlaylistJob extends Job {
                                         .create(media.getLocation())
                                         .setPath(
                                                 Utils.createMediaFile(media, getApplicationContext()).getPath())
-                                        .setTag(new MediaTag(media.getId(), MediaItemType.Content)));
+                                        .setTag(new MediaTag(media.getId(), MediaItemType.Content,media.getName())));
 
                                 tasks.add(FileDownloader.
                                         getImpl()
                                         .create(media.getThumbLocation())
                                         .setPath(
                                                 Utils.createThumbnailFile(media, getApplicationContext()).getPath())
-                                        .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail)));
+                                        .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail,media.getName())));
 
                             }
                         } else {
@@ -148,14 +148,14 @@ public class FetchPlaylistJob extends Job {
                                     .create(media.getLocation())
                                     .setPath(
                                             Utils.createMediaFile(media, getApplicationContext()).getPath())
-                                    .setTag(new MediaTag(media.getId(), MediaItemType.Content)));
+                                    .setTag(new MediaTag(media.getId(), MediaItemType.Content,media.getName())));
 
                             tasks.add(FileDownloader.
                                     getImpl()
                                     .create(media.getThumbLocation())
                                     .setPath(
                                             Utils.createThumbnailFile(media, getApplicationContext()).getPath())
-                                    .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail)));
+                                    .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail,media.getName())));
                         }
 
 
