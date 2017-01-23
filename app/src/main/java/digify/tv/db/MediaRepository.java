@@ -37,6 +37,10 @@ public class MediaRepository extends BaseComponent {
         RealmResults<Media> results = database.get().where(Media.class).findAll();
 
         for (Media media : results) {
+
+            if(Utils.getMediaFile(media,getContext())==null)
+                continue;
+
             MediaViewModel mediaViewModel = new MediaViewModel();
 
             mediaViewModel.setTitle(media.getName());
