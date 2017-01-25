@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,8 +22,9 @@ import butterknife.OnClick;
 import digify.tv.DigifyApp;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
-import digify.tv.api.models.DeviceModel;
 import digify.tv.api.models.LoginResponseModel;
+import digify.tv.api.models.UserDeviceModel;
+import digify.tv.core.PreferenceManager;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.ui.events.DeviceAssignedEvent;
 import digify.tv.util.Utils;
@@ -39,6 +39,9 @@ public class LoginActivity extends LoginBaseActivity {
 
     @Inject
     DigifyApiService digifyApiService;
+    @Inject
+    PreferenceManager preferenceManager;
+
     @BindView(R.id.company_name)
     TextView companyName;
     @BindView(R.id.instruction)
@@ -120,14 +123,17 @@ public class LoginActivity extends LoginBaseActivity {
 
     @OnClick(R.id.sync_button)
     public void checkAssignment() {
-        Call<DeviceModel> request = digifyApiService.checkAssignment(Utils.getUniquePsuedoID());
+        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniquePsuedoID());
 
-        request.enqueue(new Callback<DeviceModel>() {
+        request.enqueue(new Callback<UserDeviceModel>() {
             @Override
-            public void onResponse(Call<DeviceModel> call, Response<DeviceModel> response) {
+            public void onResponse(Call<UserDeviceModel> call, Response<UserDeviceModel> response) {
 
                 if (response.isSuccessful()) {
                     Toasty.success(LoginActivity.this, "Device was assigned!", Toast.LENGTH_SHORT, true).show();
+
+                    preferenceManager.setLoggedInStatus(true);
+                    preferenceManager.setName(response.body().getName());
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -136,8 +142,8 @@ public class LoginActivity extends LoginBaseActivity {
             }
 
             @Override
-            public void onFailure(Call<DeviceModel> call, Throwable t) {
-                Log.v("login_error",t.getMessage());
+            public void onFailure(Call<UserDeviceModel> call, Throwable t) {
+                Toasty.error(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
     }

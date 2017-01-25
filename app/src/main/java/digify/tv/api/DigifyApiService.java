@@ -2,8 +2,8 @@ package digify.tv.api;
 
 import java.util.List;
 
-import digify.tv.api.models.DeviceModel;
 import digify.tv.api.models.LoginResponseModel;
+import digify.tv.api.models.UserDeviceModel;
 import digify.tv.db.models.Media;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -20,7 +20,7 @@ public interface DigifyApiService {
     Call<LoginResponseModel> assignmentRequest(@Query("push_id") String pushId, @Query("device_id") String deviceId);
 
     @GET("device/check_assignment/{device_id}")
-    Call<DeviceModel> checkAssignment(@Path("device_id") String deviceId);
+    Call<UserDeviceModel> checkAssignment(@Path("device_id") String deviceId);
 
     @POST("device/push_id/{device_id}")
     Call<Void> updatePushId(@Path("device_id") String deviceId, @Query("push_id") String pushId);
