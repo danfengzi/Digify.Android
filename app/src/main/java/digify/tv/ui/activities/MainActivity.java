@@ -15,6 +15,7 @@
 package digify.tv.ui.activities;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
 
@@ -22,6 +23,7 @@ import javax.inject.Inject;
 
 import digify.tv.R;
 import digify.tv.jobs.FetchPlaylistJob;
+import es.dmoral.toasty.Toasty;
 
 /*
  * MainActivity class that loads MainFragment
@@ -46,6 +48,8 @@ public class MainActivity extends BaseActivity {
 
     public void fetchPlaylist()
     {
+        Toasty.info(this, "Checking for updates...", Toast.LENGTH_SHORT, true).show();
+
         jobManager.addJobInBackground(new FetchPlaylistJob());
 
     }

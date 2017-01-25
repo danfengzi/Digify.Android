@@ -2,6 +2,7 @@ package digify.tv.db;
 
 import android.content.Context;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +39,26 @@ public class MediaRepository extends BaseComponent {
 
         for (Media media : results) {
 
-            if(Utils.getMediaFile(media,getContext())==null)
+            if (Utils.getMediaFile(media, getContext()) == null)
                 continue;
 
             MediaViewModel mediaViewModel = new MediaViewModel();
 
             mediaViewModel.setTitle(media.getName());
             mediaViewModel.setCategory("Playlist");
-            mediaViewModel.setMediaUrl(Utils.getMediaFile(media,getContext()).getAbsolutePath());
+
+            File mediaFile = Utils.getMediaFile(media, getContext());
+
+            if (mediaFile == null)
+                continue;
+
+            mediaViewModel.setMediaUrl(mediaFile.getAbsolutePath());
             mediaViewModel.setMediaType(Utils.getStrongMediaType(media.getType()));
-            mediaViewModel.setCardImageUrl(Utils.getThumbnailFile(media, getContext()).getAbsolutePath());
+
+            File thumbnail = Utils.getThumbnailFile(media, getContext());
+
+            if (thumbnail != null)
+                mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
 
             if (Utils.getStrongMediaType(media.getType()).equals(MediaType.Image))
                 mediaViewModel.setBackgroundImageUrl(Utils.getMediaFile(media, getContext()).getAbsolutePath());

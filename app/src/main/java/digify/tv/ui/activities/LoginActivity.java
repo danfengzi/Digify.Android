@@ -1,13 +1,16 @@
 package digify.tv.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -16,13 +19,16 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import digify.tv.DigifyApp;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
+import digify.tv.api.models.DeviceModel;
 import digify.tv.api.models.LoginResponseModel;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.ui.events.DeviceAssignedEvent;
 import digify.tv.util.Utils;
+import es.dmoral.toasty.Toasty;
 import eu.inloop.easygcm.EasyGcm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,7 +92,7 @@ public class LoginActivity extends LoginBaseActivity {
                             code.setText(response.body().getCode());
                             syncInfo.setVisibility(View.VISIBLE);
                         }
-                    },5000);
+                    }, 5000);
 
                 }
 
@@ -107,9 +113,33 @@ public class LoginActivity extends LoginBaseActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Subscribe public void deviceAssigned(DeviceAssignedEvent event)
-    {
+    @Subscribe
+    public void deviceAssigned(DeviceAssignedEvent event) {
+        checkAssignment();
+    }
 
+    @OnClick(R.id.sync_button)
+    public void checkAssignment() {
+        Call<DeviceModel> request = digifyApiService.checkAssignment(Utils.getUniquePsuedoID());
+
+        request.enqueue(new Callback<DeviceModel>() {
+            @Override
+            public void onResponse(Call<DeviceModel> call, Response<DeviceModel> response) {
+
+                if (response.isSuccessful()) {
+                    Toasty.success(LoginActivity.this, "Device was assigned!", Toast.LENGTH_SHORT, true).show();
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else
+                    Toasty.error(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<DeviceModel> call, Throwable t) {
+                Log.v("login_error",t.getMessage());
+            }
+        });
     }
 
 

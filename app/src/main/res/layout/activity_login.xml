@@ -82,6 +82,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 app:ico_color="@color/white"
+                android:focusableInTouchMode="true"
                 app:ico_icon="cmd-sync"
                 app:ico_size="48dp"
                 tools:ignore="MissingPrefix" />

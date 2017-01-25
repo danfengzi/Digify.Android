@@ -106,6 +106,13 @@ public class MainFragment extends BrowseFragment {
         eventBus.unregister(this);
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+    }
+
     private void loadRows() {
         List<MediaViewModel> list = mediaRepository.getMedia();
 
