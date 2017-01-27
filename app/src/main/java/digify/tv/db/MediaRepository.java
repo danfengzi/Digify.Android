@@ -57,7 +57,9 @@ public class MediaRepository extends BaseComponent {
 
             File thumbnail = Utils.getThumbnailFile(media, getContext());
 
-            if (thumbnail != null)
+            if (thumbnail == null)
+                continue;
+
                 mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
 
             if (Utils.getStrongMediaType(media.getType()).equals(MediaType.Image))

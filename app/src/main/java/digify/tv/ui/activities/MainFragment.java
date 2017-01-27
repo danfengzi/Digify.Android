@@ -60,7 +60,6 @@ import digify.tv.R;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.jobs.FetchPlaylistJob;
-import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.viewmodels.PreferencesItemModel;
 import digify.tv.ui.viewmodels.PreferencesItemType;
@@ -320,10 +319,15 @@ public class MainFragment extends BrowseFragment {
     @Subscribe
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
 
-        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed))
-            loadRows();
+        switch (event.getDownloadStatus())
+        {
+            case Completed:
+                Toasty.success(getActivity(), event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle(), Toast.LENGTH_LONG).show();
 
-        Toasty.success(getActivity(), event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle() + " " + event.getProgressPercent(), Toast.LENGTH_LONG).show();
+                loadRows();
+
+                break;
+
+        }
     }
-
 }

@@ -23,7 +23,7 @@ android {
     defaultConfig {
         applicationId "digify.tv"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
