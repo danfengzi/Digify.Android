@@ -58,6 +58,10 @@ public class LoginActivity extends LoginBaseActivity {
     ImageView syncButton;
     @BindView(R.id.sync_info)
     LinearLayout syncInfo;
+    @BindView(R.id.login_button)
+    ImageView loginButton;
+    @BindView(R.id.login_layout)
+    LinearLayout loginLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +73,26 @@ public class LoginActivity extends LoginBaseActivity {
         applicationComponent().inject(this);
         EasyGcm.init(this);
         login();
+        setRipples();
 
+
+    }
+
+    public void setRipples() {
         MaterialRippleLayout.on(syncButton)
                 .rippleColor(Color.WHITE)
                 .create();
 
+        MaterialRippleLayout.on(loginButton)
+                .rippleColor(Color.WHITE)
+                .create();
+
+
     }
 
+    @OnClick(R.id.login_button)
     public void login() {
+        loginLayout.setVisibility(View.GONE);
         loadingView.smoothToShow();
         instruction.setText("Syncing device for first use");
         code.setText("Please Wait");
@@ -109,6 +125,10 @@ public class LoginActivity extends LoginBaseActivity {
 
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
+                Toasty.error(LoginActivity.this, "Something went wrong. Press enter to retry!", Toast.LENGTH_LONG).show();
+                loginLayout.setVisibility(View.VISIBLE);
+
+                syncInfo.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -142,6 +162,10 @@ public class LoginActivity extends LoginBaseActivity {
                     preferenceManager.setName(response.body().getName());
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     startActivity(intent);
                 } else
                     Toasty.error(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
@@ -149,7 +173,7 @@ public class LoginActivity extends LoginBaseActivity {
 
             @Override
             public void onFailure(Call<UserDeviceModel> call, Throwable t) {
-                Toasty.error(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                Toasty.error(LoginActivity.this, "Not yet registered!", Toast.LENGTH_SHORT).show();
             }
         });
     }

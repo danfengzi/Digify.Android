@@ -68,6 +68,37 @@
                 android:layout_height="wrap_content"
                 android:textSize="120sp" />
         </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/login_layout"
+            android:visibility="gone"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/login_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:ico_color="@color/white"
+                android:focusableInTouchMode="true"
+                app:ico_icon="cmd-sync"
+                app:ico_size="48dp"
+                tools:ignore="MissingPrefix" />
+            <TextView
+                android:layout_margin="20dp"
+                android:textSize="20sp"
+                android:maxWidth="600dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:text="Something went wrong! Press Enter to log in again."
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/sync_info"
             android:visibility="gone"

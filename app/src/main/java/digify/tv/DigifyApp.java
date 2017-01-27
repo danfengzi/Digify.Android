@@ -10,7 +10,6 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.Iconics;
 
-import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import javax.inject.Inject;
@@ -20,7 +19,9 @@ import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.injection.component.DaggerApplicationComponent;
 import digify.tv.injection.module.ApplicationModule;
 import digify.tv.util.Utils;
+import eu.inloop.easygcm.EasyGcm;
 import eu.inloop.easygcm.GcmListener;
+import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +54,8 @@ public class DigifyApp extends Application implements GcmListener {
         getComponent().inject(this);
 
         FileDownloader.init(getApplicationContext());
+
+        EasyGcm.init(this);
     }
 
     public static DigifyApp get(Context context) {

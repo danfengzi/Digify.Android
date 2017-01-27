@@ -40,6 +40,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -59,6 +60,8 @@ import digify.tv.R;
 import digify.tv.db.MediaRepository;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
+import digify.tv.ui.viewmodels.PreferencesItemModel;
+import digify.tv.ui.viewmodels.PreferencesItemType;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -117,7 +120,7 @@ public class MainFragment extends BrowseFragment {
     private void loadRows() {
         List<MediaViewModel> list = mediaRepository.getMedia();
 
-        if(list.size()==0)
+        if (list.size() == 0)
             return;
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
@@ -274,12 +277,31 @@ public class MainFragment extends BrowseFragment {
             view.setTextColor(Color.WHITE);
             view.setGravity(Gravity.CENTER);
 
+            MaterialRippleLayout.on(view).rippleColor(Color.WHITE).create();
+
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-            ((TextView) viewHolder.view).setText((String) item);
+        public void onBindViewHolder(ViewHolder viewHolder, final Object item) {
+            ((TextView) viewHolder.view).setText(((PreferencesItemModel) item).getButtonText());
+
+            viewHolder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Logout)) {
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        startActivity(intent);
+                    }
+                }
+            });
+
         }
 
         @Override
@@ -291,8 +313,8 @@ public class MainFragment extends BrowseFragment {
     @Subscribe
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
 
-       if(event.getDownloadStatus().equals(MediaDownloadStatus.Completed))
-           loadRows();
+        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed))
+            loadRows();
 
         setTitle(event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle() + " " + event.getProgressPercent());
     }
