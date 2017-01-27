@@ -249,6 +249,8 @@ public class MainFragment extends BrowseFragment {
                     Toasty.normal(getActivity(), "Checking for Playlist Updates", Toast.LENGTH_SHORT).show();
 
                     jobManager.addJobInBackground(new FetchPlaylistJob());
+
+                    loadRows();
                 }
             } else if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
