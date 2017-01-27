@@ -22,6 +22,7 @@ import com.birbit.android.jobqueue.JobManager;
 import javax.inject.Inject;
 
 import digify.tv.R;
+import digify.tv.core.PreferenceManager;
 import digify.tv.jobs.FetchPlaylistJob;
 import es.dmoral.toasty.Toasty;
 
@@ -33,6 +34,9 @@ public class MainActivity extends BaseActivity {
     @Inject
     JobManager jobManager;
 
+    @Inject
+    PreferenceManager preferenceManager;
+
     /**
      * Called when the activity is first created.
      */
@@ -43,11 +47,12 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         applicationComponent().inject(this);
-        fetchPlaylist();
+
+        if (preferenceManager.isLoggedIn())
+            fetchPlaylist();
     }
 
-    public void fetchPlaylist()
-    {
+    public void fetchPlaylist() {
         Toasty.info(this, "Checking for updates...", Toast.LENGTH_SHORT, true).show();
 
         jobManager.addJobInBackground(new FetchPlaylistJob());

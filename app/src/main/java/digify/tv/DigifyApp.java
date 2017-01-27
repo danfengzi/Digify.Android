@@ -5,10 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.Iconics;
 
+import io.fabric.sdk.android.Fabric;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import javax.inject.Inject;
@@ -38,6 +40,7 @@ public class DigifyApp extends Application implements GcmListener {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
