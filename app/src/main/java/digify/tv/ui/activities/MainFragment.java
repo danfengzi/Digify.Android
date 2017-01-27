@@ -40,7 +40,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.balysv.materialripple.MaterialRippleLayout;
+import com.birbit.android.jobqueue.JobManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -57,11 +57,14 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
+import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.viewmodels.PreferencesItemModel;
 import digify.tv.ui.viewmodels.PreferencesItemType;
+import es.dmoral.toasty.Toasty;
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -85,6 +88,12 @@ public class MainFragment extends BrowseFragment {
 
     @Inject
     MediaRepository mediaRepository;
+
+    @Inject
+    JobManager jobManager;
+
+    @Inject
+    PreferenceManager preferenceManager;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -120,9 +129,6 @@ public class MainFragment extends BrowseFragment {
     private void loadRows() {
         List<MediaViewModel> list = mediaRepository.getMedia();
 
-        if (list.size() == 0)
-            return;
-
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         CardPresenter cardPresenter = new CardPresenter();
 
@@ -132,15 +138,16 @@ public class MainFragment extends BrowseFragment {
             listRowAdapter.add(model);
 
         }
-
         HeaderItem header = new HeaderItem(1, "Playlist");
         mRowsAdapter.add(new ListRow(header, listRowAdapter));
 
-        HeaderItem gridHeader = new HeaderItem(2, "PREFERENCES");
+        HeaderItem gridHeader = new HeaderItem(2, "Menu");
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.personal_settings));
+
+        gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Refresh, "Refresh Playlist"));
+        gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Logout, "Log Out"));
         mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
 
         setAdapter(mRowsAdapter);
@@ -226,6 +233,24 @@ public class MainFragment extends BrowseFragment {
                         ((ImageCardView) itemViewHolder.view).getMainImageView(),
                         DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                 getActivity().startActivity(intent, bundle);
+            } else if (item instanceof PreferencesItemModel) {
+                if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Logout)) {
+                    preferenceManager.logout();
+
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    startActivity(intent);
+
+                } else if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Refresh)) {
+
+                    Toasty.normal(getActivity(), "Checking for Playlist Updates", Toast.LENGTH_SHORT).show();
+
+                    jobManager.addJobInBackground(new FetchPlaylistJob());
+                }
             } else if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {
                     Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
@@ -277,30 +302,12 @@ public class MainFragment extends BrowseFragment {
             view.setTextColor(Color.WHITE);
             view.setGravity(Gravity.CENTER);
 
-            MaterialRippleLayout.on(view).rippleColor(Color.WHITE).create();
-
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, final Object item) {
             ((TextView) viewHolder.view).setText(((PreferencesItemModel) item).getButtonText());
-
-            viewHolder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Logout)) {
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
-
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        startActivity(intent);
-                    }
-                }
-            });
 
         }
 
@@ -316,7 +323,7 @@ public class MainFragment extends BrowseFragment {
         if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed))
             loadRows();
 
-        setTitle(event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle() + " " + event.getProgressPercent());
+        Toasty.success(getActivity(), event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle() + " " + event.getProgressPercent(), Toast.LENGTH_LONG).show();
     }
 
 }
