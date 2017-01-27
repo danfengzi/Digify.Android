@@ -96,14 +96,16 @@ public class LoginActivity extends LoginBaseActivity {
         if (!isAppOnline())
             return;
 
+        if (!Utils.isGooglePlayServicesAvailable(this))
+            return;
+
         loginLayout.setVisibility(View.GONE);
         loadingView.smoothToShow();
         instruction.setText("Syncing device for first use");
         code.setText("Please Wait");
 
 
-        if (!Utils.isGooglePlayServicesAvailable(this))
-            return;
+
 
         Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(EasyGcm.getRegistrationId(this), Utils.getUniquePsuedoID());
 
@@ -131,6 +133,8 @@ public class LoginActivity extends LoginBaseActivity {
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
                 Toasty.error(LoginActivity.this, "Something went wrong. Press enter to retry!", Toast.LENGTH_LONG).show();
                 loginLayout.setVisibility(View.VISIBLE);
+                loadingView.smoothToHide();
+                code.setText("Uh oh!");
 
                 syncInfo.setVisibility(View.INVISIBLE);
             }
@@ -146,6 +150,8 @@ public class LoginActivity extends LoginBaseActivity {
             Toasty.error(LoginActivity.this, "Internet is required!", Toast.LENGTH_LONG).show();
             loginLayout.setVisibility(View.VISIBLE);
             syncInfo.setVisibility(View.INVISIBLE);
+            code.setText("Uh oh!");
+            loadingView.smoothToHide();
 
             return false;
         }

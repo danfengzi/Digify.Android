@@ -80,7 +80,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <digify.tv.ui.views.ScaleFocusImageView
+            <ImageView
                 android:id="@+id/login_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -111,7 +111,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <digify.tv.ui.views.ScaleFocusImageView
+            <ImageView
                 android:id="@+id/sync_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
