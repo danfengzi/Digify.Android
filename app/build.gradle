@@ -88,6 +88,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true;
     }
+    compile 'com.balysv:material-ripple:1.0.2'
 }
 
 

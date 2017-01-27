@@ -2,6 +2,7 @@ package digify.tv.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -67,6 +69,10 @@ public class LoginActivity extends LoginBaseActivity {
         applicationComponent().inject(this);
         EasyGcm.init(this);
         login();
+
+        MaterialRippleLayout.on(syncButton)
+                .rippleColor(Color.WHITE)
+                .create();
 
     }
 

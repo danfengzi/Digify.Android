@@ -57,6 +57,7 @@ import javax.inject.Inject;
 import digify.tv.DigifyApp;
 import digify.tv.R;
 import digify.tv.db.MediaRepository;
+import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 
 public class MainFragment extends BrowseFragment {
@@ -115,6 +116,9 @@ public class MainFragment extends BrowseFragment {
 
     private void loadRows() {
         List<MediaViewModel> list = mediaRepository.getMedia();
+
+        if(list.size()==0)
+            return;
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         CardPresenter cardPresenter = new CardPresenter();
@@ -286,6 +290,10 @@ public class MainFragment extends BrowseFragment {
 
     @Subscribe
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
+
+       if(event.getDownloadStatus().equals(MediaDownloadStatus.Completed))
+           loadRows();
+
         setTitle(event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle() + " " + event.getProgressPercent());
     }
 

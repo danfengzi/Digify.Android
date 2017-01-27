@@ -54,7 +54,6 @@ public class MainActivity extends BaseActivity {
 
     public void fetchPlaylist() {
         Toasty.info(this, "Checking for updates...", Toast.LENGTH_SHORT, true).show();
-
         jobManager.addJobInBackground(new FetchPlaylistJob());
 
     }
