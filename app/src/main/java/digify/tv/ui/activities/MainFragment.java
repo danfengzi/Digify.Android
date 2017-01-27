@@ -57,6 +57,7 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.jobs.FetchPlaylistJob;
@@ -321,12 +322,13 @@ public class MainFragment extends BrowseFragment {
     @Subscribe
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
 
-        switch (event.getDownloadStatus())
-        {
+        switch (event.getDownloadStatus()) {
             case Completed:
-                Toasty.success(getActivity(), event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle(), Toast.LENGTH_LONG).show();
+                if (event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
+                    Toasty.success(getActivity(), event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle(), Toast.LENGTH_LONG).show();
 
-                loadRows();
+                    loadRows();
+                }
 
                 break;
 

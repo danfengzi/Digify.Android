@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,118 +13,123 @@
     tools:context="digify.tv.ui.activities.LoginActivity">
 
     <TextView
-        android:layout_margin="40dp"
         android:id="@+id/company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="40dp"
         android:fontFamily="sans-serif"
-        android:textColor="@android:color/white"
         android:text="Welcome"
+        android:textColor="@android:color/white"
         android:textSize="70sp" />
 
     <LinearLayout
+        android:layout_width="800dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/company_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_width="800dp"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="40dp"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
+
             <TextView
-                android:layout_gravity="center"
                 android:id="@+id/instruction"
-                android:textSize="40sp"
-                android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
                 tools:text="Enter this code into your dashboard" />
 
             <com.wang.avi.AVLoadingIndicatorView
-                android:layout_gravity="center"
+                android:id="@+id/loading_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/loading_view"
+                android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                app:indicatorName="LineScalePulseOutIndicator"
                 app:indicatorColor="@android:color/white"
-                />
+                app:indicatorName="LineScalePulseOutIndicator" />
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/code_background">
+
             <TextView
                 android:id="@+id/code"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:textColor="@android:color/white"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"
                 android:textSize="120sp" />
         </RelativeLayout>
 
 
         <LinearLayout
             android:id="@+id/login_layout"
-            android:visibility="gone"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <digify.tv.ui.views.ScaleFocusImageView
                 android:id="@+id/login_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:ico_color="@color/white"
+                android:layout_gravity="center"
                 android:focusableInTouchMode="true"
+                app:ico_color="@color/white"
                 app:ico_icon="cmd-sync"
                 app:ico_size="48dp"
                 tools:ignore="MissingPrefix" />
+
             <TextView
-                android:layout_margin="20dp"
-                android:textSize="20sp"
-                android:maxWidth="600dp"
-                android:gravity="center"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:maxWidth="600dp"
                 android:text="Something went wrong! Press Enter to log in again."
-                android:layout_height="wrap_content" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/sync_info"
-            android:visibility="gone"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <digify.tv.ui.views.ScaleFocusImageView
                 android:id="@+id/sync_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:ico_color="@color/white"
+                android:layout_gravity="center"
                 android:focusableInTouchMode="true"
+                app:ico_color="@color/white"
                 app:ico_icon="cmd-sync"
                 app:ico_size="48dp"
                 tools:ignore="MissingPrefix" />
+
             <TextView
-                android:layout_margin="20dp"
-                android:textSize="20sp"
-                android:maxWidth="600dp"
-                android:gravity="center"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:maxWidth="600dp"
                 android:text="Once you enter this code into your dashboard the app will automatically login. If it doesn't, press the enter button to manually sync the changes."
-                android:layout_height="wrap_content" />
+                android:textSize="20sp" />
 
 
         </LinearLayout>

@@ -92,6 +92,10 @@ public class LoginActivity extends LoginBaseActivity {
 
     @OnClick(R.id.login_button)
     public void login() {
+
+        if (!isAppOnline())
+            return;
+
         loginLayout.setVisibility(View.GONE);
         loadingView.smoothToShow();
         instruction.setText("Syncing device for first use");
@@ -131,6 +135,20 @@ public class LoginActivity extends LoginBaseActivity {
                 syncInfo.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    public boolean isAppOnline() {
+
+        if (Utils.isOnline(this))
+            return true;
+
+        else {
+            Toasty.error(LoginActivity.this, "Internet is required!", Toast.LENGTH_LONG).show();
+            loginLayout.setVisibility(View.VISIBLE);
+            syncInfo.setVisibility(View.INVISIBLE);
+
+            return false;
+        }
     }
 
     protected ApplicationComponent applicationComponent() {
