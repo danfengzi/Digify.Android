@@ -2,6 +2,8 @@ package digify.tv.db;
 
 import android.content.Context;
 
+import org.joda.time.DateTime;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,11 @@ public class MediaRepository extends BaseComponent {
 
         for (Media media : results) {
 
+            if (media.getStartTime() != null && media.getEndTime() != null) {
+                if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow()))
+                    continue;
+            }
+
             if (Utils.getMediaFile(media, getContext()) == null)
                 continue;
 
@@ -60,7 +67,7 @@ public class MediaRepository extends BaseComponent {
             if (thumbnail == null)
                 continue;
 
-                mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
+            mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
 
             if (Utils.getStrongMediaType(media.getType()).equals(MediaType.Image))
                 mediaViewModel.setBackgroundImageUrl(Utils.getMediaFile(media, getContext()).getAbsolutePath());
