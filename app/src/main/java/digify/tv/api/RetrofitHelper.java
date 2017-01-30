@@ -28,13 +28,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitHelper {
+    private Context context;
+
+    public RetrofitHelper(Context context) {
+        this.context = context;
+
+        DigifyApp.get(context).getComponent().inject(this);
+    }
 
     @Inject
     PreferenceManager preferenceManager;
 
-    public DigifyApiService newDigifyApiService(Context context) {
+    public DigifyApiService newDigifyApiService() {
 
-        DigifyApp.get(context).getComponent().inject(this);
 
         String host = preferenceManager.getBaseUrl();
 

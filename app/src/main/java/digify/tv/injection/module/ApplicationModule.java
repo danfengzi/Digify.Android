@@ -41,7 +41,7 @@ public class ApplicationModule {
 
     @Provides
     DigifyApiService provideDigifyService() {
-        return new RetrofitHelper().newDigifyApiService();
+        return new RetrofitHelper(app).newDigifyApiService();
     }
 
     @Singleton
