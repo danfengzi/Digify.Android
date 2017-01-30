@@ -1,5 +1,7 @@
 package digify.tv.api;
 
+import android.content.Context;
+
 import com.github.simonpercic.oklog3.OkLogInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
@@ -7,9 +9,13 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import digify.tv.BuildConfig;
+import digify.tv.DigifyApp;
 import digify.tv.core.GsonDateDeserializer;
 import digify.tv.core.MediaGsonConverter;
+import digify.tv.core.PreferenceManager;
 import digify.tv.db.models.Media;
 import io.realm.RealmList;
 import okhttp3.OkHttpClient;
@@ -23,7 +29,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHelper {
 
-    public DigifyApiService newDigifyApiService() {
+    @Inject
+    PreferenceManager preferenceManager;
+
+    public DigifyApiService newDigifyApiService(Context context) {
+
+        DigifyApp.get(context).getComponent().inject(this);
+
+        String host = preferenceManager.getBaseUrl();
 
         final GsonBuilder builder = new GsonBuilder();
         builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
@@ -45,6 +58,8 @@ public class RetrofitHelper {
 
         }
 
+        okHttpBuilder.addInterceptor(new HostSelectionInterceptor(host));
+
         OkHttpClient okHttpClient = okHttpBuilder.build();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -55,4 +70,5 @@ public class RetrofitHelper {
 
         return retrofit.create(DigifyApiService.class);
     }
+
 }

@@ -39,7 +39,6 @@ public class ApplicationModule {
         return new PreferenceManager(app);
     }
 
-    @Singleton
     @Provides
     DigifyApiService provideDigifyService() {
         return new RetrofitHelper().newDigifyApiService();

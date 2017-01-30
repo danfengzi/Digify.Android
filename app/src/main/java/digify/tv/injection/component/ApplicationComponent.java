@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import digify.tv.DigifyApp;
+import digify.tv.api.RetrofitHelper;
 import digify.tv.db.MediaRepository;
 import digify.tv.injection.module.ApplicationModule;
 import digify.tv.jobs.FetchPlaylistJob;
@@ -31,4 +32,5 @@ public interface ApplicationComponent {
     void inject(VideoDetailsFragment videoDetailsFragment);
     void inject(MediaRepository mediaRepository);
     void inject(PlaybackOverlayFragment playbackOverlayFragment);
+    void inject(RetrofitHelper retrofitHelper);
 }

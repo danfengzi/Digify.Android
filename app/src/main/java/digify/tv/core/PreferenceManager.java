@@ -14,6 +14,7 @@ public class PreferenceManager {
     public static final String PREF_FILE_NAME = "digify_preferences";
     public static final String KEY_NAME = "name";
     private static final String IS_LOGIN = "IsLoggedIn";
+    private static final String KEY_BASE_URL = "baseUrl";
 
 
     public PreferenceManager(Context context) {
@@ -31,12 +32,19 @@ public class PreferenceManager {
         editor.commit();
     }
 
+    public void setBaseUrl(String baseUrl) {
+        editor.putString(KEY_BASE_URL, baseUrl);
+        editor.commit();
+    }
+
 
     public String getName() {
         return preferences.getString(KEY_NAME, "");
     }
 
-
+    public String getBaseUrl() {
+        return preferences.getString(KEY_BASE_URL, "");
+    }
 
 
     /**
