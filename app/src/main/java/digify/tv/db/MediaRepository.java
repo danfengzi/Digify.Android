@@ -78,6 +78,50 @@ public class MediaRepository extends BaseComponent {
         }
 
         return models;
+    }
 
+    public void deleteLocalMedia(List<Media> serverPlaylist) {
+        List<Media> localPlaylist = database.get().where(Media.class).findAll();
+
+        for (final Media localMedia : localPlaylist) {
+            boolean found = false;
+
+            for (Media serverMedia : serverPlaylist) {
+
+                if (localMedia.getId().equals(serverMedia.getId())) {
+
+                    found = true;
+
+                    break;
+                }
+            }
+
+            if (!found) {
+
+                File mediaFile = Utils.getMediaFile(localMedia,getContext());
+
+                if(mediaFile!=null)
+                {
+                    if(mediaFile.exists())
+                        mediaFile.delete();
+                }
+
+
+                File thumbnailFile = Utils.getThumbnailFile(localMedia,getContext());
+
+                if(thumbnailFile!=null)
+                {
+                    if(thumbnailFile.exists())
+                        thumbnailFile.delete();
+                }
+
+                database.get().executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        localMedia.deleteFromRealm();
+                    }
+                });
+            }
+        }
     }
 }

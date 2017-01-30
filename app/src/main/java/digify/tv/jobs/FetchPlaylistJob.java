@@ -168,6 +168,8 @@ public class FetchPlaylistJob extends Job {
 
                     }
 
+
+
                     queueSet.setAutoRetryTimes(1);
 
                     if (SERIAL) {
