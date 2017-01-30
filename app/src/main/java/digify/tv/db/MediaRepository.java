@@ -80,7 +80,7 @@ public class MediaRepository extends BaseComponent {
         return models;
     }
 
-    public void deleteLocalMedia(List<Media> serverPlaylist) {
+    public void syncMediaDeletion(List<Media> serverPlaylist) {
         List<Media> localPlaylist = database.get().where(Media.class).findAll();
 
         for (final Media localMedia : localPlaylist) {
@@ -123,5 +123,20 @@ public class MediaRepository extends BaseComponent {
                 });
             }
         }
+    }
+
+    public Media getMediaById(int id)
+    {
+        return database.get().where(Media.class).equalTo("id",id).findFirst();
+    }
+
+    public void saveMedia(final Media media)
+    {
+        database.get().executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(media);
+            }
+        });
     }
 }

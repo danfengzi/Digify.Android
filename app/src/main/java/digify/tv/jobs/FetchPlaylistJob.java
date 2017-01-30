@@ -25,6 +25,7 @@ import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
 import digify.tv.core.MediaItemType;
 import digify.tv.core.MediaTag;
+import digify.tv.db.MediaRepository;
 import digify.tv.db.models.Media;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
@@ -48,6 +49,9 @@ public class FetchPlaylistJob extends Job {
     @Inject
     Bus eventBus;
 
+    @Inject
+    MediaRepository mediaRepository;
+
     private static final boolean SERIAL = true;
     private static final boolean PARALLEL = false;
 
@@ -67,13 +71,15 @@ public class FetchPlaylistJob extends Job {
 
         eventBus.register(this);
 
-        Call<List<Media>> request = digifyApiService.getDevicePlaylist(Utils.getUniqueDeviceID(getApplicationContext()));
+        final Call<List<Media>> request = digifyApiService.getDevicePlaylist(Utils.getUniqueDeviceID(getApplicationContext()));
 
         request.enqueue(new Callback<List<Media>>() {
             @Override
             public void onResponse(Call<List<Media>> call, Response<List<Media>> response) {
 
                 if (response.body() != null) {
+
+                    mediaRepository.syncMediaDeletion(response.body());
 
                     FileDownloadListener downloadListener = new FileDownloadListener() {
                         @Override
@@ -122,7 +128,7 @@ public class FetchPlaylistJob extends Job {
 
                     for (final Media media : response.body()) {
 
-                        Media item = database.get().where(Media.class).equalTo("id", media.getId()).findFirst();
+                        Media item = mediaRepository.getMediaById(media.getId());
 
                         if (item != null) {
                             if (new DateTime(media.getUpdatedAt()).isAfter(new DateTime(item.getUpdatedAt())) || Utils.getMediaFile(media, getApplicationContext()) == null) {
@@ -158,17 +164,9 @@ public class FetchPlaylistJob extends Job {
                                     .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail,media.getName())));
                         }
 
-
-                        database.get().executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                realm.copyToRealmOrUpdate(media);
-                            }
-                        });
+                        mediaRepository.saveMedia(media);
 
                     }
-
-
 
                     queueSet.setAutoRetryTimes(1);
 

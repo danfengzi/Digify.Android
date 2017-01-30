@@ -33,7 +33,7 @@ public class RetrofitHelper {
     public RetrofitHelper(Context context) {
         this.context = context;
 
-        DigifyApp.get(context).getComponent().inject(this);
+        DigifyApp.get(this.context).getComponent().inject(this);
     }
 
     @Inject
