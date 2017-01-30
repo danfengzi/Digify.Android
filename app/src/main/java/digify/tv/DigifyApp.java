@@ -89,7 +89,7 @@ public class DigifyApp extends Application implements GcmListener {
 
     @Override
     public void sendRegistrationIdToBackend(String pushId) {
-        Call<Void> request = digifyApiService.updatePushId(Utils.getUniquePsuedoID(), pushId);
+        Call<Void> request = digifyApiService.updatePushId(Utils.getUniqueDeviceID(this), pushId);
 
         request.enqueue(new Callback<Void>() {
             @Override

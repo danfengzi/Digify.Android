@@ -107,7 +107,7 @@ public class LoginActivity extends LoginBaseActivity {
 
 
 
-        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(EasyGcm.getRegistrationId(this), Utils.getUniquePsuedoID());
+        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(EasyGcm.getRegistrationId(this), Utils.getUniqueDeviceID(this));
 
         loginCall.enqueue(new Callback<LoginResponseModel>() {
             @Override
@@ -173,7 +173,7 @@ public class LoginActivity extends LoginBaseActivity {
 
     @OnClick(R.id.sync_button)
     public void checkAssignment() {
-        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniquePsuedoID());
+        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID(this));
 
         request.enqueue(new Callback<UserDeviceModel>() {
             @Override
