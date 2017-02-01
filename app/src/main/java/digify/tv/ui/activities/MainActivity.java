@@ -14,17 +14,25 @@
 
 package digify.tv.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import digify.tv.R;
 import digify.tv.core.PreferenceManager;
+import digify.tv.db.MediaRepository;
+import digify.tv.db.models.Media;
 import digify.tv.jobs.FetchPlaylistJob;
+import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
+import jonathanfinerty.once.Once;
 
 /*
  * MainActivity class that loads MainFragment
@@ -37,6 +45,9 @@ public class MainActivity extends BaseActivity {
     @Inject
     PreferenceManager preferenceManager;
 
+    @Inject
+    MediaRepository mediaRepository;
+
     /**
      * Called when the activity is first created.
      */
@@ -48,8 +59,13 @@ public class MainActivity extends BaseActivity {
 
         applicationComponent().inject(this);
 
-        if (preferenceManager.isLoggedIn())
-            fetchPlaylist();
+        if (!preferenceManager.isLoggedIn())
+            return;
+
+        fetchPlaylist();
+        scheduleMomentarilyJobs();
+        startPlayback();
+
     }
 
     public void fetchPlaylist() {
@@ -57,5 +73,24 @@ public class MainActivity extends BaseActivity {
         jobManager.addJobInBackground(new FetchPlaylistJob());
 
     }
+
+    private void scheduleMomentarilyJobs() {
+        if (!Once.beenDone(TimeUnit.MINUTES, 10, "PLAYLIST_SYNC")) {
+            jobManager.addJobInBackground(new FetchPlaylistJob());
+        }
+    }
+
+    private void startPlayback() {
+        List<Media> list = mediaRepository.getMedia();
+
+        for (Media media : list) {
+            if (Utils.getMediaFile(media, this).exists()) {
+                Intent intent = new Intent(this, PlaybackOverlayActivity.class);
+                startActivity(intent);
+                break;
+            }
+        }
+    }
+
 
 }

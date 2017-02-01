@@ -2,8 +2,6 @@ package digify.tv.db;
 
 import android.content.Context;
 
-import org.joda.time.DateTime;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +32,23 @@ public class MediaRepository extends BaseComponent {
         applicationComponent().inject(this);
     }
 
-    public List<MediaViewModel> getMedia() {
+    public List<Media> getMedia() {
+        return database.get().where(Media.class).findAll();
+
+    }
+
+    public List<MediaViewModel> getMediaViewModels() {
         List<MediaViewModel> models = new ArrayList<>();
 
         RealmResults<Media> results = database.get().where(Media.class).findAll();
 
         for (Media media : results) {
 
-            if (media.getStartTime() != null && media.getEndTime() != null) {
+         /*   if (media.getStartTime() != null && media.getEndTime() != null) {
                 if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow()))
                     continue;
             }
+            */
 
             if (Utils.getMediaFile(media, getContext()) == null)
                 continue;
@@ -98,20 +102,18 @@ public class MediaRepository extends BaseComponent {
 
             if (!found) {
 
-                File mediaFile = Utils.getMediaFile(localMedia,getContext());
+                File mediaFile = Utils.getMediaFile(localMedia, getContext());
 
-                if(mediaFile!=null)
-                {
-                    if(mediaFile.exists())
+                if (mediaFile != null) {
+                    if (mediaFile.exists())
                         mediaFile.delete();
                 }
 
 
-                File thumbnailFile = Utils.getThumbnailFile(localMedia,getContext());
+                File thumbnailFile = Utils.getThumbnailFile(localMedia, getContext());
 
-                if(thumbnailFile!=null)
-                {
-                    if(thumbnailFile.exists())
+                if (thumbnailFile != null) {
+                    if (thumbnailFile.exists())
                         thumbnailFile.delete();
                 }
 
@@ -125,13 +127,11 @@ public class MediaRepository extends BaseComponent {
         }
     }
 
-    public Media getMediaById(int id)
-    {
-        return database.get().where(Media.class).equalTo("id",id).findFirst();
+    public Media getMediaById(int id) {
+        return database.get().where(Media.class).equalTo("id", id).findFirst();
     }
 
-    public void saveMedia(final Media media)
-    {
+    public void saveMedia(final Media media) {
         database.get().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

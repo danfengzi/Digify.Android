@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -184,6 +185,7 @@ public class LoginActivity extends LoginBaseActivity {
 
                     preferenceManager.setLoggedInStatus(true);
                     preferenceManager.setName(response.body().getName());
+                    preferenceManager.setBaseUrl(response.body().getTenantUrl());
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
@@ -197,6 +199,7 @@ public class LoginActivity extends LoginBaseActivity {
 
             @Override
             public void onFailure(Call<UserDeviceModel> call, Throwable t) {
+                Log.v("Tenant error",t.getMessage());
                 Toasty.error(LoginActivity.this, "Not yet registered!", Toast.LENGTH_SHORT).show();
             }
         });

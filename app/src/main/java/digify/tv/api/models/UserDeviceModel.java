@@ -7,18 +7,20 @@ import java.util.Date;
  */
 
 public class UserDeviceModel {
-    private int deviceId;
+    private String deviceId;
     private Date createdAt;
     private Date updatedAt;
     private String name;
     private int userId;
     private String deviceIdString;
+    private String tenant;
+    private String tenantUrl;
 
-    public int getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(int deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 
@@ -60,5 +62,21 @@ public class UserDeviceModel {
 
     public void setDeviceIdString(String deviceIdString) {
         this.deviceIdString = deviceIdString;
+    }
+
+    public String getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        this.tenant = tenant;
+    }
+
+    public String getTenantUrl() {
+        return tenantUrl;
+    }
+
+    public void setTenantUrl(String tenantUrl) {
+        this.tenantUrl = tenantUrl;
     }
 }

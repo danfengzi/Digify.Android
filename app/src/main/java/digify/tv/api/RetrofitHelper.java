@@ -30,19 +30,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
     private Context context;
 
+    @Inject
+    PreferenceManager preferenceManager;
+
+
     public RetrofitHelper(Context context) {
         this.context = context;
 
         DigifyApp.get(this.context).getComponent().inject(this);
     }
 
-    @Inject
-    PreferenceManager preferenceManager;
-
     public DigifyApiService newDigifyApiService() {
-
-
-        String host = preferenceManager.getBaseUrl();
 
         final GsonBuilder builder = new GsonBuilder();
         builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
@@ -64,15 +62,28 @@ public class RetrofitHelper {
 
         }
 
-        okHttpBuilder.addInterceptor(new HostSelectionInterceptor(host));
-
         OkHttpClient okHttpClient = okHttpBuilder.build();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(builder.create()))
-                .baseUrl("http://digify.tv/api/")
-                .build();
+        Retrofit retrofit;
+
+        if(preferenceManager.isLoggedIn())
+        {
+            retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create(builder.create()))
+                    .baseUrl(preferenceManager.getBaseUrl()+"/api/")
+                    .build();
+        }
+        else
+        {
+            retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create(builder.create()))
+                    .baseUrl("http://api.digify.tv/")
+                    .build();
+        }
+
+
 
         return retrofit.create(DigifyApiService.class);
     }

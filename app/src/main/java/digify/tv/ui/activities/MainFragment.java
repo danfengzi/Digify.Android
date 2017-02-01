@@ -127,7 +127,7 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void loadRows() {
-        List<MediaViewModel> list = mediaRepository.getMedia();
+        List<MediaViewModel> list = mediaRepository.getMediaViewModels();
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         CardPresenter cardPresenter = new CardPresenter();

@@ -22,6 +22,7 @@ import digify.tv.util.Utils;
 import eu.inloop.easygcm.EasyGcm;
 import eu.inloop.easygcm.GcmListener;
 import io.fabric.sdk.android.Fabric;
+import jonathanfinerty.once.Once;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +51,8 @@ public class DigifyApp extends Application implements GcmListener {
         JodaTimeAndroid.init(this);
 
         initializeCustomFontAndIconProvider();
+
+        Once.initialise(this);
 
         getComponent().inject(this);
 

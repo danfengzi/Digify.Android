@@ -195,7 +195,7 @@ public class VideoDetailsFragment extends DetailsFragment {
     }
 
     private void setupMovieListRow() {
-        List<MediaViewModel> list = mediaRepository.getMedia();
+        List<MediaViewModel> list = mediaRepository.getMediaViewModels();
 
         CardPresenter cardPresenter = new CardPresenter();
 

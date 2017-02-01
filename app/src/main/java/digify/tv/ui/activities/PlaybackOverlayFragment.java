@@ -110,10 +110,17 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         DigifyApp.get(getActivity()).getComponent().inject(this);
 
         mItems = new ArrayList<>();
-        mSelectedMediaViewModel = (MediaViewModel) getActivity()
-                .getIntent().getSerializableExtra(DetailsActivity.MOVIE);
 
-        List<MediaViewModel> movies = mediaRepository.getMedia();
+        List<MediaViewModel> movies = mediaRepository.getMediaViewModels();
+
+        if (getActivity().getIntent().hasExtra(DetailsActivity.MOVIE)) {
+            mSelectedMediaViewModel = (MediaViewModel) getActivity()
+                    .getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+        } else {
+            if (!movies.isEmpty())
+                mSelectedMediaViewModel = movies.get(0);
+        }
+
 
         for (int j = 0; j < movies.size(); j++) {
             mItems.add(movies.get(j));
@@ -143,6 +150,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 Log.i(TAG, "onItemClicked: " + item + " row " + row);
             }
         });
+
     }
 
     @SuppressWarnings("deprecation")
@@ -219,7 +227,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private int getDuration() {
         MediaViewModel mediaViewModel = mItems.get(mCurrentItem);
 
-        if(mediaViewModel.getMediaType().equals(MediaType.Image))
+        if (mediaViewModel.getMediaType().equals(MediaType.Image))
             return 30000;
 
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
