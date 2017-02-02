@@ -10,9 +10,6 @@ import com.mikepenz.iconics.Iconics;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import javax.inject.Inject;
-
-import digify.tv.api.DigifyApiService;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.injection.component.DaggerApplicationComponent;
 import digify.tv.injection.module.ApplicationModule;
@@ -28,12 +25,10 @@ public class DigifyApp extends Application {
 
     ApplicationComponent applicationComponent;
 
-    @Inject
-    DigifyApiService digifyApiService;
-
     @Override
     public void onCreate() {
         super.onCreate();
+
         Fabric.with(this, new Crashlytics());
 
         applicationComponent = DaggerApplicationComponent.builder()
