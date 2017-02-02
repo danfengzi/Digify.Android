@@ -57,6 +57,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Once.initialise(this);
+
         applicationComponent().inject(this);
 
         if (!preferenceManager.isLoggedIn())
@@ -84,13 +86,11 @@ public class MainActivity extends BaseActivity {
         List<Media> list = mediaRepository.getMedia();
 
         for (Media media : list) {
-            if (Utils.getMediaFile(media, this).exists()) {
+            if (Utils.getMediaFile(media, this).exists() && Utils.getThumbnailFile(media, this).exists()) {
                 Intent intent = new Intent(this, PlaybackOverlayActivity.class);
                 startActivity(intent);
                 break;
             }
         }
     }
-
-
 }

@@ -14,7 +14,6 @@ import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.injection.component.DaggerApplicationComponent;
 import digify.tv.injection.module.ApplicationModule;
 import io.fabric.sdk.android.Fabric;
-import jonathanfinerty.once.Once;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -38,10 +37,6 @@ public class DigifyApp extends Application {
         JodaTimeAndroid.init(this);
 
         initializeCustomFontAndIconProvider();
-
-        Once.initialise(this);
-
-        getComponent().inject(this);
 
         FileDownloader.init(getApplicationContext());
     }
