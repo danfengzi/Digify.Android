@@ -151,6 +151,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             }
         });
 
+        if (!getActivity().getIntent().hasExtra(DetailsActivity.MOVIE)) {
+            //autoplay content
+            togglePlayback(true);
+        }
     }
 
     @SuppressWarnings("deprecation")

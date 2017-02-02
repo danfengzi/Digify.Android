@@ -15,6 +15,8 @@
 package digify.tv.ui.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadata;
@@ -55,6 +57,7 @@ public class PlaybackOverlayActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playback_controls);
         loadViews();
+
         setupCallbacks();
 
         mSession = new MediaSession(this,"LeanbackSampleApp");
@@ -63,6 +66,17 @@ public class PlaybackOverlayActivity extends Activity implements
                 MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
         mSession.setActive(true);
+
+        setupFragment();
+
+    }
+
+    public void setupFragment()
+    {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.playback_controls_fragment, new PlaybackOverlayFragment()); // newInstance() is a static factory method.
+        transaction.commit();
     }
 
     @Override
