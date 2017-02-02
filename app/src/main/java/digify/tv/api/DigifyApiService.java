@@ -17,13 +17,10 @@ import retrofit2.http.Query;
 public interface DigifyApiService {
 
     @POST("device/assign")
-    Call<LoginResponseModel> assignmentRequest(@Query("push_id") String pushId, @Query("device_id") String deviceId);
+    Call<LoginResponseModel> assignmentRequest(@Query("device_id") String deviceId);
 
     @GET("device/check_assignment/{device_id}")
     Call<UserDeviceModel> checkAssignment(@Path("device_id") String deviceId);
-
-    @POST("device/push_id/{device_id}")
-    Call<Void> updatePushId(@Path("device_id") String deviceId, @Query("push_id") String pushId);
 
     @GET("device/playlist/{device_id}")
     Call<List<Media>> getDevicePlaylist(@Path("device_id") String deviceId);

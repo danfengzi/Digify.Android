@@ -32,7 +32,6 @@ import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.ui.events.DeviceAssignedEvent;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
-import eu.inloop.easygcm.EasyGcm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,7 +71,6 @@ public class LoginActivity extends LoginBaseActivity {
 
 
         applicationComponent().inject(this);
-        EasyGcm.init(this);
         login();
         setRipples();
 
@@ -97,18 +95,12 @@ public class LoginActivity extends LoginBaseActivity {
         if (!isAppOnline())
             return;
 
-        if (!Utils.isGooglePlayServicesAvailable(this))
-            return;
-
         loginLayout.setVisibility(View.GONE);
         loadingView.smoothToShow();
         instruction.setText("Syncing device for first use");
         code.setText("Please Wait");
 
-
-
-
-        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(EasyGcm.getRegistrationId(this), Utils.getUniqueDeviceID(this));
+        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(Utils.getUniqueDeviceID(this));
 
         loginCall.enqueue(new Callback<LoginResponseModel>() {
             @Override
@@ -205,5 +197,10 @@ public class LoginActivity extends LoginBaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        login();
+    }
 }

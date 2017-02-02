@@ -11,7 +11,6 @@ public class DeviceModel {
     private Date createdAt;
     private Date updatedAt;
     private String name;
-    private String pushId;
     private String deviceId;
     private String location;
     private int status;
@@ -31,14 +30,6 @@ public class DeviceModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPushId() {
-        return pushId;
-    }
-
-    public void setPushId(String pushId) {
-        this.pushId = pushId;
     }
 
     public String getDeviceId() {

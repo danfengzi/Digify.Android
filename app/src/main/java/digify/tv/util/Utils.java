@@ -14,7 +14,6 @@
 
 package digify.tv.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
@@ -25,9 +24,6 @@ import android.provider.Settings;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.File;
 import java.util.UUID;
@@ -167,17 +163,6 @@ public class Utils {
         return word;
     }
 
-    public static boolean isGooglePlayServicesAvailable(Activity activity) {
-        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-        int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
-        if (status != ConnectionResult.SUCCESS) {
-            if (googleApiAvailability.isUserResolvableError(status)) {
-                googleApiAvailability.getErrorDialog(activity, status, 2404).show();
-            }
-            return false;
-        }
-        return true;
-    }
 
     public static File getMediaFile(Media media, Context context) {
 

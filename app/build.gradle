@@ -62,18 +62,13 @@ dependencies {
     compile "com.android.support:design:$APP_COMPAT_VERSION"
     compile "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
     compile "com.android.support:support-v4:$APP_COMPAT_VERSION"
-    compile 'com.afollestad.material-dialogs:core:0.8.5.9'
     compile 'org.parceler:parceler-api:1.1.5'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     compile 'com.jakewharton:butterknife:8.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'net.danlew:android.joda:2.9.4.1'
-   compile 'com.google.android.gms:play-services-gcm:9.8.0'
-    compile 'eu.inloop:easygcm:1.6.2@aar'
-    compile 'com.pnikosis:materialish-progress:1.7'
     compile 'com.jonathanfinerty.once:once:1.0.3'
     compile "com.android.support:leanback-v17:$APP_COMPAT_VERSION"
     compile 'com.github.bumptech.glide:glide:3.4.+'
