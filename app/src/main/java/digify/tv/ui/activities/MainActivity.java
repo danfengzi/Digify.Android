@@ -16,22 +16,34 @@ package digify.tv.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import digify.tv.R;
+import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.Media;
 import digify.tv.jobs.FetchPlaylistJob;
+import digify.tv.ui.events.DownloadQueueStatusEvent;
+import digify.tv.ui.events.MediaDownloadStatus;
+import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
+import is.arontibo.library.ElasticDownloadView;
 import jonathanfinerty.once.Once;
 
 /*
@@ -46,7 +58,16 @@ public class MainActivity extends BaseActivity {
     PreferenceManager preferenceManager;
 
     @Inject
+    Bus eventBus;
+
+    @Inject
     MediaRepository mediaRepository;
+    @BindView(R.id.loading_view)
+    AVLoadingIndicatorView loadingView;
+    @BindView(R.id.status)
+    TextView status;
+    @BindView(R.id.elastic_download_view)
+    ElasticDownloadView elasticDownloadView;
 
     /**
      * Called when the activity is first created.
@@ -56,10 +77,13 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         Once.initialise(this);
 
         applicationComponent().inject(this);
+
+        //eventBus.register(this);
 
         if (!preferenceManager.isLoggedIn())
             return;
@@ -86,11 +110,60 @@ public class MainActivity extends BaseActivity {
         List<Media> list = mediaRepository.getMedia();
 
         for (Media media : list) {
-            if (Utils.getMediaFile(media, this).exists() && Utils.getThumbnailFile(media, this).exists()) {
+
+            File file = Utils.getMediaFile(media, this);
+
+            if(file==null)
+                continue;
+
+            if (file.exists() && Utils.getThumbnailFile(media, this).exists()) {
                 Intent intent = new Intent(this, PlaybackOverlayActivity.class);
                 startActivity(intent);
                 break;
             }
         }
+    }
+
+    @Subscribe
+    public void onDownloadQueueStatusEvent(DownloadQueueStatusEvent event) {
+        if (event.getMediaDownloadStatus().equals(MediaDownloadStatus.DownloadQueueStarted)) {
+            //elasticDownloadView.startIntro();
+        }
+    }
+
+    @Subscribe
+    public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
+
+        switch (event.getDownloadStatus()) {
+            case Downloading:
+                elasticDownloadView.setProgress((float) event.getProgressPercent());
+                break;
+
+            case Completed:
+                if (event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
+
+
+                }
+
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //if (eventBus != null)
+           // eventBus.unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //if (eventBus != null)
+           // eventBus.unregister(this);
+
     }
 }

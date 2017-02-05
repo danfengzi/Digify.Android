@@ -9,5 +9,6 @@ public enum MediaDownloadStatus {
     Completed,
     Paused,
     Error,
-    Pending
+    Pending,
+    DownloadQueueStarted
 }

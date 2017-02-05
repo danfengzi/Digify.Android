@@ -1,9 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_browse_fragment"
-    android:name="digify.tv.ui.activities.MainFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:deviceIds="tv"
-    tools:ignore="MergeRootFrame" />
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="600dp"
+android:visibility="gone"
+            android:layout_height="100dp">
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/loading_view"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                app:indicatorColor="@android:color/white"
+                app:indicatorName="BallScaleMultipleIndicator" />
+
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/loading_view"
+                android:textColor="@android:color/white"
+                tools:text="Downloading" />
+        </RelativeLayout>
+        <is.arontibo.library.ElasticDownloadView
+            android:visibility="gone"
+            android:id="@+id/elastic_download_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/main_browse_fragment"
+        android:name="digify.tv.ui.activities.MainFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:deviceIds="tv"
+        tools:ignore="MergeRootFrame" />
+</RelativeLayout>

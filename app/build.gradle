@@ -54,9 +54,6 @@ dependencies {
     apt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     androidTestApt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
-    compile('com.github.florent37:materialviewpager:1.2.0@aar') {
-        transitive = true
-    }
 
     compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
     compile "com.android.support:design:$APP_COMPAT_VERSION"
@@ -87,7 +84,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true;
     }
-    compile 'com.balysv:material-ripple:1.0.2'
+    compile 'com.github.tibolte:elasticdownload:1.0.+'
 }
 
 

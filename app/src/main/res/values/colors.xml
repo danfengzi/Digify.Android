@@ -16,5 +16,8 @@
     <color name="yellow">#EEFF41</color>
     <color name="default_background">#3d3d3d</color>
     <color name="code_background">#3647b3</color>
+    <color name="blue">#303F9F</color>
+    <color name="colorPrimary">@color/blue</color>
+    <color name="colorPrimaryDark">@color/blue</color>
 
 </resources>

@@ -27,6 +27,7 @@ import digify.tv.core.MediaItemType;
 import digify.tv.core.MediaTag;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.Media;
+import digify.tv.ui.events.DownloadQueueStatusEvent;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.util.Utils;
@@ -91,6 +92,7 @@ public class FetchPlaylistJob extends Job {
 
                         @Override
                         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                            Log.v("downloader",soFarBytes+" "+totalBytes);
                             if (soFarBytes > 0 && totalBytes > 0)
                                 eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Downloading));
 
@@ -111,7 +113,7 @@ public class FetchPlaylistJob extends Job {
 
                         @Override
                         protected void error(BaseDownloadTask task, Throwable e) {
-                            Log.e(FetchPlaylistJob.class.getName(),e.getMessage());
+                            Log.e(FetchPlaylistJob.class.getName(), e.getMessage());
                             eventBus.post(new MediaDownloadStatusEvent(0.0, (MediaTag) task.getTag(), MediaDownloadStatus.Error));
 
                         }
@@ -138,14 +140,14 @@ public class FetchPlaylistJob extends Job {
                                         .create(media.getLocation())
                                         .setPath(
                                                 Utils.createMediaFile(media, getApplicationContext()).getPath())
-                                        .setTag(new MediaTag(media.getId(), MediaItemType.Content,media.getName())));
+                                        .setTag(new MediaTag(media.getId(), MediaItemType.Content, media.getName())));
 
                                 tasks.add(FileDownloader.
                                         getImpl()
                                         .create(media.getThumbLocation())
                                         .setPath(
                                                 Utils.createThumbnailFile(media, getApplicationContext()).getPath())
-                                        .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail,media.getName())));
+                                        .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail, media.getName())));
 
                             }
                         } else {
@@ -154,14 +156,14 @@ public class FetchPlaylistJob extends Job {
                                     .create(media.getLocation())
                                     .setPath(
                                             Utils.createMediaFile(media, getApplicationContext()).getPath())
-                                    .setTag(new MediaTag(media.getId(), MediaItemType.Content,media.getName())));
+                                    .setTag(new MediaTag(media.getId(), MediaItemType.Content, media.getName())));
 
                             tasks.add(FileDownloader.
                                     getImpl()
                                     .create(media.getThumbLocation())
                                     .setPath(
                                             Utils.createThumbnailFile(media, getApplicationContext()).getPath())
-                                    .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail,media.getName())));
+                                    .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail, media.getName())));
                         }
 
                         mediaRepository.saveMedia(media);
@@ -181,6 +183,8 @@ public class FetchPlaylistJob extends Job {
                     }
 
                     queueSet.start();
+
+                    eventBus.post(new DownloadQueueStatusEvent(MediaDownloadStatus.DownloadQueueStarted));
 
                 }
 
