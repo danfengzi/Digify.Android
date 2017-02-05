@@ -123,6 +123,8 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         } else {
             if (!movies.isEmpty())
                 mSelectedMediaViewModel = movies.get(0);
+            else
+                getActivity().finish();
         }
 
 

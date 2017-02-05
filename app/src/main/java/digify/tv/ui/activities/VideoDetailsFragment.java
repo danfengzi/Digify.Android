@@ -223,7 +223,7 @@ public class VideoDetailsFragment extends DetailsFragment {
                 MediaViewModel mediaViewModel = (MediaViewModel) item;
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(getResources().getString(R.string.movie), mSelectedMediaViewModel);
+                intent.putExtra(getResources().getString(R.string.movie), mediaViewModel);
                 intent.putExtra(getResources().getString(R.string.should_start), true);
                 startActivity(intent);
 
