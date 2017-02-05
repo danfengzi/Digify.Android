@@ -59,6 +59,7 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.MediaType;
 
@@ -102,6 +103,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
     @Inject
     MediaRepository mediaRepository;
+
+    @Inject
+    PreferenceManager preferenceManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -232,7 +236,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         MediaViewModel mediaViewModel = mItems.get(mCurrentItem);
 
         if (mediaViewModel.getMediaType().equals(MediaType.Image))
-            return 30000;
+            return preferenceManager.getImageDuration();
 
         MediaMetadataRetriever mmr = new MediaMetadataRetriever();
 

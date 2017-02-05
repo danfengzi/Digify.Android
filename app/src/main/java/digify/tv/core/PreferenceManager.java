@@ -15,6 +15,7 @@ public class PreferenceManager {
     public static final String KEY_NAME = "name";
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String KEY_BASE_URL = "baseUrl";
+    private static final String KEY_IMAGE_DURATION = "image_duration";
 
 
     public PreferenceManager(Context context) {
@@ -30,6 +31,16 @@ public class PreferenceManager {
     public void setName(String name) {
         editor.putString(KEY_NAME, name);
         editor.commit();
+    }
+
+    public void setImageDuration(int duration) {
+        editor.putInt(KEY_IMAGE_DURATION, duration);
+        editor.commit();
+    }
+
+    public int getImageDuration() {
+
+        return preferences.getInt(KEY_IMAGE_DURATION, 30000);
     }
 
     public void setBaseUrl(String baseUrl) {
