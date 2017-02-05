@@ -1,6 +1,8 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+
+
     }
 
     dependencies {
@@ -12,6 +14,9 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven {
+        url "http://dl.bintray.com/jlmd/maven"
+    }
 }
 
 apply plugin: 'com.neenbedankt.android-apt'
@@ -84,7 +89,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true;
     }
-    compile 'com.github.tibolte:elasticdownload:1.0.+'
+    compile 'com.github.jlmd:AnimatedCircleLoadingView:1.1.5@aar'
 }
 
 

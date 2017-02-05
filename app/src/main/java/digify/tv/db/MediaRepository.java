@@ -46,6 +46,13 @@ public class MediaRepository extends BaseComponent {
 
         for (Media media : results) {
 
+            /*check to see if time reset is throwing off code. also check to see if boxes will auto update with time. also check to ensure that if box doesnt
+doesnt have the right time setting, discuss the fallback that will be appropriate in terms of displaying content.
+
+
+also check to see the amount of media items being retrieved from the database on start. to see if file issues are taking place.
+
+*/
             if (media.getStartTime() != null && media.getEndTime() != null) {
                 if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow()))
                     continue;
