@@ -154,6 +154,23 @@ public class MainFragment extends BrowseFragment {
 
     }
 
+    public ArrayObjectAdapter getPlaylistAdapter() {
+
+        Object listRow = getAdapter().get(0);
+
+        if (listRow != null) {
+            if (listRow instanceof ListRow) {
+                Object adapter = ((ListRow) listRow).getAdapter();
+
+                if (adapter instanceof ArrayObjectAdapter) {
+                    return (ArrayObjectAdapter) adapter;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private void prepareBackgroundManager() {
 
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
@@ -333,9 +350,6 @@ public class MainFragment extends BrowseFragment {
                 break;
         }
     }
-
-
-
 
 
 }

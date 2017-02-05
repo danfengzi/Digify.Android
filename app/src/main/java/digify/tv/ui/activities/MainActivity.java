@@ -43,7 +43,6 @@ import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
-import is.arontibo.library.ElasticDownloadView;
 import jonathanfinerty.once.Once;
 
 /*
@@ -66,8 +65,7 @@ public class MainActivity extends BaseActivity {
     AVLoadingIndicatorView loadingView;
     @BindView(R.id.status)
     TextView status;
-    @BindView(R.id.elastic_download_view)
-    ElasticDownloadView elasticDownloadView;
+
 
     /**
      * Called when the activity is first created.
@@ -136,7 +134,6 @@ public class MainActivity extends BaseActivity {
 
         switch (event.getDownloadStatus()) {
             case Downloading:
-                elasticDownloadView.setProgress((float) event.getProgressPercent());
                 break;
 
             case Completed:

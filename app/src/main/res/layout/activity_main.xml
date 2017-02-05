@@ -39,12 +39,7 @@ android:visibility="gone"
                 android:textColor="@android:color/white"
                 tools:text="Downloading" />
         </RelativeLayout>
-        <is.arontibo.library.ElasticDownloadView
-            android:visibility="gone"
-            android:id="@+id/elastic_download_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+
 
     </LinearLayout>
 
