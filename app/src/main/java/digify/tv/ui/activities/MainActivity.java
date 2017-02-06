@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity {
 
             if (file.exists() && Utils.getThumbnailFile(media, this).exists()) {
                 Intent intent = new Intent(this, PlaybackOverlayActivity.class);
-                startActivity(intent);
+                //startActivity(intent);
                 break;
             }
         }

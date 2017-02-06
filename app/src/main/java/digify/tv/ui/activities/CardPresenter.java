@@ -18,9 +18,13 @@ import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.bumptech.glide.Glide;
+import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import digify.tv.R;
 
@@ -49,6 +53,8 @@ public class CardPresenter extends Presenter {
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         Log.d(TAG, "onCreateViewHolder");
 
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.playlist_row, parent, false);
+
         sDefaultBackgroundColor = parent.getResources().getColor(R.color.default_background);
         sSelectedBackgroundColor = parent.getResources().getColor(R.color.selected_background);
         mDefaultCardImage = parent.getResources().getDrawable(R.drawable.movie);
@@ -61,16 +67,24 @@ public class CardPresenter extends Presenter {
             }
         };
 
+
+        cardView.setId(R.id.playlist_card_view);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         updateCardBackgroundColor(cardView, false);
-        return new ViewHolder(cardView);
+
+        ((FrameLayout) view.findViewById(R.id.card_view_layout)).addView(cardView);
+
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         MediaViewModel mediaViewModel = (MediaViewModel) item;
-        ImageCardView cardView = (ImageCardView) viewHolder.view;
+
+        ImageCardView cardView = (ImageCardView) viewHolder.view.findViewById(R.id.playlist_card_view);
+
+        ((ArcProgress)viewHolder.view.findViewById(R.id.progress_view)).setBottomText("Downloading");
 
         Log.d(TAG, "onBindViewHolder");
         if (mediaViewModel.getCardImageUrl() != null) {
@@ -88,7 +102,7 @@ public class CardPresenter extends Presenter {
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
         Log.d(TAG, "onUnbindViewHolder");
-        ImageCardView cardView = (ImageCardView) viewHolder.view;
+        ImageCardView cardView = (ImageCardView) viewHolder.view.findViewById(R.id.playlist_card_view);
         // Remove references to images so that the garbage collector can free up memory
         cardView.setBadgeImage(null);
         cardView.setMainImage(null);

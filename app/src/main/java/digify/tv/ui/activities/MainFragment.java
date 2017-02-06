@@ -247,7 +247,7 @@ public class MainFragment extends BrowseFragment {
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                        ((ImageCardView) itemViewHolder.view.findViewById(R.id.playlist_card_view)).getMainImageView(),
                         DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
                 getActivity().startActivity(intent, bundle);
             } else if (item instanceof PreferencesItemModel) {
