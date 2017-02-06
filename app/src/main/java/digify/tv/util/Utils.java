@@ -15,12 +15,19 @@
 package digify.tv.util;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -109,7 +116,8 @@ public class Utils {
 
         String m_szDevIDShort = "35" + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10) + (Build.PRODUCT.length() % 10);
 
-        String secureCode = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);;
+        String secureCode = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        ;
         String serial = null;
         try {
             serial = android.os.Build.class.getField("SERIAL").get(null).toString();
@@ -119,9 +127,9 @@ public class Utils {
             serial = "serial"; // some value
         }
 
-        String uniqueId = new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString()+secureCode;
+        String uniqueId = new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString() + secureCode;
 
-        return uniqueId ;
+        return uniqueId;
 
     }
 
@@ -307,6 +315,21 @@ public class Utils {
         return null;
     }
 
+    public static Drawable getTinted(@DrawableRes int res, @ColorInt int color, Context context) {
+        // need to mutate otherwise all references to this drawable will be tinted
+        Drawable drawable = ContextCompat.getDrawable(context, res).mutate();
+        return tint(drawable, ColorStateList.valueOf(color));
+    }
+
+    public static Drawable tint(Drawable input, ColorStateList tint) {
+        if (input == null) {
+            return null;
+        }
+        Drawable wrappedDrawable = DrawableCompat.wrap(input);
+        DrawableCompat.setTintList(wrappedDrawable, tint);
+        DrawableCompat.setTintMode(wrappedDrawable, PorterDuff.Mode.MULTIPLY);
+        return wrappedDrawable;
+    }
 
 
 }

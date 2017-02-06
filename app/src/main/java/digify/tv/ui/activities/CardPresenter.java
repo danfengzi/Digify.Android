@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import digify.tv.R;
+import digify.tv.ui.utils.PlaylistCardImage;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -84,7 +85,7 @@ public class CardPresenter extends Presenter {
 
         ImageCardView cardView = (ImageCardView) viewHolder.view.findViewById(R.id.playlist_card_view);
 
-        ((ArcProgress)viewHolder.view.findViewById(R.id.progress_view)).setBottomText("Downloading");
+        ((ArcProgress) viewHolder.view.findViewById(R.id.progress_view)).setBottomText("Downloading");
 
         Log.d(TAG, "onBindViewHolder");
         if (mediaViewModel.getCardImageUrl() != null) {
@@ -95,7 +96,7 @@ public class CardPresenter extends Presenter {
                     .load(mediaViewModel.getCardImageUrl())
                     .centerCrop()
                     .error(mDefaultCardImage)
-                    .into(cardView.getMainImageView());
+                    .into(new PlaylistCardImage(cardView.getMainImageView(), mediaViewModel.getMediaDownloadStatus()));
         }
     }
 

@@ -15,6 +15,7 @@ import digify.tv.core.BaseComponent;
 import digify.tv.db.models.Media;
 import digify.tv.db.models.MediaType;
 import digify.tv.ui.activities.MediaViewModel;
+import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -73,6 +74,7 @@ also check to see the amount of media items being retrieved from the database on
                 continue;
 
             mediaViewModel.setMediaUrl(mediaFile.getAbsolutePath());
+            mediaViewModel.setMediaDownloadStatus(MediaDownloadStatus.Downloading);
             mediaViewModel.setMediaType(Utils.getStrongMediaType(media.getType()));
 
             File thumbnail = Utils.getThumbnailFile(media, getContext());

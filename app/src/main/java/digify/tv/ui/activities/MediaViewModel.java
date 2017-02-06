@@ -21,6 +21,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import digify.tv.db.models.MediaType;
+import digify.tv.ui.events.MediaDownloadStatus;
 
 /*
  * Movie class represents video entity with title, description, image thumbs and video url.
@@ -38,8 +39,17 @@ public class MediaViewModel implements Serializable {
     private String studio;
     private String category;
     private MediaType mediaType;
+    private MediaDownloadStatus mediaDownloadStatus;
 
     public MediaViewModel() {
+    }
+
+    public MediaDownloadStatus getMediaDownloadStatus() {
+        return mediaDownloadStatus;
+    }
+
+    public void setMediaDownloadStatus(MediaDownloadStatus mediaDownloadStatus) {
+        this.mediaDownloadStatus = mediaDownloadStatus;
     }
 
     public static long getCount() {

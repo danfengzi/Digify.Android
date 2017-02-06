@@ -16,7 +16,8 @@
         android:id="@+id/progress_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:arc_progress="5"
-        app:arc_text_size="30sp"
+        app:arc_progress="60"
+        app:arc_text_size="20sp"
+        app:arc_suffix_text_size="10sp"
         />
 </RelativeLayout>
