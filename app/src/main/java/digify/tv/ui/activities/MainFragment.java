@@ -182,8 +182,20 @@ public class MainFragment extends BrowseFragment {
                 model.setMediaDownloadStatus(mediaDownloadStatus);
                 getPlaylistAdapter().replace(adapter.indexOf(adapter.get(x)), model);
 
+                return;
             }
         }
+
+        MediaViewModel mediaViewModel = mediaRepository.getMediaViewModel(mediaId);
+
+        if(mediaViewModel==null)
+            return;
+
+        mediaViewModel.setProgress(progress);
+        mediaViewModel.setMediaDownloadStatus(mediaDownloadStatus);
+
+        adapter.add(mediaViewModel);
+
     }
 
     private void prepareBackgroundManager() {
