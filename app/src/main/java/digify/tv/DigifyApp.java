@@ -16,6 +16,8 @@ import digify.tv.injection.module.ApplicationModule;
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
+import static digify.tv.util.Utils.isEmulator;
+
 /**
  * Created by Joel on 12/7/2016.
  */
@@ -28,6 +30,7 @@ public class DigifyApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+        if(!isEmulator())
         Fabric.with(this, new Crashlytics());
 
         applicationComponent = DaggerApplicationComponent.builder()

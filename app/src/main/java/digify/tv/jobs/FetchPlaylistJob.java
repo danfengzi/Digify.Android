@@ -2,6 +2,7 @@ package digify.tv.jobs;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.birbit.android.jobqueue.Job;
@@ -113,7 +114,12 @@ public class FetchPlaylistJob extends Job {
 
                         @Override
                         protected void error(BaseDownloadTask task, Throwable e) {
-                            Log.e(FetchPlaylistJob.class.getName(), e.getMessage());
+
+                            if (e != null)
+                                if (TextUtils.isEmpty(e.getMessage()))
+                                    Log.e(FetchPlaylistJob.class.getName(), e.getMessage());
+
+
                             eventBus.post(new MediaDownloadStatusEvent(0.0, (MediaTag) task.getTag(), MediaDownloadStatus.Error));
 
                         }
@@ -146,7 +152,7 @@ public class FetchPlaylistJob extends Job {
 
                     }
 
-                    queueSet.setAutoRetryTimes(1);
+                    queueSet.setAutoRetryTimes(2);
 
                     if (SERIAL) {
                         // Start downloading in serial order.

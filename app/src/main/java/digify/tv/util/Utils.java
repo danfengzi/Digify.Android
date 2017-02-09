@@ -336,25 +336,46 @@ public class Utils {
         return wrappedDrawable;
     }
 
-    public static BaseDownloadTask createMediaDownloadTask(Context context, Media media)
-    {
-       return FileDownloader.
+    public static BaseDownloadTask createMediaDownloadTask(Context context, Media media) {
+
+        File file = Utils.createMediaFile(media, context);
+
+        if (file == null)
+            return null;
+
+        return FileDownloader.
                 getImpl()
                 .create(media.getLocation())
-                .setPath(
-                        Utils.createMediaFile(media, context).getPath())
-                .setTag(new MediaTag(media.getId(),MediaItemType.Content, media.getName()));
+                .setPath(file.getPath())
+                .setTag(new MediaTag(media.getId(), MediaItemType.Content, media.getName()));
     }
 
-    public static BaseDownloadTask createThumbnailDownloadTask(Context context, Media media)
-    {
+    public static BaseDownloadTask createThumbnailDownloadTask(Context context, Media media) {
+        File file = Utils.createThumbnailFile(media, context);
+
+        if (file == null)
+            return null;
+
+
         return FileDownloader.
                 getImpl()
                 .create(media.getThumbLocation())
-                .setPath(
-                        Utils.createThumbnailFile(media, context).getPath())
-                .setTag(new MediaTag(media.getId(),MediaItemType.Thumbnail, media.getName()));
+                .setPath(file.getPath()
+                )
+                .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail, media.getName()));
     }
+
+    public static boolean isEmulator() {
+        return Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
+    }
+
 
 
 }

@@ -40,7 +40,7 @@ public class PreferenceManager {
 
     public int getImageDuration() {
 
-        return preferences.getInt(KEY_IMAGE_DURATION, 30000);
+        return preferences.getInt(KEY_IMAGE_DURATION, 20000);
     }
 
     public void setBaseUrl(String baseUrl) {
