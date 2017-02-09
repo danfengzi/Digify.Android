@@ -10,7 +10,6 @@ import com.birbit.android.jobqueue.RetryConstraint;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloadQueueSet;
-import com.liulishuo.filedownloader.FileDownloader;
 import com.squareup.otto.Bus;
 
 import org.joda.time.DateTime;
@@ -23,7 +22,6 @@ import javax.inject.Provider;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
-import digify.tv.core.MediaItemType;
 import digify.tv.core.MediaTag;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.Media;
@@ -35,6 +33,9 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static digify.tv.util.Utils.createMediaDownloadTask;
+import static digify.tv.util.Utils.createThumbnailDownloadTask;
 
 /**
  * Created by Joel on 1/6/2017.
@@ -53,8 +54,8 @@ public class FetchPlaylistJob extends Job {
     @Inject
     MediaRepository mediaRepository;
 
-    private static final boolean SERIAL = true;
-    private static final boolean PARALLEL = false;
+    private static final boolean SERIAL = false;
+    private static final boolean PARALLEL = true;
 
 
     public FetchPlaylistJob() {
@@ -92,22 +93,21 @@ public class FetchPlaylistJob extends Job {
 
                         @Override
                         protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                            Log.v("downloader",soFarBytes+" "+totalBytes);
                             if (soFarBytes > 0 && totalBytes > 0)
-                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Downloading));
+                                eventBus.post(new MediaDownloadStatusEvent(((double) soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Downloading));
 
                         }
 
                         @Override
                         protected void completed(BaseDownloadTask task) {
-                            eventBus.post(new MediaDownloadStatusEvent(0.0, (MediaTag) task.getTag(), MediaDownloadStatus.Completed));
+                            eventBus.post(new MediaDownloadStatusEvent(100, (MediaTag) task.getTag(), MediaDownloadStatus.Completed));
 
                         }
 
                         @Override
                         protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                             if (soFarBytes > 0 && totalBytes > 0)
-                                eventBus.post(new MediaDownloadStatusEvent((soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Paused));
+                                eventBus.post(new MediaDownloadStatusEvent(((double) soFarBytes / totalBytes) * 100, (MediaTag) task.getTag(), MediaDownloadStatus.Paused));
 
                         }
 
@@ -134,38 +134,14 @@ public class FetchPlaylistJob extends Job {
 
                         if (item != null) {
                             if (new DateTime(media.getUpdatedAt()).isAfter(new DateTime(item.getUpdatedAt())) || Utils.getMediaFile(media, getApplicationContext()) == null) {
-
-                                tasks.add(FileDownloader.
-                                        getImpl()
-                                        .create(media.getLocation())
-                                        .setPath(
-                                                Utils.createMediaFile(media, getApplicationContext()).getPath())
-                                        .setTag(new MediaTag(media.getId(), MediaItemType.Content, media.getName())));
-
-                                tasks.add(FileDownloader.
-                                        getImpl()
-                                        .create(media.getThumbLocation())
-                                        .setPath(
-                                                Utils.createThumbnailFile(media, getApplicationContext()).getPath())
-                                        .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail, media.getName())));
+                                tasks.add(createThumbnailDownloadTask(getApplicationContext(), media));
+                                tasks.add(createMediaDownloadTask(getApplicationContext(), media));
 
                             }
                         } else {
-                            tasks.add(FileDownloader.
-                                    getImpl()
-                                    .create(media.getLocation())
-                                    .setPath(
-                                            Utils.createMediaFile(media, getApplicationContext()).getPath())
-                                    .setTag(new MediaTag(media.getId(), MediaItemType.Content, media.getName())));
-
-                            tasks.add(FileDownloader.
-                                    getImpl()
-                                    .create(media.getThumbLocation())
-                                    .setPath(
-                                            Utils.createThumbnailFile(media, getApplicationContext()).getPath())
-                                    .setTag(new MediaTag(media.getId(), MediaItemType.Thumbnail, media.getName())));
+                            tasks.add(createThumbnailDownloadTask(getApplicationContext(), media));
+                            tasks.add(createMediaDownloadTask(getApplicationContext(), media));
                         }
-
                         mediaRepository.saveMedia(media);
 
                     }
@@ -210,3 +186,4 @@ public class FetchPlaylistJob extends Job {
 
 
 }
+

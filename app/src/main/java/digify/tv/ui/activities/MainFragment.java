@@ -60,7 +60,9 @@ import digify.tv.R;
 import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
+import digify.tv.db.models.PlaylistType;
 import digify.tv.jobs.FetchPlaylistJob;
+import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.viewmodels.PreferencesItemModel;
 import digify.tv.ui.viewmodels.PreferencesItemType;
@@ -127,7 +129,7 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void loadRows() {
-        List<MediaViewModel> list = mediaRepository.getMediaViewModels();
+        List<MediaViewModel> list = mediaRepository.getMediaViewModels(PlaylistType.MainFragment);
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         CardPresenter cardPresenter = new CardPresenter();
@@ -169,6 +171,19 @@ public class MainFragment extends BrowseFragment {
         }
 
         return null;
+    }
+
+    public void updateMediaViewModel(int mediaId, double progress, MediaDownloadStatus mediaDownloadStatus) {
+        ArrayObjectAdapter adapter = getPlaylistAdapter();
+        for (int x = 0; x < adapter.size(); x++) {
+            if (((MediaViewModel) adapter.get(x)).getId() == mediaId) {
+                MediaViewModel model = (MediaViewModel) adapter.get(x);
+                model.setProgress(progress);
+                model.setMediaDownloadStatus(mediaDownloadStatus);
+                getPlaylistAdapter().replace(adapter.indexOf(adapter.get(x)), model);
+
+            }
+        }
     }
 
     private void prepareBackgroundManager() {
@@ -241,6 +256,14 @@ public class MainFragment extends BrowseFragment {
 
             if (item instanceof MediaViewModel) {
                 MediaViewModel mediaViewModel = (MediaViewModel) item;
+
+                if (mediaViewModel.getMediaDownloadStatus() != null)
+                    if (mediaViewModel.getMediaDownloadStatus().equals(MediaDownloadStatus.Downloading) || mediaViewModel.getMediaDownloadStatus().equals(MediaDownloadStatus.Paused)) {
+                        Toasty.info(getActivity(), "Item available after download.").show();
+                        return;
+                    }
+
+
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
                 intent.putExtra(DetailsActivity.MOVIE, mediaViewModel);
@@ -249,6 +272,7 @@ public class MainFragment extends BrowseFragment {
                         getActivity(),
                         ((ImageCardView) itemViewHolder.view.findViewById(R.id.playlist_card_view)).getMainImageView(),
                         DetailsActivity.SHARED_ELEMENT_NAME).toBundle();
+
                 getActivity().startActivity(intent, bundle);
             } else if (item instanceof PreferencesItemModel) {
                 if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Logout)) {
@@ -343,11 +367,17 @@ public class MainFragment extends BrowseFragment {
             case Completed:
                 if (event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
                     Toasty.success(getActivity(), event.getDownloadStatus().name() + " " + event.getMediaTag().getTitle(), Toast.LENGTH_LONG).show();
-
-                    loadRows();
+                    updateMediaViewModel(event.getMediaTag().getId(), event.getProgressPercent(), event.getDownloadStatus());
                 }
 
                 break;
+
+            case Downloading:
+                if (event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
+                    Log.v("Download Frag Progress", String.valueOf(event.getProgressPercent()));
+
+                    updateMediaViewModel(event.getMediaTag().getId(), event.getProgressPercent(), event.getDownloadStatus());
+                }
         }
     }
 

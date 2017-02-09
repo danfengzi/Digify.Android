@@ -32,9 +32,14 @@ import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloader;
+
 import java.io.File;
 import java.util.UUID;
 
+import digify.tv.core.MediaItemType;
+import digify.tv.core.MediaTag;
 import digify.tv.db.models.Media;
 import digify.tv.db.models.MediaType;
 
@@ -329,6 +334,26 @@ public class Utils {
         DrawableCompat.setTintList(wrappedDrawable, tint);
         DrawableCompat.setTintMode(wrappedDrawable, PorterDuff.Mode.MULTIPLY);
         return wrappedDrawable;
+    }
+
+    public static BaseDownloadTask createMediaDownloadTask(Context context, Media media)
+    {
+       return FileDownloader.
+                getImpl()
+                .create(media.getLocation())
+                .setPath(
+                        Utils.createMediaFile(media, context).getPath())
+                .setTag(new MediaTag(media.getId(),MediaItemType.Content, media.getName()));
+    }
+
+    public static BaseDownloadTask createThumbnailDownloadTask(Context context, Media media)
+    {
+        return FileDownloader.
+                getImpl()
+                .create(media.getThumbLocation())
+                .setPath(
+                        Utils.createThumbnailFile(media, context).getPath())
+                .setTag(new MediaTag(media.getId(),MediaItemType.Thumbnail, media.getName()));
     }
 
 

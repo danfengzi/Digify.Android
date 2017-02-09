@@ -1,17 +1,3 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
-
 package digify.tv.ui.activities;
 
 import android.content.Intent;
@@ -21,7 +7,6 @@ import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -33,14 +18,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import digify.tv.R;
-import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.Media;
 import digify.tv.jobs.FetchPlaylistJob;
-import digify.tv.ui.events.DownloadQueueStatusEvent;
-import digify.tv.ui.events.MediaDownloadStatus;
-import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
@@ -81,7 +62,7 @@ public class MainActivity extends BaseActivity {
 
         applicationComponent().inject(this);
 
-        //eventBus.register(this);
+        eventBus.register(this);
 
         if (!preferenceManager.isLoggedIn())
             return;
@@ -111,7 +92,7 @@ public class MainActivity extends BaseActivity {
 
             File file = Utils.getMediaFile(media, this);
 
-            if(file==null)
+            if (file == null)
                 continue;
 
             if (file.exists() && Utils.getThumbnailFile(media, this).exists()) {
@@ -122,45 +103,4 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Subscribe
-    public void onDownloadQueueStatusEvent(DownloadQueueStatusEvent event) {
-        if (event.getMediaDownloadStatus().equals(MediaDownloadStatus.DownloadQueueStarted)) {
-            //elasticDownloadView.startIntro();
-        }
-    }
-
-    @Subscribe
-    public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
-
-        switch (event.getDownloadStatus()) {
-            case Downloading:
-                break;
-
-            case Completed:
-                if (event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
-
-
-                }
-
-                break;
-
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        //if (eventBus != null)
-           // eventBus.unregister(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        //if (eventBus != null)
-           // eventBus.unregister(this);
-
-    }
 }

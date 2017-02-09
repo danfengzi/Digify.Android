@@ -30,7 +30,7 @@ import digify.tv.ui.events.MediaDownloadStatus;
 public class MediaViewModel implements Serializable {
     static final long serialVersionUID = 727566175075960653L;
     private static long count = 0;
-    private long id;
+    private int id;
     private String title;
     private String description;
     private String bgImageUrl;
@@ -40,6 +40,7 @@ public class MediaViewModel implements Serializable {
     private String category;
     private MediaType mediaType;
     private MediaDownloadStatus mediaDownloadStatus;
+    private double progress;
 
     public MediaViewModel() {
     }
@@ -60,11 +61,11 @@ public class MediaViewModel implements Serializable {
         count++;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -132,7 +133,16 @@ public class MediaViewModel implements Serializable {
         this.mediaType = mediaType;
     }
 
+    public double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
+
     public URI getBackgroundImageURI() {
+
         try {
             Log.d("BACK MOVIE: ", bgImageUrl);
             return new URI(getBackgroundImageUrl());

@@ -1,7 +1,5 @@
 package digify.tv.ui.events;
 
-import android.util.Log;
-
 import digify.tv.core.MediaTag;
 
 /**
@@ -18,8 +16,9 @@ public class MediaDownloadStatusEvent {
         this.mediaTag = mediaTag;
         this.downloadStatus = downloadStatus;
 
-        if (downloadStatus.equals(MediaDownloadStatus.Pending))
-            Log.v("MediaDownloadStat", "media id :" + mediaTag.getId() + " " + downloadStatus.toString());
+        if (downloadStatus != null)
+            mediaTag.setMediaDownloadStatus(downloadStatus);
+
     }
 
     public MediaTag getMediaTag() {

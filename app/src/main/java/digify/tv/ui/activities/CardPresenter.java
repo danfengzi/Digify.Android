@@ -17,6 +17,7 @@ package digify.tv.ui.activities;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ import com.bumptech.glide.Glide;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import digify.tv.R;
-import digify.tv.ui.utils.PlaylistCardImage;
+import digify.tv.ui.events.MediaDownloadStatus;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -84,19 +85,54 @@ public class CardPresenter extends Presenter {
         MediaViewModel mediaViewModel = (MediaViewModel) item;
 
         ImageCardView cardView = (ImageCardView) viewHolder.view.findViewById(R.id.playlist_card_view);
+        ArcProgress progress = ((ArcProgress) viewHolder.view.findViewById(R.id.progress_view));
 
-        ((ArcProgress) viewHolder.view.findViewById(R.id.progress_view)).setBottomText("Downloading");
+        if (mediaViewModel.getMediaDownloadStatus() != null) {
+            switch (mediaViewModel.getMediaDownloadStatus()) {
+                case Downloading:
+                    progress.setVisibility(View.VISIBLE);
+                    progress.setBottomText("");
+                    progress.setProgress((int) mediaViewModel.getProgress());
+                    break;
+
+                case Completed:
+                    progress.setVisibility(View.GONE);
+                    break;
+
+                case Paused:
+                    progress.setVisibility(View.VISIBLE);
+                    progress.setBottomText("PAUSED");
+                    break;
+            }
+
+        }
+        else
+        {
+            progress.setVisibility(View.GONE);
+        }
+
+        if (mediaViewModel.getMediaDownloadStatus() != null) {
+            if (mediaViewModel.getMediaDownloadStatus().equals(MediaDownloadStatus.Downloading) || mediaViewModel.getMediaDownloadStatus().equals(MediaDownloadStatus.Paused))
+                cardView.getMainImageView().setColorFilter(ContextCompat.getColor(viewHolder.view.getContext(), R.color.black_transparent));
+            else
+                cardView.getMainImageView().setColorFilter(null);
+        }
+            else {
+            cardView.getMainImageView().setColorFilter(null);
+        }
 
         Log.d(TAG, "onBindViewHolder");
         if (mediaViewModel.getCardImageUrl() != null) {
             cardView.setTitleText(mediaViewModel.getTitle());
             cardView.setContentText(mediaViewModel.getStudio());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+
+
             Glide.with(viewHolder.view.getContext())
                     .load(mediaViewModel.getCardImageUrl())
                     .centerCrop()
                     .error(mDefaultCardImage)
-                    .into(new PlaylistCardImage(cardView.getMainImageView(), mediaViewModel.getMediaDownloadStatus()));
+                    .into(cardView.getMainImageView());
         }
     }
 
@@ -107,5 +143,6 @@ public class CardPresenter extends Presenter {
         // Remove references to images so that the garbage collector can free up memory
         cardView.setBadgeImage(null);
         cardView.setMainImage(null);
+
     }
 }

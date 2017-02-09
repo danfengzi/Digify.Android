@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Digify</string>
     <string name="title_activity_main">Digify</string>
-    <string name="browse_title"><![CDATA[Hipro Ads!]]></string>
+    <string name="browse_title"><![CDATA[Digify]]></string>
     <string name="related_movies">Related Videos</string>
     <string name="vertical_grid_title"><![CDATA[Vertical Video Grid]]></string>
     <string name="error">Error</string>

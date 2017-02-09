@@ -14,6 +14,7 @@ import javax.inject.Provider;
 import digify.tv.core.BaseComponent;
 import digify.tv.db.models.Media;
 import digify.tv.db.models.MediaType;
+import digify.tv.db.models.PlaylistType;
 import digify.tv.ui.activities.MediaViewModel;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.util.Utils;
@@ -41,6 +42,10 @@ public class MediaRepository extends BaseComponent {
     }
 
     public List<MediaViewModel> getMediaViewModels() {
+        return getMediaViewModels(PlaylistType.Playback);
+    }
+
+    public List<MediaViewModel> getMediaViewModels(PlaylistType playlistType) {
         List<MediaViewModel> models = new ArrayList<>();
 
         RealmResults<Media> results = database.get().where(Media.class).findAll();
@@ -59,21 +64,20 @@ also check to see the amount of media items being retrieved from the database on
                     continue;
             }
 
-
-            if (Utils.getMediaFile(media, getContext()) == null)
-                continue;
-
             MediaViewModel mediaViewModel = new MediaViewModel();
 
+            mediaViewModel.setId(media.getId());
             mediaViewModel.setTitle(media.getName());
             mediaViewModel.setCategory("Playlist");
 
             File mediaFile = Utils.getMediaFile(media, getContext());
 
-            if (mediaFile == null)
-                continue;
+            if (playlistType.equals(PlaylistType.Playback)) {
+                if (mediaFile == null)
+                    continue;
 
-            mediaViewModel.setMediaUrl(mediaFile.getAbsolutePath());
+                mediaViewModel.setMediaUrl(mediaFile.getAbsolutePath());
+            }
             mediaViewModel.setMediaDownloadStatus(MediaDownloadStatus.Downloading);
             mediaViewModel.setMediaType(Utils.getStrongMediaType(media.getType()));
 
@@ -84,10 +88,13 @@ also check to see the amount of media items being retrieved from the database on
 
             mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
 
-            if (Utils.getStrongMediaType(media.getType()).equals(MediaType.Image))
-                mediaViewModel.setBackgroundImageUrl(Utils.getMediaFile(media, getContext()).getAbsolutePath());
-            else
-                mediaViewModel.setBackgroundImageUrl(Utils.getThumbnailFile(media, getContext()).getAbsolutePath());
+
+            if (Utils.getMediaFile(media, getContext()) != null) {
+                if (Utils.getStrongMediaType(media.getType()).equals(MediaType.Image))
+                    mediaViewModel.setBackgroundImageUrl(Utils.getMediaFile(media, getContext()).getAbsolutePath());
+                else
+                    mediaViewModel.setBackgroundImageUrl(Utils.getThumbnailFile(media, getContext()).getAbsolutePath());
+            }
 
             models.add(mediaViewModel);
         }
