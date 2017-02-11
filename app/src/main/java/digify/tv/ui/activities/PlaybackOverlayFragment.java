@@ -138,7 +138,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         mHandler = new Handler();
 
         setBackgroundType(BACKGROUND_TYPE);
-        setFadingEnabled(false);
+        setFadingEnabled(true);
 
         setupRows();
 
@@ -159,6 +159,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
         if (!getActivity().getIntent().hasExtra(DetailsActivity.MOVIE)) {
             //autoplay content
+            mPlayPauseAction.setIndex(PlayPauseAction.PLAY);
             togglePlayback(true);
         }
     }
