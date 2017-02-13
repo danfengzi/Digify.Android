@@ -51,7 +51,9 @@ public class FetchSettingsJob extends Job {
         digifyApiService.getOrganizationSettings().enqueue(new Callback<SettingsModel>() {
             @Override
             public void onResponse(Call<SettingsModel> call, Response<SettingsModel> response) {
-
+                if (response.isSuccessful()) {
+                    preferenceManager.setImageDuration(response.body().getDefaultImageDurationInSeconds() * 1000);
+                }
             }
 
             @Override

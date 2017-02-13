@@ -9,12 +9,13 @@ import com.birbit.android.jobqueue.RetryConstraint;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
 import digify.tv.db.models.DeviceInfo;
-import digify.tv.core.PreferenceManager;
 import digify.tv.util.Utils;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,7 +32,7 @@ public class GetDeviceInfoJob extends Job {
     @Inject
     Bus eventBus;
     @Inject
-    PreferenceManager preferenceManager;
+    Provider<Realm> database;
 
     public GetDeviceInfoJob() {
         super(new Params(PRIORITY).requireNetwork().persist());
@@ -51,8 +52,15 @@ public class GetDeviceInfoJob extends Job {
 
         digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {
             @Override
-            public void onResponse(Call<DeviceInfo> call, Response<DeviceInfo> response) {
-
+            public void onResponse(Call<DeviceInfo> call, final Response<DeviceInfo> response) {
+                if (response.isSuccessful()) {
+                    database.get().executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.copyToRealmOrUpdate(response.body());
+                        }
+                    });
+                }
             }
 
             @Override
