@@ -24,9 +24,7 @@
             android:icon="@drawable/app_icon_your_company"
             android:label="@string/title_activity_main"
             android:logo="@drawable/app_icon_your_company"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity android:name=".ui.activities.DetailsActivity" />
         <activity android:name=".ui.activities.PlaybackOverlayActivity" />
         <activity android:name=".ui.activities.BrowseErrorActivity" />
@@ -53,10 +51,15 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PortraitActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_portrait"></activity>
     </application>
 
 </manifest>

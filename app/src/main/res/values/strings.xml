@@ -39,4 +39,5 @@
     <string name="dismiss_error">Dismiss</string>
     <string name="oops">Oops</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_portrait">PortraitActivity</string>
 </resources>
