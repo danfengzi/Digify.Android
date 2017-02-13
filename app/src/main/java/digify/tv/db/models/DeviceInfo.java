@@ -1,13 +1,17 @@
-package digify.tv.api.models;
+package digify.tv.db.models;
 
 import java.util.Date;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Joel on 2/13/2017.
  */
 
-public class DeviceInfoModel {
-    private String deviceId;
+public class DeviceInfo extends RealmObject {
+    @PrimaryKey
+    private int deviceId;
     private Date createdAt;
     private Date updatedAt;
     private String name;
@@ -17,11 +21,11 @@ public class DeviceInfoModel {
     private String portraitLogo;
     private String portraitMessage;
 
-    public String getDeviceId() {
+    public int getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(String deviceId) {
+    public void setDeviceId(int deviceId) {
         this.deviceId = deviceId;
     }
 

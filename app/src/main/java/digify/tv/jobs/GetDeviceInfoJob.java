@@ -12,7 +12,12 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
+import digify.tv.db.models.DeviceInfo;
 import digify.tv.core.PreferenceManager;
+import digify.tv.util.Utils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Joel on 2/13/2017.
@@ -43,6 +48,18 @@ public class GetDeviceInfoJob extends Job {
         DigifyApp.get(getApplicationContext()).getComponent().inject(this);
 
         eventBus.register(this);
+
+        digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {
+            @Override
+            public void onResponse(Call<DeviceInfo> call, Response<DeviceInfo> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<DeviceInfo> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

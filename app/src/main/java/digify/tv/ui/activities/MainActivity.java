@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
-import digify.tv.api.models.DeviceInfoModel;
+import digify.tv.db.models.DeviceInfo;
 import digify.tv.api.models.SettingsModel;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
@@ -74,14 +74,14 @@ public class MainActivity extends BaseActivity {
 
         eventBus.register(this);
 
-        digifyApiService.getDevice(Utils.getUniqueDeviceID(this)).enqueue(new Callback<DeviceInfoModel>() {
+        digifyApiService.getDevice(Utils.getUniqueDeviceID(this)).enqueue(new Callback<DeviceInfo>() {
             @Override
-            public void onResponse(Call<DeviceInfoModel> call, Response<DeviceInfoModel> response) {
+            public void onResponse(Call<DeviceInfo> call, Response<DeviceInfo> response) {
                 Log.v("device mode",response.body().getMode());
             }
 
             @Override
-            public void onFailure(Call<DeviceInfoModel> call, Throwable t) {
+            public void onFailure(Call<DeviceInfo> call, Throwable t) {
 
             }
         });
