@@ -2,6 +2,7 @@ package digify.tv.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
+import digify.tv.api.models.DeviceInfoModel;
+import digify.tv.api.models.SettingsModel;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.Media;
@@ -71,14 +74,27 @@ public class MainActivity extends BaseActivity {
 
         eventBus.register(this);
 
-        digifyApiService.getOrganizationSettings().enqueue(new Callback<Void>() {
+        digifyApiService.getDevice(Utils.getUniqueDeviceID(this)).enqueue(new Callback<DeviceInfoModel>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<DeviceInfoModel> call, Response<DeviceInfoModel> response) {
+                Log.v("device mode",response.body().getMode());
+            }
+
+            @Override
+            public void onFailure(Call<DeviceInfoModel> call, Throwable t) {
+
+            }
+        });
+
+        digifyApiService.getOrganizationSettings().enqueue(new Callback<SettingsModel>() {
+            @Override
+            public void onResponse(Call<SettingsModel> call, Response<SettingsModel> response) {
+                Log.v("device image duration", String.valueOf(response.body().getDefaultImageDurationInSeconds()));
 
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<SettingsModel> call, Throwable t) {
 
             }
         });

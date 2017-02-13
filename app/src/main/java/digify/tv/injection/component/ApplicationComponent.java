@@ -9,6 +9,8 @@ import digify.tv.api.RetrofitHelper;
 import digify.tv.db.MediaRepository;
 import digify.tv.injection.module.ApplicationModule;
 import digify.tv.jobs.FetchPlaylistJob;
+import digify.tv.jobs.FetchSettingsJob;
+import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.activities.BaseActivity;
 import digify.tv.ui.activities.LoginActivity;
 import digify.tv.ui.activities.MainActivity;
@@ -35,4 +37,6 @@ public interface ApplicationComponent {
     void inject(PlaybackOverlayFragment playbackOverlayFragment);
     void inject(RetrofitHelper retrofitHelper);
     void inject(HostSelectionInterceptor hostSelectionInterceptor);
+    void inject(FetchSettingsJob fetchSettingsJob);
+    void inject(GetDeviceInfoJob getDeviceInfoJob);
 }

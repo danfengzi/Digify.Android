@@ -152,7 +152,7 @@ public class FetchPlaylistJob extends Job {
 
                     }
 
-                    queueSet.setAutoRetryTimes(2);
+                    queueSet.setAutoRetryTimes(5);
 
                     if (SERIAL) {
                         // Start downloading in serial order.

@@ -2,7 +2,9 @@ package digify.tv.api;
 
 import java.util.List;
 
+import digify.tv.api.models.DeviceInfoModel;
 import digify.tv.api.models.LoginResponseModel;
+import digify.tv.api.models.SettingsModel;
 import digify.tv.api.models.UserDeviceModel;
 import digify.tv.db.models.Media;
 import retrofit2.Call;
@@ -26,5 +28,8 @@ public interface DigifyApiService {
     Call<List<Media>> getDevicePlaylist(@Path("device_id") String deviceId);
 
     @GET("settings")
-    Call<Void> getOrganizationSettings();
+    Call<SettingsModel> getOrganizationSettings();
+
+    @GET("device/{device_id}")
+    Call<DeviceInfoModel> getDevice(@Path("device_id") String deviceId);
 }
