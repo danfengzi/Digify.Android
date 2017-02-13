@@ -113,6 +113,21 @@ also check to see the amount of media items being retrieved from the database on
         return null;
     }
 
+    public List<MediaViewModel> getMediaViewModelsByType(MediaType mediaType)
+    {
+        List<MediaViewModel> list = getMediaViewModels();
+
+        List<MediaViewModel> filtered = new ArrayList<>();
+
+        for(MediaViewModel mediaViewModel:list)
+        {
+            if(mediaViewModel.getMediaType().equals(mediaType))
+                filtered.add(mediaViewModel);
+        }
+
+        return filtered;
+    }
+
     public void syncMediaDeletion(List<Media> serverPlaylist) {
         List<Media> localPlaylist = database.get().where(Media.class).findAll();
 
