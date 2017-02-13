@@ -1,7 +1,11 @@
-package digify.tv;
+package digify.tv.ui.activities;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
+
+import com.daimajia.slider.library.SliderLayout;
+
+import digify.tv.R;
 
 public class PortraitActivity extends Activity {
 
@@ -13,7 +17,8 @@ public class PortraitActivity extends Activity {
 
     public void generateSlider()
     {
-        
+        SliderLayout sliderLayout = (SliderLayout) getLayoutInflater().inflate(R.layout.portrait_image_slider_layout,null);
+
     }
 
 }

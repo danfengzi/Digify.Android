@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import digify.tv.R;
+import digify.tv.api.DigifyApiService;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.Media;
@@ -25,6 +26,9 @@ import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /*
  * MainActivity class that loads MainFragment
@@ -47,6 +51,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.status)
     TextView status;
 
+    @Inject
+    DigifyApiService digifyApiService;
+
 
     /**
      * Called when the activity is first created.
@@ -63,6 +70,18 @@ public class MainActivity extends BaseActivity {
         applicationComponent().inject(this);
 
         eventBus.register(this);
+
+        digifyApiService.getOrganizationSettings().enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
 
         if (!preferenceManager.isLoggedIn())
             return;

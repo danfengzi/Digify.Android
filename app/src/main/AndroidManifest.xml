@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PortraitActivity"
+            android:name=".ui.activities.PortraitActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_portrait"></activity>
     </application>

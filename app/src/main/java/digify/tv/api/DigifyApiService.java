@@ -24,4 +24,7 @@ public interface DigifyApiService {
 
     @GET("device/playlist/{device_id}")
     Call<List<Media>> getDevicePlaylist(@Path("device_id") String deviceId);
+
+    @GET("settings")
+    Call<Void> getOrganizationSettings();
 }
