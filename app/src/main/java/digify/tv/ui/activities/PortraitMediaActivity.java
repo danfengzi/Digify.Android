@@ -2,6 +2,7 @@ package digify.tv.ui.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadata;
 import android.media.MediaPlayer;
@@ -60,6 +61,15 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
         setContentView(R.layout.activity_portrait);
         ButterKnife.bind(this);
         applicationComponent().inject(this);
+
+        applicationComponent().inject(this);
+
+
+        if (!preferenceManager.isPortrait()) {
+            Intent intent = new Intent(this, LandscapeMediaActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         generateSlider();
         generateVideoView();

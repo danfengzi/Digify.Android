@@ -11,7 +11,6 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -29,7 +28,6 @@ import digify.tv.ui.viewmodels.ScreenOrientation;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
 import io.realm.Realm;
-import jonathanfinerty.once.Once;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +58,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.status)
     TextView status;
 
-
     /**
      * Called when the activity is first created.
      */
@@ -71,7 +68,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Once.initialise(this);
 
         applicationComponent().inject(this);
 
@@ -81,7 +77,6 @@ public class MainActivity extends BaseActivity {
             return;
 
         fetchPlaylist();
-        scheduleMomentarilyJobs();
         checkDeviceInfoBeforePlayback();
 
     }
@@ -90,12 +85,6 @@ public class MainActivity extends BaseActivity {
         Toasty.info(this, "Checking for updates...", Toast.LENGTH_SHORT, true).show();
         jobManager.addJobInBackground(new FetchPlaylistJob());
 
-    }
-
-    private void scheduleMomentarilyJobs() {
-        if (!Once.beenDone(TimeUnit.MINUTES, 10, "PLAYLIST_SYNC")) {
-            jobManager.addJobInBackground(new FetchPlaylistJob());
-        }
     }
 
     public void checkDeviceInfoBeforePlayback() {
@@ -160,10 +149,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void scheduleJobs()
-    {
 
-    }
 }
 
 

@@ -14,9 +14,9 @@
 
 package digify.tv.ui.activities;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadata;
@@ -34,13 +34,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import javax.inject.Inject;
+
 import digify.tv.R;
+import digify.tv.core.PreferenceManager;
 import digify.tv.db.models.MediaType;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
-public class LandscapeMediaActivity extends Activity implements
+public class LandscapeMediaActivity extends BaseActivity implements
         PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
 
@@ -49,6 +52,9 @@ public class LandscapeMediaActivity extends Activity implements
     private LeanbackPlaybackState mPlaybackState = LeanbackPlaybackState.IDLE;
     private MediaSession mSession;
 
+    @Inject
+    PreferenceManager preferenceManager;
+
     /**
      * Called when the activity is first created.
      */
@@ -56,6 +62,17 @@ public class LandscapeMediaActivity extends Activity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playback_controls);
+
+        applicationComponent().inject(this);
+
+
+        if(preferenceManager.isPortrait())
+        {
+            Intent intent = new Intent(this,PortraitMediaActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         loadViews();
 
         setupCallbacks();

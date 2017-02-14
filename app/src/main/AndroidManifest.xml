@@ -61,10 +61,6 @@
             android:label="@string/title_activity_portrait"
             android:screenOrientation="portrait" />
 
-        <service
-            android:name=".services.DigifyPollingService"
-            android:enabled="true"
-            android:exported="false"></service>
     </application>
 
 </manifest>

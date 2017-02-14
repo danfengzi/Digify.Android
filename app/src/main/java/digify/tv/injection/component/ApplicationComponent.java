@@ -12,6 +12,7 @@ import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.jobs.FetchSettingsJob;
 import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.activities.BaseActivity;
+import digify.tv.ui.activities.LandscapeMediaActivity;
 import digify.tv.ui.activities.LoginActivity;
 import digify.tv.ui.activities.MainActivity;
 import digify.tv.ui.activities.MainFragment;
@@ -31,6 +32,7 @@ public interface ApplicationComponent {
     void inject(BaseActivity baseActivity);
     void inject(PortraitMediaActivity portraitActivity);
     void inject(MainActivity mainActivity);
+    void inject(LandscapeMediaActivity landscapeMediaActivity);
     void inject(DigifyApp digifyApp);
     void inject(FetchPlaylistJob fetchPlaylistJob);
     void inject(MainFragment mainFragment);
