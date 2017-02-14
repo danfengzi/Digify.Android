@@ -13,7 +13,9 @@ import javax.inject.Provider;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
+import digify.tv.core.PreferenceManager;
 import digify.tv.db.models.DeviceInfo;
+import digify.tv.ui.viewmodels.ScreenOrientation;
 import digify.tv.util.Utils;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -33,6 +35,8 @@ public class GetDeviceInfoJob extends Job {
     Bus eventBus;
     @Inject
     Provider<Realm> database;
+    @Inject
+    PreferenceManager preferenceManager;
 
     public GetDeviceInfoJob() {
         super(new Params(PRIORITY).requireNetwork().persist());
@@ -54,6 +58,13 @@ public class GetDeviceInfoJob extends Job {
             @Override
             public void onResponse(Call<DeviceInfo> call, final Response<DeviceInfo> response) {
                 if (response.isSuccessful()) {
+
+                    if (response.body().getMode().equals(ScreenOrientation.Portrait.toString())) {
+                        preferenceManager.setPortrait(true);
+                    } else {
+                        preferenceManager.setPortrait(false);
+                    }
+
                     database.get().executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {

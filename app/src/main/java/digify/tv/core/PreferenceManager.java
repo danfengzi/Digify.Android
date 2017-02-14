@@ -13,6 +13,8 @@ public class PreferenceManager {
 
     public static final String PREF_FILE_NAME = "digify_preferences";
     public static final String KEY_NAME = "name";
+    public static final String KEY_ORIENTATION = "orientation";
+    public static final String KEY_SETUP = "setup";
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String KEY_BASE_URL = "baseUrl";
     private static final String KEY_IMAGE_DURATION = "image_duration";
@@ -78,11 +80,26 @@ public class PreferenceManager {
         editor.commit();
     }
 
+    public void setInitialSetup() {
+        editor.putBoolean(KEY_SETUP, true);
+        editor.commit();
+    }
+
+    public void setPortrait(Boolean value) {
+        editor.putBoolean(KEY_ORIENTATION, value);
+    }
+
+    public Boolean isPortrait() {
+        return preferences.getBoolean(KEY_ORIENTATION, false);
+    }
+
+
+    public Boolean isInitialSetup() {
+        return !preferences.getBoolean(KEY_SETUP, false);
+    }
+
     public void logout() {
         editor.clear();
         editor.commit();
     }
 }
-
-
-

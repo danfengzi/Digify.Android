@@ -82,6 +82,7 @@ public class MainActivity extends BaseActivity {
 
         fetchPlaylist();
         scheduleMomentarilyJobs();
+        checkDeviceInfoBeforePlayback();
 
     }
 
@@ -97,42 +98,42 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void checkDeviceInfo()
-    {
+    public void checkDeviceInfoBeforePlayback() {
+
+        if (!preferenceManager.isInitialSetup()) {
+            startPlayback();
+            return;
+        }
         digifyApiService.getDevice(getUniqueDeviceID(this)).enqueue(new Callback<DeviceInfo>() {
             @Override
             public void onResponse(Call<DeviceInfo> call, final Response<DeviceInfo> response) {
-                if(response.isSuccessful())
-                {
+                if (response.isSuccessful()) {
+                    preferenceManager.setInitialSetup();
+
+                    if (response.body().getMode().equals(ScreenOrientation.Portrait.toString())) {
+                        preferenceManager.setPortrait(true);
+                    } else {
+                        preferenceManager.setPortrait(false);
+                    }
+
                     database.get().executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
                             realm.copyToRealmOrUpdate(response.body());
                         }
                     });
+
+                    startPlayback();
                 }
             }
 
             @Override
             public void onFailure(Call<DeviceInfo> call, Throwable t) {
-
+                startPlayback();
             }
         });
     }
 
-
-    private void getDeviceInfoFromDb()
-    {
-        DeviceInfo deviceInfo = database.get().where(DeviceInfo.class).findFirst();
-
-        if(deviceInfo!=null)
-        {
-            if(deviceInfo.getMode().equals(ScreenOrientation.Landscape.toString()))
-            {
-
-            }
-        }
-    }
 
     private void startPlayback() {
 
@@ -146,11 +147,18 @@ public class MainActivity extends BaseActivity {
                 continue;
 
             if (file.exists() && Utils.getThumbnailFile(media, this).exists()) {
-                Intent intent = new Intent(this, PlaybackOverlayActivity.class);
-                startActivity(intent);
+
+                if (!preferenceManager.isPortrait()) {
+                    Intent intent = new Intent(this, PlaybackOverlayActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(this, PortraitActivity.class);
+                    startActivity(intent);
+                }
                 break;
             }
         }
     }
-
 }
+
+
