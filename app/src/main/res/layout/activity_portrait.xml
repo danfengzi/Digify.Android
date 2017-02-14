@@ -1,11 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/portrait"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10"
-    tools:context="digify.tv.ui.activities.PortraitActivity">
+    android:layout_height="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/portrait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10"
+        tools:context="digify.tv.ui.activities.PortraitMediaActivity">
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="5" />
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/slider_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="3" />
+
+        <RelativeLayout
+            android:id="@+id/portrait_logo"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/portrait_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/playback_controls_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

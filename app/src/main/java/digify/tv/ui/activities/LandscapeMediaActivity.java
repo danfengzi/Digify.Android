@@ -40,7 +40,7 @@ import digify.tv.db.models.MediaType;
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
-public class PlaybackOverlayActivity extends Activity implements
+public class LandscapeMediaActivity extends Activity implements
         PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
 
@@ -60,7 +60,7 @@ public class PlaybackOverlayActivity extends Activity implements
 
         setupCallbacks();
 
-        mSession = new MediaSession(this,"LeanbackSampleApp");
+        mSession = new MediaSession(this,"Digify");
         mSession.setCallback(new MediaSessionCallback());
         mSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);

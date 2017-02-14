@@ -149,10 +149,10 @@ public class MainActivity extends BaseActivity {
             if (file.exists() && Utils.getThumbnailFile(media, this).exists()) {
 
                 if (!preferenceManager.isPortrait()) {
-                    Intent intent = new Intent(this, PlaybackOverlayActivity.class);
+                    Intent intent = new Intent(this, LandscapeMediaActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(this, PortraitActivity.class);
+                    Intent intent = new Intent(this, PortraitMediaActivity.class);
                     startActivity(intent);
                 }
                 break;

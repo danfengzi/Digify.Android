@@ -107,15 +107,28 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     @Inject
     PreferenceManager preferenceManager;
 
+    private Boolean isVideoModeOnly = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            if (getArguments().getBoolean(PortraitMediaActivity.IS_VIDEO_ONLY) == true)
+                isVideoModeOnly = true;
+        }
 
         DigifyApp.get(getActivity()).getComponent().inject(this);
 
         mItems = new ArrayList<>();
 
-        List<MediaViewModel> movies = mediaRepository.getMediaViewModels();
+
+        List<MediaViewModel> movies;
+
+        if (isVideoModeOnly)
+            movies = mediaRepository.getMediaViewModelsByType(MediaType.Video);
+        else
+            movies = mediaRepository.getMediaViewModels();
 
         if (getActivity().getIntent().hasExtra(DetailsActivity.MOVIE)) {
             mSelectedMediaViewModel = (MediaViewModel) getActivity()

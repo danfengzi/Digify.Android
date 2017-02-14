@@ -26,7 +26,7 @@
             android:logo="@drawable/app_icon_your_company"
             android:screenOrientation="landscape"></activity>
         <activity android:name=".ui.activities.DetailsActivity" />
-        <activity android:name=".ui.activities.PlaybackOverlayActivity" />
+        <activity android:name=".ui.activities.LandscapeMediaActivity" />
         <activity android:name=".ui.activities.BrowseErrorActivity" />
         <activity
             android:name=".ui.activities.LoginActivity"
@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.PortraitActivity"
+            android:name=".ui.activities.PortraitMediaActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_portrait"></activity>
     </application>

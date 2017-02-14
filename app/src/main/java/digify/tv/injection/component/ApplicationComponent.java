@@ -16,6 +16,7 @@ import digify.tv.ui.activities.LoginActivity;
 import digify.tv.ui.activities.MainActivity;
 import digify.tv.ui.activities.MainFragment;
 import digify.tv.ui.activities.PlaybackOverlayFragment;
+import digify.tv.ui.activities.PortraitMediaActivity;
 import digify.tv.ui.activities.VideoDetailsFragment;
 
 /**
@@ -28,6 +29,7 @@ public interface ApplicationComponent {
 
     void inject(LoginActivity loginActivity);
     void inject(BaseActivity baseActivity);
+    void inject(PortraitMediaActivity portraitActivity);
     void inject(MainActivity mainActivity);
     void inject(DigifyApp digifyApp);
     void inject(FetchPlaylistJob fetchPlaylistJob);
