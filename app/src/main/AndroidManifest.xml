@@ -24,7 +24,7 @@
             android:icon="@drawable/app_icon_your_company"
             android:label="@string/title_activity_main"
             android:logo="@drawable/app_icon_your_company"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity android:name=".ui.activities.DetailsActivity" />
         <activity android:name=".ui.activities.LandscapeMediaActivity" />
         <activity android:name=".ui.activities.BrowseErrorActivity" />
@@ -58,8 +58,13 @@
         </activity>
         <activity
             android:name=".ui.activities.PortraitMediaActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_portrait"></activity>
+            android:label="@string/title_activity_portrait"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".services.DigifyPollingService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>
