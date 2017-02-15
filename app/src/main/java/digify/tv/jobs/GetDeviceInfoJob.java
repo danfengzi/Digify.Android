@@ -65,6 +65,8 @@ public class GetDeviceInfoJob extends Job {
                         preferenceManager.setPortrait(false);
                     }
 
+
+
                     database.get().executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {

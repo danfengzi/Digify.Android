@@ -67,7 +67,6 @@ public class LoginActivity extends LoginBaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-
         applicationComponent().inject(this);
         login();
 

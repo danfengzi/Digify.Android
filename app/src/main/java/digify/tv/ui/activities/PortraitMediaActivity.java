@@ -86,6 +86,8 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
         if (pictures.isEmpty())
             return;
 
+        sliderLayout.setDuration(preferenceManager.getImageDuration());
+
         for (MediaViewModel mediaViewModel : pictures) {
             sliderLayout.addSlider(new DefaultSliderView(this).image(new File(mediaViewModel.getMediaUrl())));
         }
