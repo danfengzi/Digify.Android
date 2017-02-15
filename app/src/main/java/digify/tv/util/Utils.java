@@ -40,6 +40,7 @@ import java.util.UUID;
 
 import digify.tv.core.MediaItemType;
 import digify.tv.core.MediaTag;
+import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.Media;
 import digify.tv.db.models.MediaType;
 
@@ -189,6 +190,38 @@ public class Utils {
                 + context.getPackageName()
                 + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
 
+        if (!file.exists()) {
+            return null;
+        }
+        return file;
+    }
+
+    public static File getPortraitFile(DeviceInfo deviceinfo, Context context) {
+
+        Integer id = deviceinfo.getDeviceId();
+        String mediaType = "assets";
+        String extension = "." + "jpg";
+
+
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
+
+
+        if (!file.exists()) {
+            return null;
+        }
+        return file;
+    }
+
+    public static File createPortraitFile(DeviceInfo deviceinfo, Context context) {
+
+        Integer id = deviceinfo.getDeviceId();
+        String mediaType = "assets";
+        String extension = "." + "jpg";
+
+
         File folder = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
                 + context.getPackageName()
@@ -196,10 +229,23 @@ public class Utils {
 
         File noMedia = new File(folder.getAbsolutePath() + "/.nomedia");
 
-
-        if (!file.exists()) {
-            return null;
+        if (!folder.exists()) {
+            if (!folder.mkdirs()) {
+                return null;
+            }
         }
+
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
+
+
+
+        if (file.exists()) {
+            file.delete();
+        }
+
         return file;
     }
 
@@ -212,10 +258,6 @@ public class Utils {
         String mediaType = media.getType();
         String extension = "." + media.getExtension();
 
-        File file = new File(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + context.getPackageName()
-                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
 
         File folder = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -230,6 +272,12 @@ public class Utils {
                 return null;
             }
         }
+
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
+
 
 
         if (file.exists()) {
@@ -248,10 +296,6 @@ public class Utils {
         String mediaType = "thumbnail";
         String extension = ".png";
 
-        File file = new File(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + context.getPackageName()
-                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
 
         File folder = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -266,6 +310,12 @@ public class Utils {
                 return null;
             }
         }
+
+        File file = new File(Environment.getExternalStorageDirectory()
+                + "/Android/data/"
+                + context.getPackageName()
+                + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
+
 
 
         if (file.exists()) {
@@ -285,13 +335,6 @@ public class Utils {
                 + "/Android/data/"
                 + context.getPackageName()
                 + "/media/" + mediaType + "/" + mediaType + "_" + id + extension);
-
-        File folder = new File(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + context.getPackageName()
-                + "/media/" + mediaType);
-
-        File noMedia = new File(folder.getAbsolutePath() + "/.nomedia");
 
 
         if (!file.exists()) {
@@ -375,7 +418,6 @@ public class Utils {
                 || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
                 || "google_sdk".equals(Build.PRODUCT);
     }
-
 
 
 }

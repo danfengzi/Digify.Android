@@ -22,6 +22,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.util.List;
@@ -33,6 +35,8 @@ import butterknife.ButterKnife;
 import digify.tv.R;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.MediaType;
+import digify.tv.ui.events.ScreenOrientationEvent;
+import digify.tv.ui.viewmodels.ScreenOrientation;
 
 public class PortraitMediaActivity extends BaseActivity implements PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
@@ -54,6 +58,9 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     @Inject
     MediaRepository mediaRepository;
 
+    @Inject
+    Bus eventBus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +69,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
         ButterKnife.bind(this);
         applicationComponent().inject(this);
 
-        applicationComponent().inject(this);
-
+        eventBus.register(this);
 
         if (!preferenceManager.isPortrait()) {
             Intent intent = new Intent(this, LandscapeMediaActivity.class);
@@ -328,5 +334,15 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     }
 
     private class MediaSessionCallback extends MediaSession.Callback {
+    }
+
+    @Subscribe
+    public void orientationEvent(ScreenOrientationEvent event)
+    {
+        if(event.getScreenOrientation().equals(ScreenOrientation.Landscape))
+        {
+            Intent intent = new Intent(this,LandscapeMediaActivity.class);
+            startActivity(intent);
+        }
     }
 }

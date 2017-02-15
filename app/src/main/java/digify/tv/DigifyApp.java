@@ -99,7 +99,6 @@ public class DigifyApp extends Application {
                 .setPeriodic(10 * 60 * 1000)
                 .build();
 
-
     }
 
     public void scheduleJob() {

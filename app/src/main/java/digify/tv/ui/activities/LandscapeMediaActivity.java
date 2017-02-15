@@ -33,12 +33,16 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
 import digify.tv.R;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.models.MediaType;
+import digify.tv.ui.events.ScreenOrientationEvent;
+import digify.tv.ui.viewmodels.ScreenOrientation;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
@@ -54,6 +58,8 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
     @Inject
     PreferenceManager preferenceManager;
+    @Inject
+    Bus eventBus;
 
     /**
      * Called when the activity is first created.
@@ -65,10 +71,10 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
         applicationComponent().inject(this);
 
+        eventBus.register(this);
 
-        if(preferenceManager.isPortrait())
-        {
-            Intent intent = new Intent(this,PortraitMediaActivity.class);
+        if (preferenceManager.isPortrait()) {
+            Intent intent = new Intent(this, PortraitMediaActivity.class);
             startActivity(intent);
             finish();
         }
@@ -77,7 +83,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
         setupCallbacks();
 
-        mSession = new MediaSession(this,"Digify");
+        mSession = new MediaSession(this, "Digify");
         mSession.setCallback(new MediaSessionCallback());
         mSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
@@ -88,8 +94,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
     }
 
-    public void setupFragment()
-    {
+    public void setupFragment() {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.playback_controls_fragment, new PlaybackOverlayFragment()); // newInstance() is a static factory method.
@@ -306,5 +311,13 @@ public class LandscapeMediaActivity extends BaseActivity implements
     }
 
     private class MediaSessionCallback extends MediaSession.Callback {
+    }
+
+    @Subscribe
+    public void orientationEvent(ScreenOrientationEvent event) {
+        if (event.getScreenOrientation().equals(ScreenOrientation.Portrait)) {
+            Intent intent = new Intent(this, PortraitMediaActivity.class);
+            startActivity(intent);
+        }
     }
 }
