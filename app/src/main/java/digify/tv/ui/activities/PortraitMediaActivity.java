@@ -110,6 +110,16 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     }
 
     public void setupFragment() {
+
+        List<MediaViewModel> list = mediaRepository.getMediaViewModelsByType(MediaType.Video);
+
+        if (list != null) {
+            if (list.isEmpty() || list.size() == 0) {
+                videoView.setVisibility(View.GONE);
+                return;
+            } else
+                videoView.setVisibility(View.VISIBLE);
+        }
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         PlaybackOverlayFragment playbackOverlayFragment = new PlaybackOverlayFragment();

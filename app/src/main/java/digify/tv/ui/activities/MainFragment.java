@@ -62,6 +62,8 @@ import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.PlaylistType;
 import digify.tv.jobs.FetchPlaylistJob;
+import digify.tv.jobs.FetchSettingsJob;
+import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.viewmodels.PreferencesItemModel;
@@ -302,7 +304,7 @@ public class MainFragment extends BrowseFragment {
 
                     Toasty.normal(getActivity(), "Checking for Playlist Updates", Toast.LENGTH_SHORT).show();
 
-                    jobManager.addJobInBackground(new FetchPlaylistJob());
+                    serverSync();
 
                     loadRows();
                 }
@@ -316,6 +318,12 @@ public class MainFragment extends BrowseFragment {
                 }
             }
         }
+    }
+
+    private void serverSync() {
+        jobManager.addJobInBackground(new FetchPlaylistJob());
+        jobManager.addJobInBackground(new GetDeviceInfoJob());
+        jobManager.addJobInBackground(new FetchSettingsJob());
     }
 
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {

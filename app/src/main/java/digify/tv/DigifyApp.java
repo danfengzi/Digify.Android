@@ -95,6 +95,7 @@ public class DigifyApp extends Application {
         };
 
         return new Job.Builder(JOB_ID, callback, Job.Type.JOB_TYPE_ALARM, JOB_PERIODIC_TASK_TAG)
+                .setIntervalMillis(5 * 60 * 1000)
                 .setPeriodic(10 * 60 * 1000)
                 .build();
 

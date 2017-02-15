@@ -85,6 +85,8 @@ dependencies {
     compile 'io.hypertrack:smart-scheduler:0.0.3'
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.android.support:support-v4:25.1.0'
     testCompile 'junit:junit:4.12'
     apt 'org.parceler:parceler:1.1.5'
