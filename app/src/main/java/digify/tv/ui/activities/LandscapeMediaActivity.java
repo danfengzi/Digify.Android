@@ -24,6 +24,7 @@ import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -139,7 +140,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
      */
     public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
 
-        if(isFinishing())
+        if (isFinishing())
             return;
 
         if (videoView == null || imageView == null)
@@ -342,13 +343,25 @@ public class LandscapeMediaActivity extends BaseActivity implements
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
         if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed) && event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
             Toasty.success(this, "New content was added to this box,Restarting playlist.").show();
-            recreate();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recreate();
+                }
+            }, 10000);
         }
     }
 
     @Subscribe
     public void onMediaItemDeleted(PlaylistContentRemovedEvent event) {
         Toasty.success(this, "Content was modified on this box,Restarting playlist.").show();
-        recreate();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recreate();
+            }
+        }, 10000);
     }
 }
