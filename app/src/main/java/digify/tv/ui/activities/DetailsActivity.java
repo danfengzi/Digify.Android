@@ -14,7 +14,6 @@
 
 package digify.tv.ui.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import digify.tv.R;
@@ -22,7 +21,7 @@ import digify.tv.R;
 /*
  * Details activity class that loads LeanbackDetailsFragment class
  */
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends BaseActivity {
     public static final String SHARED_ELEMENT_NAME = "hero";
     public static final String MOVIE = "Movie";
 
