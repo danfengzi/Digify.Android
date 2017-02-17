@@ -11,6 +11,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.github.triplet.play'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -27,11 +28,21 @@ android {
         applicationId "digify.tv"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("digify.jks")
+            storePassword "signage876yard"
+            keyAlias "Digify"
+            keyPassword "signage876yard"
+        }
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -42,6 +53,10 @@ android {
     }
 }
 
+play {
+    jsonFile = file('keys.json')
+    track = 'production'
+}
 
 dependencies {
 
