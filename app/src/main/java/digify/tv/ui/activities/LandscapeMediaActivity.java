@@ -38,6 +38,7 @@ import com.squareup.otto.Subscribe;
 import javax.inject.Inject;
 
 import digify.tv.R;
+import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.models.MediaType;
 import digify.tv.ui.events.MediaDownloadStatus;
@@ -138,6 +139,11 @@ public class LandscapeMediaActivity extends BaseActivity implements
      */
     public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
 
+        if(isFinishing())
+            return;
+
+        if (videoView == null || imageView == null)
+            return;
 
         if (mediaViewModel.getMediaType().equals(MediaType.Video)) {
             videoView.setVisibility(View.VISIBLE);
@@ -334,16 +340,15 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
     @Subscribe
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
-        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed)) {
-            Toasty.success(this,"New content was added to this box,Restarting playlist.").show();
+        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed) && event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
+            Toasty.success(this, "New content was added to this box,Restarting playlist.").show();
             recreate();
         }
     }
 
     @Subscribe
-    public void onMediaItemDeleted(PlaylistContentRemovedEvent event)
-    {
-        Toasty.success(this,"Content was modified on this box,Restarting playlist.").show();
+    public void onMediaItemDeleted(PlaylistContentRemovedEvent event) {
+        Toasty.success(this, "Content was modified on this box,Restarting playlist.").show();
         recreate();
     }
 }

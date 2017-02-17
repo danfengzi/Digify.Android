@@ -35,6 +35,7 @@ import javax.inject.Provider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import digify.tv.R;
+import digify.tv.core.MediaItemType;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.MediaType;
@@ -208,6 +209,11 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
      * Implementation of OnPlayPauseClickedListener
      */
     public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
+        if(isFinishing())
+            return;
+
+        if (videoView == null)
+            return;
 
         videoView.setVisibility(View.VISIBLE);
         videoView.setVideoPath(mediaViewModel.getMediaUrl());
@@ -383,7 +389,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
 
     @Subscribe
     public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
-        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed)) {
+        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed) && event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
             Toasty.success(this, "New content was added to this box,Restarting playlist.").show();
             recreate();
         }

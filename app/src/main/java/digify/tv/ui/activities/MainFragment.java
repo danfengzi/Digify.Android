@@ -66,6 +66,7 @@ import digify.tv.jobs.FetchSettingsJob;
 import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
+import digify.tv.ui.events.PlaylistContentRemovedEvent;
 import digify.tv.ui.viewmodels.PreferencesItemModel;
 import digify.tv.ui.viewmodels.PreferencesItemType;
 import es.dmoral.toasty.Toasty;
@@ -175,6 +176,18 @@ public class MainFragment extends BrowseFragment {
         return null;
     }
 
+    public void removeItem(int mediaId) {
+        ArrayObjectAdapter adapter = getPlaylistAdapter();
+        for (int x = 0; x < adapter.size(); x++) {
+            if (((MediaViewModel) adapter.get(x)).getId() == mediaId) {
+
+                getPlaylistAdapter().remove(adapter.get(x));
+
+                return;
+            }
+        }
+    }
+
     public void updateMediaViewModel(int mediaId, double progress, MediaDownloadStatus mediaDownloadStatus) {
         ArrayObjectAdapter adapter = getPlaylistAdapter();
         for (int x = 0; x < adapter.size(); x++) {
@@ -190,7 +203,7 @@ public class MainFragment extends BrowseFragment {
 
         MediaViewModel mediaViewModel = mediaRepository.getMediaViewModel(mediaId);
 
-        if(mediaViewModel==null)
+        if (mediaViewModel == null)
             return;
 
         mediaViewModel.setProgress(progress);
@@ -399,6 +412,12 @@ public class MainFragment extends BrowseFragment {
                     updateMediaViewModel(event.getMediaTag().getId(), event.getProgressPercent(), event.getDownloadStatus());
                 }
         }
+    }
+
+    @Subscribe
+    public void onMediaItemDeleted(PlaylistContentRemovedEvent event) {
+        Toasty.success(getActivity(), "Content was modified on this box,Updating playlist.").show();
+        removeItem(event.getMediaId());
     }
 
 

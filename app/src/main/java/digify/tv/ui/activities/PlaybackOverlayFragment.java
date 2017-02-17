@@ -232,6 +232,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     public void togglePlayback(boolean playPause) {
+
+        if (getActivity() != null)
+            if (getActivity().isFinishing())
+                return;
+            else
+                return;
+
         if (playPause) {
             startProgressAutomation();
             setFadingEnabled(true);
@@ -332,6 +339,13 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void updatePlaybackRow(int index) {
+
+        if (getActivity() != null)
+            if (getActivity().isFinishing())
+                return;
+            else
+                return;
+
         if (mPlaybackControlsRow.getItem() != null) {
             MediaViewModel item = (MediaViewModel) mPlaybackControlsRow.getItem();
             item.setTitle(mItems.get(mCurrentItem).getTitle());
