@@ -59,7 +59,7 @@ public class CardPresenter extends Presenter {
 
         sDefaultBackgroundColor = parent.getResources().getColor(R.color.default_background);
         sSelectedBackgroundColor = parent.getResources().getColor(R.color.selected_background);
-        mDefaultCardImage = parent.getResources().getDrawable(R.drawable.movie);
+        mDefaultCardImage = parent.getResources().getDrawable(R.drawable.temp_black_bg);
 
         ImageCardView cardView = new ImageCardView(parent.getContext()) {
             @Override

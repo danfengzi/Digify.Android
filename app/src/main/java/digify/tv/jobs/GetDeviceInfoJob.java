@@ -33,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static digify.tv.util.Utils.createPortraitFile;
+import static digify.tv.util.Utils.getPortraitFile;
 
 /**
  * Created by Joel on 2/13/2017.
@@ -120,7 +121,7 @@ public class GetDeviceInfoJob extends Job {
                     DeviceInfo deviceInfo = database.get().where(DeviceInfo.class).findFirst();
 
                     if (deviceInfo != null) {
-                        if (new DateTime(response.body().getUpdatedAt()).isAfter(new DateTime(deviceInfo.getUpdatedAt())))
+                        if (new DateTime(response.body().getUpdatedAt()).isAfter(new DateTime(deviceInfo.getUpdatedAt())) || getPortraitFile(deviceInfo,getApplicationContext())==null)
                             queueSet.start();
 
                     } else

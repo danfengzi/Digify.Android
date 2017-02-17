@@ -50,18 +50,11 @@ public class MediaRepository extends BaseComponent {
         RealmResults<Media> results = database.get().where(Media.class).findAll();
 
         for (Media media : results) {
-
-            /*check to see if time reset is throwing off code. also check to see if boxes will auto update with time. also check to ensure that if box doesnt
-doesnt have the right time setting, discuss the fallback that will be appropriate in terms of displaying content.
-
-
-also check to see the amount of media items being retrieved from the database on start. to see if file issues are taking place.
-
-*/
-            if (media.getStartTime() != null && media.getEndTime() != null) {
-                if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow()))
-                    continue;
-            }
+            if (playlistType.equals(PlaylistType.Playback))
+                if (media.getStartTime() != null && media.getEndTime() != null) {
+                    if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow()))
+                        continue;
+                }
 
             MediaViewModel mediaViewModel = new MediaViewModel();
 
@@ -81,10 +74,8 @@ also check to see the amount of media items being retrieved from the database on
 
             File thumbnail = Utils.getThumbnailFile(media, getContext());
 
-            if (thumbnail == null)
-                continue;
-
-            mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
+            if (thumbnail != null)
+                mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
 
 
             if (Utils.getMediaFile(media, getContext()) != null) {
@@ -100,28 +91,24 @@ also check to see the amount of media items being retrieved from the database on
         return models;
     }
 
-    public MediaViewModel getMediaViewModel(int mediaId)
-    {
+    public MediaViewModel getMediaViewModel(int mediaId) {
         List<MediaViewModel> models = getMediaViewModels();
 
-        for(MediaViewModel mediaViewModel : models)
-        {
-            if(mediaViewModel.getId()==mediaId)
+        for (MediaViewModel mediaViewModel : models) {
+            if (mediaViewModel.getId() == mediaId)
                 return mediaViewModel;
         }
 
         return null;
     }
 
-    public List<MediaViewModel> getMediaViewModelsByType(MediaType mediaType)
-    {
+    public List<MediaViewModel> getMediaViewModelsByType(MediaType mediaType) {
         List<MediaViewModel> list = getMediaViewModels();
 
         List<MediaViewModel> filtered = new ArrayList<>();
 
-        for(MediaViewModel mediaViewModel:list)
-        {
-            if(mediaViewModel.getMediaType().equals(mediaType))
+        for (MediaViewModel mediaViewModel : list) {
+            if (mediaViewModel.getMediaType().equals(mediaType))
                 filtered.add(mediaViewModel);
         }
 

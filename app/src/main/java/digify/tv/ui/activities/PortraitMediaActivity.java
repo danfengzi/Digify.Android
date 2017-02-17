@@ -12,8 +12,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -29,14 +30,20 @@ import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import digify.tv.R;
 import digify.tv.db.MediaRepository;
+import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.MediaType;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
+import digify.tv.util.Utils;
+import io.realm.Realm;
+
+import static android.text.TextUtils.isEmpty;
 
 public class PortraitMediaActivity extends BaseActivity implements PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
@@ -48,15 +55,22 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     @BindView(R.id.portrait_message)
     TextView portraitMessage;
     @BindView(R.id.portrait_logo)
-    RelativeLayout portraitLogo;
+    ImageView portraitLogo;
     @BindView(R.id.portrait)
     LinearLayout portrait;
+    @BindView(R.id.portrait_logo_layout)
+    FrameLayout portraitLogoLayout;
+    @BindView(R.id.playback_controls_fragment)
+    FrameLayout playbackControlsFragment;
 
     private LandscapeMediaActivity.LeanbackPlaybackState mPlaybackState = LandscapeMediaActivity.LeanbackPlaybackState.IDLE;
     private MediaSession mSession;
 
     @Inject
     MediaRepository mediaRepository;
+
+    @Inject
+    Provider<Realm> database;
 
     @Inject
     Bus eventBus;
@@ -79,10 +93,29 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
 
         generateSlider();
         generateVideoView();
+        fetchPortraitInfo();
     }
 
     public void fetchPortraitInfo() {
+        DeviceInfo deviceInfo = database.get().where(DeviceInfo.class).findFirst();
 
+        if (deviceInfo != null) {
+            portraitLogoLayout.setVisibility(View.VISIBLE);
+
+            if (!isEmpty(deviceInfo.getPortraitMessage()))
+                portraitMessage.setText(deviceInfo.getPortraitMessage());
+
+            File file = Utils.getPortraitFile(deviceInfo, this);
+
+            if (file != null) {
+                Glide.with(this)
+                        .load(file)
+                        .centerCrop()
+                        .into(portraitLogo);
+            }
+        } else {
+            portraitLogoLayout.setVisibility(View.GONE);
+        }
     }
 
     public void generateSlider() {
@@ -337,11 +370,9 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     }
 
     @Subscribe
-    public void orientationEvent(ScreenOrientationEvent event)
-    {
-        if(event.getScreenOrientation().equals(ScreenOrientation.Landscape))
-        {
-            Intent intent = new Intent(this,LandscapeMediaActivity.class);
+    public void orientationEvent(ScreenOrientationEvent event) {
+        if (event.getScreenOrientation().equals(ScreenOrientation.Landscape)) {
+            Intent intent = new Intent(this, LandscapeMediaActivity.class);
             startActivity(intent);
         }
     }

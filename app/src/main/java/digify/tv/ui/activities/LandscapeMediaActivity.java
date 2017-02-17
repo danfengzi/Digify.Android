@@ -55,6 +55,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
     private ImageView imageView;
     private LeanbackPlaybackState mPlaybackState = LeanbackPlaybackState.IDLE;
     private MediaSession mSession;
+    private String barcode;
 
     @Inject
     PreferenceManager preferenceManager;
@@ -319,5 +320,12 @@ public class LandscapeMediaActivity extends BaseActivity implements
             Intent intent = new Intent(this, PortraitMediaActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        barcode = barcode+(char)event.getUnicodeChar();
+
+        return super.onKeyDown(keyCode, event);
     }
 }

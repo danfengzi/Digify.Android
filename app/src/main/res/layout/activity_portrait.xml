@@ -24,18 +24,30 @@
             android:layout_height="0px"
             android:layout_weight="3" />
 
-        <RelativeLayout
-            android:id="@+id/portrait_logo"
+        <FrameLayout
+            android:id="@+id/portrait_logo_layout"
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="2">
 
-            <TextView
-                android:id="@+id/portrait_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/portrait_logo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/portrait_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    tools:text="blessing" />
+            </RelativeLayout>
+        </FrameLayout>
     </LinearLayout>
 
     <FrameLayout
