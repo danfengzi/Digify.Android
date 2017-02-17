@@ -290,6 +290,13 @@ public class MainFragment extends BrowseFragment {
                         return;
                     }
 
+                if (mediaViewModel.getNotScheduled() != null) {
+                    if (mediaViewModel.getNotScheduled()) {
+                        Toasty.info(getActivity(), "Item can be viewed during scheduled time.").show();
+                        return;
+                    }
+                }
+
 
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
@@ -407,8 +414,6 @@ public class MainFragment extends BrowseFragment {
 
             case Downloading:
                 if (event.getMediaTag().getMediaItemType().equals(MediaItemType.Content)) {
-                    Log.v("Download Frag Progress", String.valueOf(event.getProgressPercent()));
-
                     updateMediaViewModel(event.getMediaTag().getId(), event.getProgressPercent(), event.getDownloadStatus());
                 }
         }

@@ -57,14 +57,16 @@ public class MediaRepository extends BaseComponent {
         RealmResults<Media> results = database.get().where(Media.class).findAll();
 
         for (Media media : results) {
-            if (playlistType.equals(PlaylistType.Playback))
-                if (media.getStartTime() != null && media.getEndTime() != null) {
-                    if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow()))
-                        continue;
-                }
+
 
             MediaViewModel mediaViewModel = new MediaViewModel();
-
+            if (media.getStartTime() != null && media.getEndTime() != null) {
+                if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow())) {
+                    mediaViewModel.setNotScheduled(true);
+                    if (playlistType.equals(PlaylistType.Playback))
+                        continue;
+                }
+            }
             mediaViewModel.setId(media.getId());
             mediaViewModel.setTitle(media.getName());
             mediaViewModel.setCategory("Playlist");
@@ -74,9 +76,11 @@ public class MediaRepository extends BaseComponent {
             if (playlistType.equals(PlaylistType.Playback)) {
                 if (mediaFile == null)
                     continue;
-
-                mediaViewModel.setMediaUrl(mediaFile.getAbsolutePath());
             }
+
+            if (mediaFile != null)
+                mediaViewModel.setMediaUrl(mediaFile.getAbsolutePath());
+
             mediaViewModel.setMediaType(Utils.getStrongMediaType(media.getType()));
 
             File thumbnail = Utils.getThumbnailFile(media, getContext());

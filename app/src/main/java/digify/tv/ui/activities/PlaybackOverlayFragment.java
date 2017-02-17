@@ -170,11 +170,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             }
         });
 
-        if (!getActivity().getIntent().hasExtra(DetailsActivity.MOVIE)) {
-            //autoplay content
-            mPlayPauseAction.setIndex(PlayPauseAction.PLAY);
-            togglePlayback(true);
-        }
+        mPlayPauseAction.setIndex(PlayPauseAction.PLAY);
+        togglePlayback(true);
+
     }
 
     @SuppressWarnings("deprecation")
@@ -190,7 +188,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private void setupRows() {
-
         ClassPresenterSelector ps = new ClassPresenterSelector();
 
         PlaybackControlsRowPresenter playbackControlsRowPresenter;
@@ -235,8 +232,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
 
         if (getActivity() != null)
             if (getActivity().isFinishing())
-                return;
-            else
                 return;
 
         if (playPause) {

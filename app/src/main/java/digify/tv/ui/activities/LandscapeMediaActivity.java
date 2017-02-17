@@ -25,6 +25,7 @@ import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -350,6 +351,8 @@ public class LandscapeMediaActivity extends BaseActivity implements
                     recreate();
                 }
             }, 10000);
+
+            Log.v("Item downloaded",event.getMediaTag().getTitle());
         }
     }
 
