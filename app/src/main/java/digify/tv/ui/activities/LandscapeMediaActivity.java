@@ -18,7 +18,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaMetadata;
 import android.media.MediaPlayer;
 import android.media.session.MediaSession;
@@ -168,7 +167,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
             videoView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
 
-            imageView.setImageBitmap(BitmapFactory.decodeFile(mediaViewModel.getMediaUrl()));
+            Glide.with(this).load(mediaViewModel.getMediaUrl()).into(imageView);
         }
     }
 
