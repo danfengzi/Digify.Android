@@ -182,6 +182,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     public void onDestroy() {
         super.onDestroy();
         videoView.suspend();
+        eventBus.unregister(this);
     }
 
     @Override

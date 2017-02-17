@@ -112,6 +112,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
     public void onDestroy() {
         super.onDestroy();
         videoView.suspend();
+        eventBus.unregister(this);
     }
 
     @Override
@@ -367,4 +368,6 @@ public class LandscapeMediaActivity extends BaseActivity implements
             }
         }, 10000);
     }
+
+
 }
