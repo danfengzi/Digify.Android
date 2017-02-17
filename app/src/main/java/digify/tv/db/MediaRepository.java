@@ -2,6 +2,8 @@ package digify.tv.db;
 
 import android.content.Context;
 
+import com.squareup.otto.Bus;
+
 import org.joda.time.DateTime;
 
 import java.io.File;
@@ -16,6 +18,7 @@ import digify.tv.db.models.Media;
 import digify.tv.db.models.MediaType;
 import digify.tv.db.models.PlaylistType;
 import digify.tv.ui.activities.MediaViewModel;
+import digify.tv.ui.events.PlaylistContentRemovedEvent;
 import digify.tv.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -28,11 +31,15 @@ public class MediaRepository extends BaseComponent {
     @Inject
     Provider<Realm> database;
 
+    @Inject
+    Bus eventBus;
+
 
     public MediaRepository(Context context) {
         super(context);
 
         applicationComponent().inject(this);
+        eventBus.register(this);
     }
 
     public List<Media> getMedia() {
@@ -148,12 +155,15 @@ public class MediaRepository extends BaseComponent {
                         thumbnailFile.delete();
                 }
 
+                eventBus.post(new PlaylistContentRemovedEvent(localMedia.getId()));
+
                 database.get().executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
                         localMedia.deleteFromRealm();
                     }
                 });
+
             }
         }
     }

@@ -38,9 +38,13 @@ import digify.tv.R;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.MediaType;
+import digify.tv.ui.events.MediaDownloadStatus;
+import digify.tv.ui.events.MediaDownloadStatusEvent;
+import digify.tv.ui.events.PlaylistContentRemovedEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
 import digify.tv.util.Utils;
+import es.dmoral.toasty.Toasty;
 import io.realm.Realm;
 
 import static android.text.TextUtils.isEmpty;
@@ -375,5 +379,19 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
             Intent intent = new Intent(this, LandscapeMediaActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Subscribe
+    public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
+        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed)) {
+            Toasty.success(this, "New content was added to this box,Restarting playlist.").show();
+            recreate();
+        }
+    }
+
+    @Subscribe
+    public void onMediaItemDeleted(PlaylistContentRemovedEvent event) {
+        Toasty.success(this, "Content was modified on this box,Restarting playlist.").show();
+        recreate();
     }
 }

@@ -41,8 +41,12 @@ import javax.inject.Inject;
 import digify.tv.R;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.models.MediaType;
+import digify.tv.ui.events.MediaDownloadStatus;
+import digify.tv.ui.events.MediaDownloadStatusEvent;
+import digify.tv.ui.events.PlaylistContentRemovedEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
+import es.dmoral.toasty.Toasty;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
@@ -324,8 +328,23 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        barcode = barcode+(char)event.getUnicodeChar();
+        barcode = barcode + (char) event.getUnicodeChar();
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Subscribe
+    public void OnMediaItemDownloadStatusChanged(MediaDownloadStatusEvent event) {
+        if (event.getDownloadStatus().equals(MediaDownloadStatus.Completed)) {
+            Toasty.success(this,"New content was added to this box,Restarting playlist.").show();
+            recreate();
+        }
+    }
+
+    @Subscribe
+    public void onMediaItemDeleted(PlaylistContentRemovedEvent event)
+    {
+        Toasty.success(this,"Content was modified on this box,Restarting playlist.").show();
+        recreate();
     }
 }
