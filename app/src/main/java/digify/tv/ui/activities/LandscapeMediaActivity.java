@@ -159,7 +159,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
                 mPlaybackState = LeanbackPlaybackState.IDLE;
             }
 
-            if (playPause && mPlaybackState != LeanbackPlaybackState.PLAYING) {
+            if (playPause) {
                 mPlaybackState = LeanbackPlaybackState.PLAYING;
                 if (position > 0) {
                     videoView.seekTo(position);

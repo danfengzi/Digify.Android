@@ -14,6 +14,7 @@
 
 package digify.tv.ui.activities;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.Serializable;
@@ -148,6 +149,7 @@ public class MediaViewModel implements Serializable {
             Log.d("BACK MOVIE: ", bgImageUrl);
             return new URI(getBackgroundImageUrl());
         } catch (URISyntaxException e) {
+            if(!TextUtils.isEmpty(bgImageUrl))
             Log.d("URI exception: ", bgImageUrl);
             return null;
         }

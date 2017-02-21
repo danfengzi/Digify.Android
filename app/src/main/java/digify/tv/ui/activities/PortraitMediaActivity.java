@@ -11,6 +11,7 @@ import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -116,6 +117,14 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
             if (file != null) {
                 Glide.with(this)
                         .load(file)
+                        .centerCrop()
+                        .into(portraitLogo);
+            }
+            else
+            {
+                if(!TextUtils.isEmpty(deviceInfo.getPortraitLogo()))
+                Glide.with(this)
+                        .load(deviceInfo.getPortraitLogo())
                         .centerCrop()
                         .into(portraitLogo);
             }
@@ -225,7 +234,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
             mPlaybackState = LandscapeMediaActivity.LeanbackPlaybackState.IDLE;
         }
 
-        if (playPause && mPlaybackState != LandscapeMediaActivity.LeanbackPlaybackState.PLAYING) {
+        if (playPause) {
             mPlaybackState = LandscapeMediaActivity.LeanbackPlaybackState.PLAYING;
             if (position > 0) {
                 videoView.seekTo(position);

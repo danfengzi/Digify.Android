@@ -338,8 +338,6 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         if (getActivity() != null)
             if (getActivity().isFinishing())
                 return;
-            else
-                return;
 
         if (mPlaybackControlsRow.getItem() != null) {
             MediaViewModel item = (MediaViewModel) mPlaybackControlsRow.getItem();
@@ -366,10 +364,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     private int getUpdatePeriod() {
-        if (getView() == null || mPlaybackControlsRow.getTotalTime() <= 0) {
             return DEFAULT_UPDATE_PERIOD;
-        }
-        return Math.max(UPDATE_PERIOD, mPlaybackControlsRow.getTotalTime() / getView().getWidth());
     }
 
     private void startProgressAutomation() {
@@ -397,9 +392,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
         }
 
         if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
-            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, false);
-        } else {
             mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, true);
+        } else {
+            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, false);
         }
         updatePlaybackRow(mCurrentItem);
     }
@@ -409,9 +404,9 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             mCurrentItem = mItems.size() - 1;
         }
         if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {
-            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, false);
-        } else {
             mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, true);
+        } else {
+            mCallback.onFragmentPlayPause(mItems.get(mCurrentItem), 0, false);
         }
         updatePlaybackRow(mCurrentItem);
     }
@@ -429,6 +424,10 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     }
 
     protected void updateVideoImage(String uri) {
+
+        if(getActivity()==null)
+            return;
+
         Glide.with(getActivity())
                 .load(uri)
                 .centerCrop()
