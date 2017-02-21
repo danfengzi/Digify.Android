@@ -1,0 +1,2 @@
+* Fixed several playback issues that were causing videos not to be played at times.
+* Resolved the error where app took a while to transition to the next item.

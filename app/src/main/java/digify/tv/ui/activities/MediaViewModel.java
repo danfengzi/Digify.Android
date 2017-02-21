@@ -146,7 +146,8 @@ public class MediaViewModel implements Serializable {
     public URI getBackgroundImageURI() {
 
         try {
-            Log.d("BACK MOVIE: ", bgImageUrl);
+            if(!TextUtils.isEmpty(bgImageUrl))
+                Log.d("BACK MOVIE: ", bgImageUrl);
             return new URI(getBackgroundImageUrl());
         } catch (URISyntaxException e) {
             if(!TextUtils.isEmpty(bgImageUrl))
