@@ -51,6 +51,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -264,8 +265,18 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
             mmr.setDataSource(mediaViewModel.getMediaUrl());
         }
         String time = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        long duration = Long.parseLong(time);
-        return (int) duration;
+
+        try {
+            long duration = Long.parseLong(time);
+            return (int) duration;
+        }catch (NumberFormatException e)
+        {
+            if(e!=null)
+                if(e.getMessage()!=null)
+            Crashlytics.log(e.getMessage());
+        }
+
+        return 0;
     }
 
     private void addPlaybackControlsRow() {

@@ -131,11 +131,13 @@ public class MainActivity extends BaseActivity {
         for (Media media : list) {
 
             File file = Utils.getMediaFile(media, this);
+            File thumbnail = Utils.getThumbnailFile(media, this);
 
-            if (file == null)
+            if (file == null || thumbnail == null)
                 continue;
 
-            if (file.exists() && Utils.getThumbnailFile(media, this).exists()) {
+
+            if (file.exists() && thumbnail.exists()) {
 
                 if (!preferenceManager.isPortrait()) {
                     Intent intent = new Intent(this, LandscapeMediaActivity.class);

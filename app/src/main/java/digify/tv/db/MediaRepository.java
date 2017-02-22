@@ -93,6 +93,7 @@ public class MediaRepository extends BaseComponent {
                 if (Utils.getStrongMediaType(media.getType()).equals(MediaType.Image))
                     mediaViewModel.setBackgroundImageUrl(Utils.getMediaFile(media, getContext()).getAbsolutePath());
                 else
+                if (thumbnail != null)
                     mediaViewModel.setBackgroundImageUrl(Utils.getThumbnailFile(media, getContext()).getAbsolutePath());
             }
 
