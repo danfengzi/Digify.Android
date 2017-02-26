@@ -122,7 +122,6 @@ public class CardPresenter extends Presenter {
         }
 
         Log.d(TAG, "onBindViewHolder");
-        if (mediaViewModel.getCardImageUrl() != null) {
             cardView.setTitleText(mediaViewModel.getTitle());
             cardView.setContentText(mediaViewModel.getStudio());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
@@ -133,7 +132,7 @@ public class CardPresenter extends Presenter {
                     .centerCrop()
                     .error(mDefaultCardImage)
                     .into(cardView.getMainImageView());
-        }
+
     }
 
     @Override
