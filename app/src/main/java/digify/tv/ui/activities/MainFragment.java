@@ -251,21 +251,25 @@ public class MainFragment extends BrowseFragment {
     }
 
     protected void updateBackground(String uri) {
-        int width = mMetrics.widthPixels;
-        int height = mMetrics.heightPixels;
-        Glide.with(getActivity())
-                .load(uri)
-                .centerCrop()
-                .error(mDefaultBackground)
-                .into(new SimpleTarget<GlideDrawable>(width, height) {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource,
-                                                GlideAnimation<? super GlideDrawable>
-                                                        glideAnimation) {
-                        mBackgroundManager.setDrawable(resource);
-                    }
-                });
-        mBackgroundTimer.cancel();
+
+        try {
+            int width = mMetrics.widthPixels;
+            int height = mMetrics.heightPixels;
+            Glide.with(getActivity())
+                    .load(uri)
+                    .centerCrop()
+                    .error(mDefaultBackground)
+                    .into(new SimpleTarget<GlideDrawable>(width, height) {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource,
+                                                    GlideAnimation<? super GlideDrawable>
+                                                            glideAnimation) {
+                            mBackgroundManager.setDrawable(resource);
+                        }
+                    });
+            mBackgroundTimer.cancel();
+        } catch (Exception e) {
+        }
     }
 
     private void startBackgroundTimer() {

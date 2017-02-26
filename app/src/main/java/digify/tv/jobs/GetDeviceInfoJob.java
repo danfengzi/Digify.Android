@@ -40,7 +40,7 @@ import static digify.tv.util.Utils.getPortraitFile;
  */
 
 public class GetDeviceInfoJob extends Job {
-    public static final int PRIORITY = 1;
+    public static final int PRIORITY = 3;
 
     @Inject
     DigifyApiService digifyApiService;
@@ -52,7 +52,7 @@ public class GetDeviceInfoJob extends Job {
     PreferenceManager preferenceManager;
 
     public GetDeviceInfoJob() {
-        super(new Params(PRIORITY).requireNetwork().persist());
+        super(new Params(PRIORITY).setDelayMs(5000).requireNetwork().persist());
     }
 
 

@@ -224,7 +224,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
                 }
                 videoView.stopPlayback();
                 mPlaybackState = LeanbackPlaybackState.IDLE;
-                return false;
+                return true;
             }
         });
 

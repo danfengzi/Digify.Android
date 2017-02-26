@@ -2,10 +2,12 @@ package digify.tv.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -61,18 +63,36 @@ public class LoginActivity extends LoginBaseActivity {
     @BindView(R.id.login_layout)
     LinearLayout loginLayout;
 
+    AnimationDrawable anim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        setupBackgroundAnim();
         applicationComponent().inject(this);
         login();
 
 
     }
 
+    public void setupBackgroundAnim() {
+        anim = (AnimationDrawable) activityLogin.getBackground();
+        anim.setEnterFadeDuration(6000);
+        anim.setExitFadeDuration(2000);
+
+    }
+
+
+    // Stopping animation:- stop the animation on onPause.
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (anim != null && anim.isRunning())
+            anim.stop();
+    }
 
 
     @OnClick(R.id.login_button)
@@ -85,6 +105,8 @@ public class LoginActivity extends LoginBaseActivity {
         loadingView.smoothToShow();
         instruction.setText("Syncing device for first use");
         code.setText("Please Wait");
+
+        syncButton.requestFocus();
 
         Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(Utils.getUniqueDeviceID(this));
 
@@ -152,6 +174,11 @@ public class LoginActivity extends LoginBaseActivity {
 
     @OnClick(R.id.sync_button)
     public void checkAssignment() {
+
+        Toasty.info(this, "Performing Sync").show();
+
+        scaleSyncButton();
+
         Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID(this));
 
         request.enqueue(new Callback<UserDeviceModel>() {
@@ -177,16 +204,46 @@ public class LoginActivity extends LoginBaseActivity {
 
             @Override
             public void onFailure(Call<UserDeviceModel> call, Throwable t) {
-                Log.v("Tenant error",t.getMessage());
                 Toasty.error(LoginActivity.this, "Not yet registered!", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        if (anim != null && !anim.isRunning())
+            anim.start();
+
         login();
+    }
+
+    public void scaleSyncButton() {
+
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1f, 2f, 1f, 2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(500);     // animation duration in milliseconds
+        scaleAnimation.setFillBefore(true);
+        syncButton.startAnimation(scaleAnimation);
+        scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                ScaleAnimation scaleAnimation = new ScaleAnimation(2f, 1f, 2f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                scaleAnimation.setDuration(500);     // animation duration in milliseconds
+                scaleAnimation.setFillBefore(true);
+                syncButton.startAnimation(scaleAnimation);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 }

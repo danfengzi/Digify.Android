@@ -23,7 +23,7 @@ import retrofit2.Response;
  */
 
 public class FetchSettingsJob extends Job {
-    public static final int PRIORITY = 1;
+    public static final int PRIORITY = 2;
 
     @Inject
     DigifyApiService digifyApiService;
@@ -33,7 +33,7 @@ public class FetchSettingsJob extends Job {
     PreferenceManager preferenceManager;
 
     public FetchSettingsJob() {
-        super(new Params(PRIORITY).requireNetwork().persist());
+        super(new Params(PRIORITY).setDelayMs(3000).requireNetwork().persist());
     }
 
     @Override

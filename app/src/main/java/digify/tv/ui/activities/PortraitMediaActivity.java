@@ -288,7 +288,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
                 }
                 videoView.stopPlayback();
                 mPlaybackState = LandscapeMediaActivity.LeanbackPlaybackState.IDLE;
-                return false;
+                return true;
             }
         });
 
