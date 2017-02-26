@@ -143,7 +143,6 @@
                     android:text="Once you enter this code into your dashboard the app will automatically login. If it doesn't, press the enter button to manually sync the changes."
                     android:textSize="20sp" />
 
-
             </LinearLayout>
         </LinearLayout>
 
