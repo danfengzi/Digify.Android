@@ -159,7 +159,7 @@ public class MediaViewModel implements Serializable {
     public URI getCardImageURI() {
         try {
             return new URI(getCardImageUrl());
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             return null;
         }
     }

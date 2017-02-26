@@ -3,12 +3,9 @@ package digify.tv.ui.activities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaMetadata;
 import android.media.MediaPlayer;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -21,8 +18,6 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.squareup.otto.Bus;
@@ -245,7 +240,6 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
             videoView.pause();
         }
         updatePlaybackState(position);
-        updateMetadata(mediaViewModel);
     }
 
     private void updatePlaybackState(int position) {
@@ -270,33 +264,6 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
         }
 
         return actions;
-    }
-
-    private void updateMetadata(final MediaViewModel mediaViewModel) {
-        final MediaMetadata.Builder metadataBuilder = new MediaMetadata.Builder();
-
-        String title = mediaViewModel.getTitle().replace("_", " -");
-
-        metadataBuilder.putString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE, title);
-        metadataBuilder.putString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE,
-                mediaViewModel.getDescription());
-        metadataBuilder.putString(MediaMetadata.METADATA_KEY_DISPLAY_ICON_URI,
-                mediaViewModel.getCardImageUrl());
-
-        // And at minimum the title and artist for legacy support
-        metadataBuilder.putString(MediaMetadata.METADATA_KEY_TITLE, title);
-        metadataBuilder.putString(MediaMetadata.METADATA_KEY_ARTIST, mediaViewModel.getStudio());
-
-        Glide.with(this)
-                .load(Uri.parse(mediaViewModel.getCardImageUrl()))
-                .asBitmap()
-                .into(new SimpleTarget<Bitmap>(500, 500) {
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-                        metadataBuilder.putBitmap(MediaMetadata.METADATA_KEY_ART, bitmap);
-                        mSession.setMetadata(metadataBuilder.build());
-                    }
-                });
     }
 
     private void loadViews() {

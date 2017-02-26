@@ -116,7 +116,7 @@ public class FetchPlaylistJob extends Job {
                         protected void error(BaseDownloadTask task, Throwable e) {
 
                             if (e != null)
-                                if (TextUtils.isEmpty(e.getMessage()))
+                                if (!TextUtils.isEmpty(e.getMessage()))
                                     Log.e(FetchPlaylistJob.class.getName(), e.getMessage());
 
 
