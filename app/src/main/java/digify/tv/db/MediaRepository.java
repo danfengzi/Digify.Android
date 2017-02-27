@@ -92,8 +92,7 @@ public class MediaRepository extends BaseComponent {
             if (Utils.getMediaFile(media, getContext()) != null) {
                 if (Utils.getStrongMediaType(media.getType()).equals(MediaType.Image))
                     mediaViewModel.setBackgroundImageUrl(Utils.getMediaFile(media, getContext()).getAbsolutePath());
-                else
-                if (thumbnail != null)
+                else if (thumbnail != null)
                     mediaViewModel.setBackgroundImageUrl(Utils.getThumbnailFile(media, getContext()).getAbsolutePath());
             }
 
@@ -177,6 +176,34 @@ public class MediaRepository extends BaseComponent {
         return database.get().where(Media.class).equalTo("id", id).findFirst();
     }
 
+
+    public void thumbnailMapper(MediaViewModel mediaViewModel) {
+        Media media = getMediaById(mediaViewModel.getId());
+
+        if (media == null)
+            return;
+
+        File thumbnail = Utils.getThumbnailFile(media, getContext());
+
+        if (thumbnail == null)
+            return;
+
+        if (!thumbnail.exists())
+            return;
+
+        if (thumbnail != null)
+            mediaViewModel.setCardImageUrl(thumbnail.getAbsolutePath());
+
+        if (mediaViewModel.getMediaType().equals(MediaType.Image)) {
+            File image = Utils.getMediaFile(media, getContext());
+
+            if (image != null)
+                mediaViewModel.setBackgroundImageUrl(image.getAbsolutePath());
+        } else if (thumbnail != null)
+            mediaViewModel.setBackgroundImageUrl(thumbnail.getAbsolutePath());
+
+    }
+
     public void saveMedia(final Media media) {
         database.get().executeTransaction(new Realm.Transaction() {
             @Override
@@ -185,4 +212,5 @@ public class MediaRepository extends BaseComponent {
             }
         });
     }
+
 }

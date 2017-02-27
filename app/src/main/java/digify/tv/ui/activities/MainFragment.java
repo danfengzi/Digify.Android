@@ -194,6 +194,7 @@ public class MainFragment extends BrowseFragment {
             if (((MediaViewModel) adapter.get(x)).getId() == mediaId) {
                 MediaViewModel model = (MediaViewModel) adapter.get(x);
                 model.setProgress(progress);
+                mediaRepository.thumbnailMapper(model);
                 model.setMediaDownloadStatus(mediaDownloadStatus);
                 getPlaylistAdapter().replace(adapter.indexOf(adapter.get(x)), model);
 

@@ -114,14 +114,12 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
                         .load(file)
                         .centerCrop()
                         .into(portraitLogo);
-            }
-            else
-            {
-                if(!TextUtils.isEmpty(deviceInfo.getPortraitLogo()))
-                Glide.with(this)
-                        .load(deviceInfo.getPortraitLogo())
-                        .centerCrop()
-                        .into(portraitLogo);
+            } else {
+                if (!TextUtils.isEmpty(deviceInfo.getPortraitLogo()))
+                    Glide.with(this)
+                            .load(deviceInfo.getPortraitLogo())
+                            .centerCrop()
+                            .into(portraitLogo);
             }
         } else {
             portraitLogoLayout.setVisibility(View.GONE);
@@ -215,7 +213,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
      * Implementation of OnPlayPauseClickedListener
      */
     public void onFragmentPlayPause(MediaViewModel mediaViewModel, int position, Boolean playPause) {
-        if(isFinishing())
+        if (isFinishing())
             return;
 
         if (videoView == null)
@@ -376,7 +374,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
                 public void run() {
                     recreate();
                 }
-            },10000);
+            }, 10000);
         }
     }
 
@@ -389,6 +387,6 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
             public void run() {
                 recreate();
             }
-        },10000);
+        }, 10000);
     }
 }

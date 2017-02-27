@@ -171,7 +171,6 @@ public class MediaViewModel implements Serializable {
                 ", title='" + title + '\'' +
                 ", mediaUrl='" + mediaUrl + '\'' +
                 ", backgroundImageUrl='" + bgImageUrl + '\'' +
-                ", backgroundImageURI='" + getBackgroundImageURI().toString() + '\'' +
                 ", cardImageUrl='" + cardImageUrl + '\'' +
                 '}';
     }
