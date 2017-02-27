@@ -57,6 +57,7 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
+import digify.tv.core.DeviceInfoService;
 import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
@@ -349,6 +350,7 @@ public class MainFragment extends BrowseFragment {
         jobManager.addJobInBackground(new FetchPlaylistJob());
         jobManager.addJobInBackground(new GetDeviceInfoJob());
         jobManager.addJobInBackground(new FetchSettingsJob());
+        getActivity().startService(new Intent(getActivity(), DeviceInfoService.class));
     }
 
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {

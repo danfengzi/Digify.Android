@@ -1,12 +1,14 @@
 package digify.tv.ui.activities;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
@@ -20,10 +22,12 @@ import butterknife.ButterKnife;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
 import digify.tv.core.PreferenceManager;
+import digify.tv.core.StartupReceiver;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.Media;
 import digify.tv.jobs.FetchPlaylistJob;
+import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
@@ -126,6 +130,9 @@ public class MainActivity extends BaseActivity {
 
     private void startPlayback() {
 
+        if (!getIntent().hasExtra(StartupReceiver.FROM_STARTUP_RECEIVER))
+            return;
+
         List<Media> list = mediaRepository.getMedia();
 
         for (Media media : list) {
@@ -151,6 +158,16 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Subscribe
+    public void orientationEvent(ScreenOrientationEvent event) {
+        if (event.getScreenOrientation().equals(ScreenOrientation.Portrait)) {
+            if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+    }
 
 }
 
