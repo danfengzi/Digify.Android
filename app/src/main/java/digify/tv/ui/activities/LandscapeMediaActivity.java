@@ -250,6 +250,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
     public void onResume() {
         super.onResume();
         mSession.setActive(true);
+        eventBus.register(this);
     }
 
     @Override

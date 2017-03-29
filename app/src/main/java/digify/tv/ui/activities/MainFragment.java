@@ -203,7 +203,7 @@ public class MainFragment extends BrowseFragment {
             }
         }
 
-        MediaViewModel mediaViewModel = mediaRepository.getMediaViewModel(mediaId);
+        MediaViewModel mediaViewModel = mediaRepository.getMediaViewModelForPlaylist(mediaId);
 
         if (mediaViewModel == null)
             return;

@@ -123,6 +123,8 @@ public class LoginActivity extends LoginBaseActivity {
                             loadingView.hide();
                             code.setText(response.body().getCode());
                             syncInfo.setVisibility(View.VISIBLE);
+
+                            checkAssignment();
                         }
                     }, 5000);
 

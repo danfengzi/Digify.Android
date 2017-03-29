@@ -2,6 +2,7 @@ package digify.tv;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.crashlytics.android.Crashlytics;

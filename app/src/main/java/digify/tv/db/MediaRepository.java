@@ -1,6 +1,7 @@
 package digify.tv.db;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.squareup.otto.Bus;
 
@@ -113,6 +114,17 @@ public class MediaRepository extends BaseComponent {
         return null;
     }
 
+    public MediaViewModel getMediaViewModelForPlaylist(int mediaId) {
+        List<MediaViewModel> models = getMediaViewModels(PlaylistType.MainFragment);
+
+        for (MediaViewModel mediaViewModel : models) {
+            if (mediaViewModel.getId() == mediaId)
+                return mediaViewModel;
+        }
+
+        return null;
+    }
+
     public List<MediaViewModel> getMediaViewModelsByType(MediaType mediaType) {
         List<MediaViewModel> list = getMediaViewModels();
 
@@ -178,6 +190,10 @@ public class MediaRepository extends BaseComponent {
 
 
     public void thumbnailMapper(MediaViewModel mediaViewModel) {
+
+        if(!TextUtils.isEmpty(mediaViewModel.getCardImageUrl()))
+            return;
+
         Media media = getMediaById(mediaViewModel.getId());
 
         if (media == null)
