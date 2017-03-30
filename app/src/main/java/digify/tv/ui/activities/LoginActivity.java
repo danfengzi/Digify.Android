@@ -124,7 +124,7 @@ public class LoginActivity extends LoginBaseActivity {
                             code.setText(response.body().getCode());
                             syncInfo.setVisibility(View.VISIBLE);
 
-                            checkAssignment();
+                            checkAssignment(false);
                         }
                     }, 5000);
 
@@ -171,11 +171,15 @@ public class LoginActivity extends LoginBaseActivity {
 
     @Subscribe
     public void deviceAssigned(DeviceAssignedEvent event) {
-        checkAssignment();
+        checkAssignment(true);
     }
 
     @OnClick(R.id.sync_button)
     public void checkAssignment() {
+        checkAssignment(true);
+    }
+
+    public void checkAssignment(final boolean showToast) {
 
         Toasty.info(this, "Performing Sync").show();
 
@@ -200,13 +204,14 @@ public class LoginActivity extends LoginBaseActivity {
                             Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     startActivity(intent);
-                } else
-                    Toasty.error(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                } else if (showToast)
+                    Toasty.error(LoginActivity.this, "Box not assigned as yet!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<UserDeviceModel> call, Throwable t) {
-                Toasty.error(LoginActivity.this, "Not yet registered!", Toast.LENGTH_SHORT).show();
+                if (showToast)
+                    Toasty.error(LoginActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
 
