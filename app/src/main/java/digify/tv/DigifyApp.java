@@ -2,7 +2,7 @@ package digify.tv;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.crashlytics.android.Crashlytics;
@@ -14,6 +14,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import javax.inject.Inject;
 
+import digify.tv.core.SocketService;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.injection.component.DaggerApplicationComponent;
 import digify.tv.injection.module.ApplicationModule;
@@ -23,6 +24,7 @@ import digify.tv.jobs.GetDeviceInfoJob;
 import io.fabric.sdk.android.Fabric;
 import io.hypertrack.smart_scheduler.Job;
 import io.hypertrack.smart_scheduler.SmartScheduler;
+import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 import static digify.tv.util.Utils.isEmulator;
@@ -55,15 +57,25 @@ public class DigifyApp extends Application {
 
         initializeCustomFontAndIconProvider();
 
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+
         FileDownloader.init(getApplicationContext());
 
         applicationComponent.inject(this);
 
         scheduleJob();
+        startSocketService();
     }
 
     public static DigifyApp get(Context context) {
         return (DigifyApp) context.getApplicationContext();
+    }
+
+    private void startSocketService()
+    {
+        startService(new Intent(this, SocketService.class));
     }
 
     public void initializeCustomFontAndIconProvider() {

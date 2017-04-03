@@ -13,6 +13,7 @@ public class PreferenceManager {
 
     public static final String PREF_FILE_NAME = "digify_preferences";
     public static final String KEY_NAME = "name";
+    public static final String KEY_TENANT = "tenant";
     public static final String KEY_ORIENTATION = "orientation";
     public static final String KEY_SETUP = "setup";
     private static final String IS_LOGIN = "IsLoggedIn";
@@ -35,6 +36,11 @@ public class PreferenceManager {
         editor.commit();
     }
 
+    public void setTenant(String name) {
+        editor.putString(KEY_TENANT, name);
+        editor.commit();
+    }
+
     public void setImageDuration(int duration) {
         editor.putInt(KEY_IMAGE_DURATION, duration);
         editor.commit();
@@ -54,6 +60,11 @@ public class PreferenceManager {
     public String getName() {
         return preferences.getString(KEY_NAME, "");
     }
+
+    public String getTenant() {
+        return preferences.getString(KEY_TENANT, "");
+    }
+
 
     public String getBaseUrl() {
         return preferences.getString(KEY_BASE_URL, "");

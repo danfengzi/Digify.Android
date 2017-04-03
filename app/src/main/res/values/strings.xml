@@ -43,4 +43,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pusher_key">ec7ed051f2efdcf93765</string>
 </resources>

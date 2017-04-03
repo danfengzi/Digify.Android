@@ -7,6 +7,7 @@ import digify.tv.DigifyApp;
 import digify.tv.api.HostSelectionInterceptor;
 import digify.tv.api.RetrofitHelper;
 import digify.tv.core.DeviceInfoService;
+import digify.tv.core.SocketService;
 import digify.tv.db.MediaRepository;
 import digify.tv.injection.module.ApplicationModule;
 import digify.tv.jobs.FetchPlaylistJob;
@@ -45,4 +46,5 @@ public interface ApplicationComponent {
     void inject(FetchSettingsJob fetchSettingsJob);
     void inject(GetDeviceInfoJob getDeviceInfoJob);
     void inject(DeviceInfoService deviceInfoService);
+    void inject(SocketService socketService);
 }

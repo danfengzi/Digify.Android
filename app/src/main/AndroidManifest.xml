@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature
         android:name="android.software.leanback"
@@ -62,7 +63,22 @@
 
         <service
             android:name=".core.DeviceInfoService"
-            android:exported="false"></service>
+            android:exported="false" />
+        <service
+            android:name=".core.SocketService"
+            android:enabled="true"
+            android:exported="true" />
+
+
+        <receiver
+            android:name=".core.SocketStarterReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="digify.tv.socket.start" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

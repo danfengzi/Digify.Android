@@ -197,6 +197,7 @@ public class LoginActivity extends LoginBaseActivity {
                     preferenceManager.setLoggedInStatus(true);
                     preferenceManager.setName(response.body().getName());
                     preferenceManager.setBaseUrl(response.body().getTenantUrl());
+                    preferenceManager.setTenant(response.body().getTenant());
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
