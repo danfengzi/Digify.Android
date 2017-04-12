@@ -42,6 +42,7 @@ public class MediaViewModel implements Serializable {
     private MediaDownloadStatus mediaDownloadStatus;
     private double progress;
     private Boolean notScheduled;
+    private Integer position;
 
     public MediaViewModel() {
     }
@@ -181,5 +182,13 @@ public class MediaViewModel implements Serializable {
 
     public void setNotScheduled(Boolean notScheduled) {
         this.notScheduled = notScheduled;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

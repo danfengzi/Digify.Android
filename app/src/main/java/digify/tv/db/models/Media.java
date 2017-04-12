@@ -13,6 +13,7 @@ public class Media extends RealmObject {
 
     @PrimaryKey
     private Integer id;
+    private Integer position;
     private String name;
     private Date createdAt;
     private Date updatedAt;
@@ -128,5 +129,13 @@ public class Media extends RealmObject {
 
     public void setExtension(String extension) {
         this.extension = extension;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }

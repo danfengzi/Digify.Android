@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ import digify.tv.db.models.MediaType;
 import digify.tv.db.models.PlaylistType;
 import digify.tv.ui.activities.MediaViewModel;
 import digify.tv.ui.events.PlaylistContentRemovedEvent;
+import digify.tv.util.MediaPositionComparator;
 import digify.tv.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -70,6 +72,7 @@ public class MediaRepository extends BaseComponent {
             }
             mediaViewModel.setId(media.getId());
             mediaViewModel.setTitle(media.getName());
+            mediaViewModel.setPosition(media.getPosition());
             mediaViewModel.setCategory("Playlist");
 
             File mediaFile = Utils.getMediaFile(media, getContext());
@@ -98,6 +101,7 @@ public class MediaRepository extends BaseComponent {
             }
 
             models.add(mediaViewModel);
+            Collections.sort(models, new MediaPositionComparator());
         }
 
         return models;
@@ -191,7 +195,7 @@ public class MediaRepository extends BaseComponent {
 
     public void thumbnailMapper(MediaViewModel mediaViewModel) {
 
-        if(!TextUtils.isEmpty(mediaViewModel.getCardImageUrl()))
+        if (!TextUtils.isEmpty(mediaViewModel.getCardImageUrl()))
             return;
 
         Media media = getMediaById(mediaViewModel.getId());
