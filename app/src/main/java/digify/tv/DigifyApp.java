@@ -3,6 +3,8 @@ package digify.tv;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.PowerManager;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.crashlytics.android.Crashlytics;
@@ -14,6 +16,9 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import javax.inject.Inject;
 
+import digify.tv.core.KioskService;
+import digify.tv.core.OnScreenOffReceiver;
+import digify.tv.core.PreferenceManager;
 import digify.tv.core.SocketService;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.injection.component.DaggerApplicationComponent;
@@ -39,8 +44,14 @@ public class DigifyApp extends Application {
     private static final int JOB_ID = 42334;
     private static final String JOB_PERIODIC_TASK_TAG = "digify.tv.JobPeriodicTask";
 
+    private PowerManager.WakeLock wakeLock;
+    private OnScreenOffReceiver onScreenOffReceiver;
+
     @Inject
     JobManager jobManager;
+
+    @Inject
+    PreferenceManager preferenceManager;
 
     @Override
     public void onCreate() {
@@ -67,6 +78,15 @@ public class DigifyApp extends Application {
 
         scheduleJob();
         startSocketService();
+        setupInAppKioskService();
+
+    }
+
+    public void setupInAppKioskService() {
+        if (preferenceManager.isKioskModeEnabled()) {
+            registerKioskModeScreenOffReceiver();
+            startKioskService();
+        }
     }
 
     public static DigifyApp get(Context context) {
@@ -141,6 +161,26 @@ public class DigifyApp extends Application {
 
         jobScheduler.removeJob(JOB_ID);
 
+    }
+
+    private void registerKioskModeScreenOffReceiver() {
+        // register screen off receiver
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        onScreenOffReceiver = new OnScreenOffReceiver();
+        registerReceiver(onScreenOffReceiver, filter);
+    }
+
+    public PowerManager.WakeLock getWakeLock() {
+        if(wakeLock == null) {
+            // lazy loading: first call, create wakeLock via PowerManager.
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "wakeup");
+        }
+        return wakeLock;
+    }
+
+    private void startKioskService() {
+        startService(new Intent(this, KioskService.class));
     }
 
 

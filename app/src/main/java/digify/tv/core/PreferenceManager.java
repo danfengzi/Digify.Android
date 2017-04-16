@@ -16,6 +16,7 @@ public class PreferenceManager {
     public static final String KEY_TENANT = "tenant";
     public static final String KEY_ORIENTATION = "orientation";
     public static final String KEY_SETUP = "setup";
+    public static final String KEY_KIOSK_MODE = "kiosk_mode";
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String KEY_BASE_URL = "baseUrl";
     private static final String KEY_IMAGE_DURATION = "image_duration";
@@ -88,6 +89,16 @@ public class PreferenceManager {
      */
     public void setLoggedInStatus(boolean status) {
         editor.putBoolean(IS_LOGIN, status);
+        editor.commit();
+    }
+
+    public boolean isKioskModeEnabled() {
+        return preferences.getBoolean(KEY_KIOSK_MODE, true);
+    }
+
+
+    public void setKioskMode(boolean status) {
+        editor.putBoolean(KEY_KIOSK_MODE, status);
         editor.commit();
     }
 

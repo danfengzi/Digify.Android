@@ -69,7 +69,6 @@
             android:enabled="true"
             android:exported="true" />
 
-
         <receiver
             android:name=".core.SocketStarterReceiver"
             android:enabled="true"
@@ -79,6 +78,20 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".core.AdminReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".core.KioskService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".core.OnScreenOffReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

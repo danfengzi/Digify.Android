@@ -37,7 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class LoginActivity extends LoginBaseActivity {
+public class LoginActivity extends BaseActivity {
 
     @Inject
     DigifyApiService digifyApiService;
@@ -253,5 +253,10 @@ public class LoginActivity extends LoginBaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean isAutoLogOutEnabled() {
+        return false;
     }
 }

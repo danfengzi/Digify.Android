@@ -1,19 +1,23 @@
 package digify.tv.ui.activities;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.intrications.systemuihelper.SystemUiHelper;
 
 import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
+import digify.tv.R;
+import digify.tv.core.AdminReceiver;
 import digify.tv.core.PreferenceManager;
 import digify.tv.injection.component.ApplicationComponent;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -24,6 +28,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class BaseActivity extends Activity {
 
+    protected DevicePolicyManager mDpm;
+
     @Inject
     PreferenceManager preferenceManager;
 
@@ -33,7 +39,7 @@ public class BaseActivity extends Activity {
 
         applicationComponent().inject(this);
 
-        if (!preferenceManager.isLoggedIn()) {
+        if (!preferenceManager.isLoggedIn() && isAutoLogOutEnabled()) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                     Intent.FLAG_ACTIVITY_CLEAR_TASK |
@@ -41,7 +47,6 @@ public class BaseActivity extends Activity {
 
             startActivity(intent);
         }
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if (preferenceManager.isPortrait()) {
             if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
@@ -50,6 +55,8 @@ public class BaseActivity extends Activity {
             if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
+
+        setupInAppbasedKioskMode();
 
     }
 
@@ -62,9 +69,58 @@ public class BaseActivity extends Activity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
+    protected void setupInAppbasedKioskMode() {
+        if (preferenceManager.isKioskModeEnabled()) {
+            hideSystemUI();
+        }
+    }
+
+    protected void setupAndroidBasedKioskMode() {
+        if (!preferenceManager.isKioskModeEnabled()) {
+            ComponentName deviceAdmin = new ComponentName(this, AdminReceiver.class);
+            mDpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (!mDpm.isAdminActive(deviceAdmin)) {
+                Log.e("Kiosk Mode Error", getString(R.string.not_device_admin));
+            }
+
+            if (mDpm.isDeviceOwnerApp(getPackageName())) {
+                mDpm.setLockTaskPackages(deviceAdmin, new String[]{getPackageName()});
+            } else {
+                Log.e("Kiosk Mode Error", getString(R.string.not_device_owner));
+            }
+
+            enableKioskMode(true);
+            //TODO : for clear device Owner
+//        } else {
+//            mDpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+//            mDpm.clearDeviceOwnerApp(getPackageName());
+        }
+
+        hideSystemUI();
+    }
+
+    protected void enableKioskMode(boolean enabled) {
+        try {
+            if (enabled) {
+                if (mDpm.isLockTaskPermitted(this.getPackageName())) {
+                    preferenceManager.setKioskMode(true);
+                    startLockTask();
+                } else {
+                    preferenceManager.setKioskMode(false);
+                    Log.e("Kiosk Mode Error", getString(R.string.kiosk_not_permitted));
+                }
+            } else {
+                preferenceManager.setKioskMode(false);
+                stopLockTask();
+            }
+        } catch (Exception e) {
+            preferenceManager.setKioskMode(false);
+            // TODO: Log and handle appropriately
+            Log.e("Kiosk Mode Error", e.getMessage());
+        }
+    }
+
+    protected void hideSystemUI() {
 
         final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -73,8 +129,22 @@ public class BaseActivity extends Activity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
-        SystemUiHelper uiHelper =  new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE ,flags);
+        SystemUiHelper uiHelper = new SystemUiHelper(this, SystemUiHelper.LEVEL_IMMERSIVE, flags);
         uiHelper.hide();
     }
 
+    public boolean isAutoLogOutEnabled() {
+        return true;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if (!hasFocus && preferenceManager.isKioskModeEnabled()) {
+            // Close every kind of system dialog
+            Intent closeDialog = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+            sendBroadcast(closeDialog);
+        }
+    }
 }

@@ -169,6 +169,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(!preferenceManager.isKioskModeEnabled())
+        super.onBackPressed();
+    }
 }
 
 
