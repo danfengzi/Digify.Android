@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "980315345087",
+    "firebase_url": "https://digifyandroid.firebaseio.com",
+    "project_id": "digifyandroid",
+    "storage_bucket": "digifyandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980315345087:android:ca5851bf5e5dfd79",
+        "android_client_info": {
+          "package_name": "digify.tv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980315345087-csr84k7bperhc6uljov15tknqtv16rrr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digify.tv",
+            "certificate_hash": "e2b58de458b948cf2cbf567298c9b90c582bbcd0"
+          }
+        },
+        {
+          "client_id": "980315345087-32343vkf8p9gnjeqaos24efmoue0mob3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digify.tv",
+            "certificate_hash": "ad457b39bdef63370d0ce23b3f4c04d01c4b50a2"
+          }
+        },
+        {
+          "client_id": "980315345087-50uubp52jf1idpn4qqbvsli116oaqmmh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsOkKZFh8ioWmBhiSKAc36BmstcgVUKP0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980315345087-50uubp52jf1idpn4qqbvsli116oaqmmh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
