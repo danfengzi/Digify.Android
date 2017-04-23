@@ -125,9 +125,9 @@ public class ApplicationModule {
     }
 
     @Provides
-    DatabaseReference getDatabaseReference()
+    DatabaseReference provideDatabaseReference()
     {
-       return FirebaseDatabase.getInstance().getReference();
+       return FirebaseDatabase.getInstance().getReference("customers");
     }
 
     @Provides

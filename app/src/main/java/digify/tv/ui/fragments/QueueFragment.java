@@ -10,26 +10,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import javax.inject.Inject;
+
+import digify.tv.DigifyApp;
 import digify.tv.R;
-import digify.tv.ui.fragments.dummy.DummyContent;
+import digify.tv.api.models.CustomerModel;
+import digify.tv.core.PreferenceManager;
 
 
 public class QueueFragment extends Fragment {
 
-    // TODO: Customize parameters
     private int mColumnCount = 1;
 
+    @Inject
+    DatabaseReference db;
+    @Inject
+    PreferenceManager preferenceManager;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public QueueFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DigifyApp.get(getActivity()).getComponent().inject(this);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
 
     }
 
@@ -47,11 +57,17 @@ public class QueueFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new QueueAdapter(DummyContent.ITEMS));
+            recyclerView.setAdapter(new QueueAdapter(CustomerModel.class, R.layout.fragment_customer, QueueAdapter.CustomerHolder.class,getCustomersQuery()));
         }
         return view;
     }
 
+    public Query getCustomersQuery() {
+        return db
+                .limitToFirst(5)
+                .orderByKey()
+                .equalTo("tenant",preferenceManager.getBaseUrl());
+    }
 
     @Override
     public void onAttach(Context context) {

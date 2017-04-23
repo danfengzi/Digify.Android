@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Query;
 
 import digify.tv.R;
-import digify.tv.ui.fragments.dummy.DummyContent.DummyItem;
 
 
 public class QueueAdapter extends FirebaseRecyclerAdapter{
@@ -30,10 +30,15 @@ public class QueueAdapter extends FirebaseRecyclerAdapter{
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    protected Object parseSnapshot(DataSnapshot snapshot) {
+        return super.parseSnapshot(snapshot);
+    }
+
+    @Override
+    public CustomerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_customer, parent, false);
-        return new ViewHolder(view);
+        return new CustomerHolder(view);
     }
 
     @Override
@@ -42,13 +47,12 @@ public class QueueAdapter extends FirebaseRecyclerAdapter{
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class CustomerHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
 
-        public ViewHolder(View view) {
+        public CustomerHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);

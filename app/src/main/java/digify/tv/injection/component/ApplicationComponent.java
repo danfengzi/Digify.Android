@@ -23,6 +23,7 @@ import digify.tv.ui.activities.MainFragment;
 import digify.tv.ui.activities.PlaybackOverlayFragment;
 import digify.tv.ui.activities.PortraitMediaActivity;
 import digify.tv.ui.activities.VideoDetailsFragment;
+import digify.tv.ui.fragments.QueueFragment;
 
 /**
  * Created by Joel on 12/8/2016.
@@ -51,4 +52,5 @@ public interface ApplicationComponent {
     void inject(SocketService socketService);
     void inject(KioskService kioskService);
     void inject(OnScreenOffReceiver onScreenOffReceiver);
+    void inject(QueueFragment queueFragment);
 }
