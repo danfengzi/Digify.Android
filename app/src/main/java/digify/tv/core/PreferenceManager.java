@@ -93,7 +93,7 @@ public class PreferenceManager {
     }
 
     public boolean isKioskModeEnabled() {
-        return preferences.getBoolean(KEY_KIOSK_MODE, true);
+        return preferences.getBoolean(KEY_KIOSK_MODE, false);
     }
 
 

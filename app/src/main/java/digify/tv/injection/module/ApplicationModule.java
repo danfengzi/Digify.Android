@@ -6,6 +6,8 @@ import android.util.Log;
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.log.CustomLogger;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pusher.client.Pusher;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -120,6 +122,12 @@ public class ApplicationModule {
     @Provides
     Realm provideRealm() {
         return Realm.getInstance(provideRealmConfiguration());
+    }
+
+    @Provides
+    DatabaseReference getDatabaseReference()
+    {
+       return FirebaseDatabase.getInstance().getReference();
     }
 
     @Provides

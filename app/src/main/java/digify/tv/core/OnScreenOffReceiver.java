@@ -11,8 +11,6 @@ import digify.tv.injection.component.ApplicationComponent;
 
 public class OnScreenOffReceiver extends BroadcastReceiver {
 
-
-
     @Inject
     PreferenceManager preferenceManager;
 
@@ -24,9 +22,8 @@ public class OnScreenOffReceiver extends BroadcastReceiver {
         if(Intent.ACTION_SCREEN_OFF.equals(intent.getAction())){
             DigifyApp ctx = (DigifyApp) context.getApplicationContext();
             // is Kiosk Mode active?
-            if(preferenceManager.isKioskModeEnabled()) {
                 wakeUpDevice(ctx);
-            }
+
         }
     }
 

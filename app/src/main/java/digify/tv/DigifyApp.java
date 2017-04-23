@@ -79,12 +79,11 @@ public class DigifyApp extends Application {
         scheduleJob();
         startSocketService();
         setupInAppKioskService();
-
+        registerKioskModeScreenOffReceiver();
     }
 
     public void setupInAppKioskService() {
         if (preferenceManager.isKioskModeEnabled()) {
-            registerKioskModeScreenOffReceiver();
             startKioskService();
         }
     }
