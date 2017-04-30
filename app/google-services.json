@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "980315345087",
-    "firebase_url": "https://digifyandroid.firebaseio.com",
-    "project_id": "digifyandroid",
-    "storage_bucket": "digifyandroid.appspot.com"
+    "project_number": "681146373090",
+    "firebase_url": "https://digify-38b68.firebaseio.com",
+    "project_id": "digify-38b68",
+    "storage_bucket": "digify-38b68.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:980315345087:android:ca5851bf5e5dfd79",
+        "mobilesdk_app_id": "1:681146373090:android:ca5851bf5e5dfd79",
         "android_client_info": {
           "package_name": "digify.tv"
         }
       },
       "oauth_client": [
         {
-          "client_id": "980315345087-csr84k7bperhc6uljov15tknqtv16rrr.apps.googleusercontent.com",
+          "client_id": "681146373090-p2tsdegev2op459q1hn155gbf06akip1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "digify.tv",
@@ -23,7 +23,7 @@
           }
         },
         {
-          "client_id": "980315345087-32343vkf8p9gnjeqaos24efmoue0mob3.apps.googleusercontent.com",
+          "client_id": "681146373090-gl93okciqnqeb4o3d0fnis2u5cvu191n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "digify.tv",
@@ -31,13 +31,13 @@
           }
         },
         {
-          "client_id": "980315345087-50uubp52jf1idpn4qqbvsli116oaqmmh.apps.googleusercontent.com",
+          "client_id": "681146373090-s08n9lhjoipldqevc997pgoibl30supv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDsOkKZFh8ioWmBhiSKAc36BmstcgVUKP0"
+          "current_key": "AIzaSyDTcAlAtyf_-Ta0kONQIhr4ZdQYyQdVLL8"
         }
       ],
       "services": {
@@ -48,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "980315345087-50uubp52jf1idpn4qqbvsli116oaqmmh.apps.googleusercontent.com",
+              "client_id": "681146373090-s08n9lhjoipldqevc997pgoibl30supv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

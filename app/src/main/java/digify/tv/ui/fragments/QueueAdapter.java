@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.Query;
 
 import digify.tv.R;
+import digify.tv.api.models.CustomerModel;
 
 
-public class QueueAdapter extends FirebaseRecyclerAdapter{
+public class QueueAdapter extends FirebaseRecyclerAdapter<CustomerModel,QueueAdapter.CustomerHolder>{
 
     /**
      * @param modelClass      Firebase will marshall the data at a location into
@@ -29,10 +29,6 @@ public class QueueAdapter extends FirebaseRecyclerAdapter{
         super(modelClass, modelLayout, viewHolderClass, ref);
     }
 
-    @Override
-    protected Object parseSnapshot(DataSnapshot snapshot) {
-        return super.parseSnapshot(snapshot);
-    }
 
     @Override
     public CustomerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,9 +38,13 @@ public class QueueAdapter extends FirebaseRecyclerAdapter{
     }
 
     @Override
-    protected void populateViewHolder(RecyclerView.ViewHolder viewHolder, Object model, int position) {
+    protected void populateViewHolder(CustomerHolder viewHolder, CustomerModel model, int position) {
 
+        viewHolder.mContentView.setText(model.getFirstName()+" "+model.getCustomerKey()+" position "+position);
+        viewHolder.mIdView.setText(model.getTime());
     }
+
+
 
 
     public class CustomerHolder extends RecyclerView.ViewHolder {

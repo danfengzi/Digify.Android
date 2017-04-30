@@ -127,7 +127,9 @@ public class ApplicationModule {
     @Provides
     DatabaseReference provideDatabaseReference()
     {
-       return FirebaseDatabase.getInstance().getReference("customers");
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        return FirebaseDatabase.getInstance().getReference("customers");
     }
 
     @Provides

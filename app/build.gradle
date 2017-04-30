@@ -107,12 +107,16 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.pusher:pusher-java-client:1.4.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.firebaseui:firebase-ui-database:1.2.0'
+    compile 'com.google.firebase:firebase-database:10.2.1'
     testCompile 'junit:junit:4.12'
     apt 'org.parceler:parceler:1.1.5'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    compile 'com.firebaseui:firebase-ui-database:1.2.0'
+
+    apply plugin: 'com.google.gms.google-services'
 }
+
 
 
 

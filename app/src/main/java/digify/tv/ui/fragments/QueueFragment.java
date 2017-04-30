@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import javax.inject.Inject;
@@ -38,7 +37,6 @@ public class QueueFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DigifyApp.get(getActivity()).getComponent().inject(this);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
 
     }
@@ -64,9 +62,9 @@ public class QueueFragment extends Fragment {
 
     public Query getCustomersQuery() {
         return db
-                .limitToFirst(5)
-                .orderByKey()
-                .equalTo("tenant",preferenceManager.getBaseUrl());
+                .child("joel")
+                .limitToFirst(5);
+
     }
 
     @Override
