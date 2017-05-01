@@ -48,9 +48,7 @@
 
         <activity
             android:name=".ui.activities.SplashActivity"
-            android:theme="@style/SplashTheme">
-
-        </activity>
+            android:theme="@style/SplashTheme"></activity>
         <activity
             android:name=".ui.activities.PortraitMediaActivity"
             android:label="@string/title_activity_portrait"
@@ -91,8 +89,6 @@
         <activity
             android:name=".ui.activities.Main2Activity"
             android:label="@string/title_activity_main2">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -100,6 +96,7 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.QueueModeActivity"></activity>
     </application>
 
 </manifest>

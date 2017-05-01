@@ -10,14 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.R;
 import digify.tv.api.models.CustomerModel;
+import digify.tv.core.CustomerProcessor;
 import digify.tv.core.PreferenceManager;
 
 
@@ -29,6 +34,7 @@ public class QueueFragment extends Fragment {
     DatabaseReference db;
     @Inject
     PreferenceManager preferenceManager;
+    private FirebaseRecyclerAdapter adapter;
 
     public QueueFragment() {
     }
@@ -37,8 +43,7 @@ public class QueueFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DigifyApp.get(getActivity()).getComponent().inject(this);
-
-
+        customerChanges();
     }
 
     @Override
@@ -55,7 +60,9 @@ public class QueueFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new QueueAdapter(CustomerModel.class, R.layout.fragment_customer, QueueAdapter.CustomerHolder.class,getCustomersQuery()));
+
+            adapter=new QueueAdapter(getActivity(), CustomerModel.class, R.layout.fragment_customer, QueueAdapter.CustomerHolder.class, getCustomersQuery());
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }
@@ -64,7 +71,22 @@ public class QueueFragment extends Fragment {
         return db
                 .child("joel")
                 .limitToFirst(5);
+    }
 
+    public void customerChanges() {
+        getCustomersQuery().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                new CustomerProcessor(getActivity()).process(dataSnapshot);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -72,6 +94,7 @@ public class QueueFragment extends Fragment {
         super.onAttach(context);
 
     }
+
 
     @Override
     public void onDetach() {

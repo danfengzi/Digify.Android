@@ -13,6 +13,7 @@ import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.Iconics;
 
 import net.danlew.android.joda.JodaTimeAndroid;
+import net.gotev.speech.Speech;
 
 import javax.inject.Inject;
 
@@ -57,8 +58,8 @@ public class DigifyApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (!isEmulator())
-            Fabric.with(this, new Crashlytics());
+        Speech.init(this);
+
 
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
@@ -66,6 +67,10 @@ public class DigifyApp extends Application {
 
         JodaTimeAndroid.init(this);
 
+        if (!isEmulator()) {
+            Fabric.with(this, new Crashlytics());
+            Crashlytics.setUserName(preferenceManager.getTenant());
+        }
         initializeCustomFontAndIconProvider();
 
         if (BuildConfig.DEBUG) {

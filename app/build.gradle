@@ -109,6 +109,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.firebaseui:firebase-ui-database:1.2.0'
     compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'net.gotev:speech:1.1.9'
+    compile 'com.novoda:merlin:0.10.0'
     testCompile 'junit:junit:4.12'
     apt 'org.parceler:parceler:1.1.5'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'

@@ -25,15 +25,23 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.novoda.merlin.Merlin;
+import com.novoda.merlin.registerable.connection.Connectable;
+import com.novoda.merlin.registerable.disconnection.Disconnectable;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import digify.tv.R;
 import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
@@ -42,21 +50,36 @@ import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.events.PlaylistContentRemovedEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
+import digify.tv.ui.events.VideoMuteEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
 import es.dmoral.toasty.Toasty;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
  */
-public class LandscapeMediaActivity extends BaseActivity implements
+public class QueueModeActivity extends BaseActivity implements
         PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
 
-    private VideoView videoView;
-    private ImageView imageView;
+    @BindView(R.id.online_text)
+    TextView onlineText;
+    @BindView(R.id.online_layout)
+    RelativeLayout onlineLayout;
+    @BindView(R.id.videoView)
+    VideoView videoView;
+    @BindView(R.id.imageView)
+    ImageView imageView;
+    @BindView(R.id.playback_controls_fragment)
+    FrameLayout playbackControlsFragment;
+    @BindView(R.id.background)
+    RelativeLayout background;
+
     private LeanbackPlaybackState mPlaybackState = LeanbackPlaybackState.IDLE;
     private MediaSession mSession;
     private String barcode;
+    private Merlin merlin;
+    private MediaPlayer currentPlayer;
+    private int currentVolume;
 
     @Inject
     PreferenceManager preferenceManager;
@@ -72,8 +95,8 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
         applicationComponent().inject(this);
 
-
-        setContentView(R.layout.landscape_mode);
+        setContentView(R.layout.queue_mode);
+        ButterKnife.bind(this);
 
 
 
@@ -203,11 +226,9 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
 
     private void loadViews() {
-        videoView = (VideoView) findViewById(R.id.videoView);
         videoView.setFocusable(false);
         videoView.setFocusableInTouchMode(false);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setFocusable(false);
         imageView.setFocusableInTouchMode(false);
     }
@@ -237,6 +258,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
             public void onPrepared(MediaPlayer mp) {
                 if (mPlaybackState == LeanbackPlaybackState.PLAYING) {
                     videoView.start();
+                    currentPlayer = mp;
                 }
             }
         });
@@ -254,6 +276,9 @@ public class LandscapeMediaActivity extends BaseActivity implements
     public void onResume() {
         super.onResume();
         mSession.setActive(true);
+        merlin.bind();
+
+        setupMerlin();
     }
 
     @Override
@@ -268,6 +293,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
             requestVisibleBehind(false);
         }
 
+        merlin.unbind();
     }
 
     @Override
@@ -325,7 +351,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
                 }
             }, 10000);
 
-            Log.v("Item downloaded",event.getMediaTag().getTitle());
+            Log.v("Item downloaded", event.getMediaTag().getTitle());
         }
     }
 
@@ -341,9 +367,64 @@ public class LandscapeMediaActivity extends BaseActivity implements
         }, 10000);
     }
 
-    public void setupQueueMode()
+    public void setupMerlin()
     {
+        merlin = new Merlin.Builder().withConnectableCallbacks().build(this);
+
+        merlin.registerConnectable(new Connectable() {
+            @Override
+            public void onConnect() {
+                if(onlineLayout!=null)
+                {
+                    onlineLayout.setBackgroundResource(R.drawable.online);
+                }
+
+                if(onlineText!=null)
+                {
+                    onlineText.setText("Online");
+                }
+
+            }
+        });
+
+        merlin.registerDisconnectable(new Disconnectable() {
+            @Override
+            public void onDisconnect() {
+                if(onlineLayout!=null)
+                {
+                    onlineLayout.setBackgroundResource(R.drawable.offline);
+                }
+
+                if(onlineText!=null)
+                {
+                    onlineText.setText("Offline");
+                }
+
+            }
+        });
 
     }
+
+
+    @Subscribe
+    public void modifyPlayerVolume(VideoMuteEvent event)
+    {
+        if(currentPlayer!=null)
+        {
+            if(currentPlayer.isPlaying())
+            {
+                if(event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.Mute))
+                {
+                    currentPlayer.setVolume(0,0);
+                }
+                else if(event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.UnMute))
+                {
+                    currentPlayer.setVolume(100,100);
+
+                }
+            }
+        }
+    }
+
 
 }

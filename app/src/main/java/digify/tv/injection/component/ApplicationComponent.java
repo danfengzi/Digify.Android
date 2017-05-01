@@ -9,6 +9,7 @@ import digify.tv.api.RetrofitHelper;
 import digify.tv.core.DeviceInfoService;
 import digify.tv.core.KioskService;
 import digify.tv.core.OnScreenOffReceiver;
+import digify.tv.core.CustomerProcessor;
 import digify.tv.core.SocketService;
 import digify.tv.db.MediaRepository;
 import digify.tv.injection.module.ApplicationModule;
@@ -53,4 +54,5 @@ public interface ApplicationComponent {
     void inject(KioskService kioskService);
     void inject(OnScreenOffReceiver onScreenOffReceiver);
     void inject(QueueFragment queueFragment);
+    void inject(CustomerProcessor customerProcessor);
 }

@@ -1,5 +1,9 @@
 package digify.tv.api.models;
 
+import com.google.firebase.database.Exclude;
+
+import org.joda.time.DateTime;
+
 /**
  * Created by Joel on 4/22/2017.
  */
@@ -12,6 +16,8 @@ public class CustomerModel {
     private String lastName;
     private String tenant;
     private String time;
+    @Exclude
+    private DateTime addedAt;
     private String enteredBy;
     private int position;
     private Boolean serving;
@@ -86,6 +92,14 @@ public class CustomerModel {
 
     public void setServing(Boolean serving) {
         this.serving = serving;
+    }
+
+    public DateTime getAddedAt() {
+        return addedAt;
+    }
+
+    public void setAddedAt(DateTime addedAt) {
+        this.addedAt = addedAt;
     }
 }
 
