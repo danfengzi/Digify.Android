@@ -72,6 +72,17 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
         applicationComponent().inject(this);
 
+        if (preferenceManager.isPortrait()) {
+            Intent intent = new Intent(this, PortraitMediaActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        if (preferenceManager.isQueueModeEnabled()) {
+            Intent intent = new Intent(this, QueueModeActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         setContentView(R.layout.landscape_mode);
 
@@ -79,11 +90,7 @@ public class LandscapeMediaActivity extends BaseActivity implements
 
         eventBus.register(this);
 
-        if (preferenceManager.isPortrait()) {
-            Intent intent = new Intent(this, PortraitMediaActivity.class);
-            startActivity(intent);
-            finish();
-        }
+
 
         loadViews();
 

@@ -183,6 +183,7 @@ public class VideoDetailsFragment extends DetailsFragment {
             @Override
             public void onActionClicked(Action action) {
                 if (action.getId() == ACTION_WATCH_TRAILER) {
+
                     Intent intent = new Intent(getActivity(), LandscapeMediaActivity.class);
                     intent.putExtra(DetailsActivity.MOVIE, mSelectedMediaViewModel);
                     startActivity(intent);

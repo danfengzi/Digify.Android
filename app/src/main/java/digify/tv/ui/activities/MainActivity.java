@@ -133,6 +133,14 @@ public class MainActivity extends BaseActivity {
         if (!getIntent().hasExtra(StartupReceiver.FROM_STARTUP_RECEIVER))
             return;
 
+
+        if (preferenceManager.isQueueModeEnabled()) {
+            Intent intent = new Intent(this, QueueModeActivity.class);
+            startActivity(intent);
+
+            finish();
+        }
+
         List<Media> list = mediaRepository.getMedia();
 
         for (Media media : list) {
@@ -160,6 +168,10 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe
     public void orientationEvent(ScreenOrientationEvent event) {
+
+        if (preferenceManager.isQueueModeEnabled())
+            return;
+
         if (event.getScreenOrientation().equals(ScreenOrientation.Portrait)) {
             if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -171,8 +183,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(!preferenceManager.isKioskModeEnabled())
-        super.onBackPressed();
+        if (!preferenceManager.isKioskModeEnabled())
+            super.onBackPressed();
     }
 }
 

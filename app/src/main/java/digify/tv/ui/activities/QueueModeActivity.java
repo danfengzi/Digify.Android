@@ -79,10 +79,10 @@ public class QueueModeActivity extends BaseActivity implements
     private String barcode;
     private Merlin merlin;
     private MediaPlayer currentPlayer;
-    private int currentVolume;
 
     @Inject
     PreferenceManager preferenceManager;
+
     @Inject
     Bus eventBus;
 
@@ -98,15 +98,7 @@ public class QueueModeActivity extends BaseActivity implements
         setContentView(R.layout.queue_mode);
         ButterKnife.bind(this);
 
-
-
         eventBus.register(this);
-
-        if (preferenceManager.isPortrait()) {
-            Intent intent = new Intent(this, PortraitMediaActivity.class);
-            startActivity(intent);
-            finish();
-        }
 
         loadViews();
 
@@ -276,7 +268,6 @@ public class QueueModeActivity extends BaseActivity implements
     public void onResume() {
         super.onResume();
         mSession.setActive(true);
-        merlin.bind();
 
         setupMerlin();
     }
@@ -293,6 +284,7 @@ public class QueueModeActivity extends BaseActivity implements
             requestVisibleBehind(false);
         }
 
+        if(merlin!=null)
         merlin.unbind();
     }
 
@@ -367,9 +359,15 @@ public class QueueModeActivity extends BaseActivity implements
         }, 10000);
     }
 
+
+
     public void setupMerlin()
     {
-        merlin = new Merlin.Builder().withConnectableCallbacks().build(this);
+
+        if(merlin==null)
+            merlin = new Merlin.Builder().withConnectableCallbacks().withDisconnectableCallbacks().build(this);
+
+        merlin.bind();
 
         merlin.registerConnectable(new Connectable() {
             @Override
@@ -402,6 +400,7 @@ public class QueueModeActivity extends BaseActivity implements
 
             }
         });
+
 
     }
 

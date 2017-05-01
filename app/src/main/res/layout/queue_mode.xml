@@ -5,15 +5,20 @@
     android:id="@+id/background"
     android:background="@drawable/queue_background"
     android:layout_height="match_parent">
-
-    <fragment
+<RelativeLayout
+    android:layout_alignParentTop="true"
+    android:id="@+id/company_details"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
         android:layout_alignParentLeft="true"
-        android:id="@+id/fragment"
-        android:name="digify.tv.ui.fragments.QueueFragment"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-         />
-
+        android:padding="20dp"
+        android:id="@+id/tenant_name"
+        tools:text="Three Angel's Pharmacy"
+        android:layout_centerVertical="true"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <RelativeLayout
         android:id="@+id/online_layout"
         android:layout_margin="30dp"
@@ -30,13 +35,36 @@
         android:id="@+id/online_text"
         android:layout_alignParentLeft="true"
         android:layout_height="wrap_content" /></RelativeLayout>
+</RelativeLayout>
+<LinearLayout
+    android:layout_below="@id/company_details"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+<TextView
+    android:layout_width="wrap_content"
+    android:text="NOW SERViNG"
+    android:textAppearance="?android:textAppearanceLarge"
+    android:layout_marginLeft="20dp"
+    android:layout_marginBottom="10dp"
+    android:layout_height="wrap_content" />
+    <fragment
+        android:layout_alignParentLeft="true"
+        android:id="@+id/fragment"
+        android:name="digify.tv.ui.fragments.QueueFragment"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+         />
+</LinearLayout>
+
+
 
     <FrameLayout
         android:layout_margin="40dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_width="500dp"
-        android:layout_height="300dp">
+        android:layout_width="800dp"
+        android:layout_height="600dp">
 
         <VideoView
             android:id="@+id/videoView"

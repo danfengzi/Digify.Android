@@ -1,6 +1,5 @@
 package digify.tv.ui.activities;
 
-import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
@@ -26,7 +26,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by Joel on 12/15/2016.
  */
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
 
     protected DevicePolicyManager mDpm;
 

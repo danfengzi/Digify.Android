@@ -23,6 +23,7 @@ import digify.tv.ui.activities.MainActivity;
 import digify.tv.ui.activities.MainFragment;
 import digify.tv.ui.activities.PlaybackOverlayFragment;
 import digify.tv.ui.activities.PortraitMediaActivity;
+import digify.tv.ui.activities.QueueModeActivity;
 import digify.tv.ui.activities.VideoDetailsFragment;
 import digify.tv.ui.fragments.QueueFragment;
 
@@ -36,6 +37,7 @@ public interface ApplicationComponent {
 
     void inject(LoginActivity loginActivity);
     void inject(BaseActivity baseActivity);
+    void inject(QueueModeActivity queueModeActivity);
     void inject(PortraitMediaActivity portraitActivity);
     void inject(MainActivity mainActivity);
     void inject(LandscapeMediaActivity landscapeMediaActivity);

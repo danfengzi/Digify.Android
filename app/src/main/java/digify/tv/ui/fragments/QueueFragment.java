@@ -79,7 +79,6 @@ public class QueueFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 new CustomerProcessor(getActivity()).process(dataSnapshot);
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override
