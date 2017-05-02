@@ -45,8 +45,7 @@ public class CustomerProcessor {
         this.activity = activity;
         applicationComponent().inject(this);
         models = new ArrayList<>();
-        Speech.getInstance().setLocale(Locale.UK);
-        Speech.getInstance().setTextToSpeechPitch(1.2f);
+        Speech.getInstance().setLocale(Locale.CANADA);
     }
 
     public void process(DataSnapshot snapshot) {

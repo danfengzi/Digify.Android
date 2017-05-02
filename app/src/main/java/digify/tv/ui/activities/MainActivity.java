@@ -3,6 +3,7 @@ package digify.tv.ui.activities;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -185,6 +186,15 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (!preferenceManager.isKioskModeEnabled())
             super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PLAY || event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)
+            startPlayback();
+
+        return super.onKeyUp(keyCode, event);
     }
 }
 

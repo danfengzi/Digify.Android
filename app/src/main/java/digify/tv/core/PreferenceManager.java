@@ -83,7 +83,7 @@ public class PreferenceManager {
 
 
     public String getQueueMessage() {
-        return preferences.getString(KEY_QUEUE_MESSAGE, "please come to the pick up counter.");
+        return preferences.getString(KEY_QUEUE_MESSAGE, ",Could you please come to the counter.");
     }
 
 

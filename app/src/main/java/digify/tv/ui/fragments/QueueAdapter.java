@@ -33,34 +33,32 @@ public class QueueAdapter extends FirebaseRecyclerAdapter<CustomerModel, QueueAd
 
     @Override
     protected void populateViewHolder(CustomerHolder viewHolder, CustomerModel model, int position) {
+        String name = String.valueOf(position + 1) + "." + model.getFirstName() + " " + model.getLastName();
 
-        viewHolder.name.setText(model.getFirstName()+" "+model.getLastName());
-        viewHolder.position.setText(String.valueOf(position+1)+".");
-
-
-        if(model.getServing())
-        {
-            viewHolder.background.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            viewHolder.background.setVisibility(View.INVISIBLE);
+        if (model.getServing()) {
+            viewHolder.name.setVisibility(View.GONE);
+            viewHolder.nameServing.setText(name);
+            viewHolder.serving.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.name.setVisibility(View.VISIBLE);
+            viewHolder.name.setText(name);
+            viewHolder.serving.setVisibility(View.GONE);
         }
     }
 
 
     public class CustomerHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView position;
+        public final TextView nameServing;
         public final TextView name;
-        public final View background;
+        public final View serving;
 
         public CustomerHolder(View view) {
             super(view);
             mView = view;
-            position = (TextView) view.findViewById(R.id.position);
             name = (TextView) view.findViewById(R.id.name);
-            background = view.findViewById(R.id.background);
+            nameServing = (TextView) view.findViewById(R.id.name_serving);
+            serving = view.findViewById(R.id.serving_layout);
         }
 
         @Override
