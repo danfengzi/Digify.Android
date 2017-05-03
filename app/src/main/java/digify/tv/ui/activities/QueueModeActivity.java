@@ -49,10 +49,13 @@ import digify.tv.db.models.MediaType;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.events.PlaylistContentRemovedEvent;
+import digify.tv.ui.events.QueueModeEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.events.VideoMuteEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
 import es.dmoral.toasty.Toasty;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
@@ -284,8 +287,8 @@ public class QueueModeActivity extends BaseActivity implements
             requestVisibleBehind(false);
         }
 
-        if(merlin!=null)
-        merlin.unbind();
+        if (merlin != null)
+            merlin.unbind();
     }
 
     @Override
@@ -360,11 +363,9 @@ public class QueueModeActivity extends BaseActivity implements
     }
 
 
+    public void setupMerlin() {
 
-    public void setupMerlin()
-    {
-
-        if(merlin==null)
+        if (merlin == null)
             merlin = new Merlin.Builder().withConnectableCallbacks().withDisconnectableCallbacks().build(this);
 
         merlin.bind();
@@ -372,13 +373,11 @@ public class QueueModeActivity extends BaseActivity implements
         merlin.registerConnectable(new Connectable() {
             @Override
             public void onConnect() {
-                if(onlineLayout!=null)
-                {
+                if (onlineLayout != null) {
                     onlineLayout.setBackgroundResource(R.drawable.online);
                 }
 
-                if(onlineText!=null)
-                {
+                if (onlineText != null) {
                     onlineText.setText("Online");
                 }
 
@@ -388,13 +387,11 @@ public class QueueModeActivity extends BaseActivity implements
         merlin.registerDisconnectable(new Disconnectable() {
             @Override
             public void onDisconnect() {
-                if(onlineLayout!=null)
-                {
+                if (onlineLayout != null) {
                     onlineLayout.setBackgroundResource(R.drawable.offline);
                 }
 
-                if(onlineText!=null)
-                {
+                if (onlineText != null) {
                     onlineText.setText("Offline");
                 }
 
@@ -404,21 +401,30 @@ public class QueueModeActivity extends BaseActivity implements
 
     }
 
+    @Subscribe
+    public void queueModeEvent(QueueModeEvent event) {
+        if (!event.isEnabled()) {
+            if (preferenceManager.isPortrait()) {
+                Intent intent = new Intent(this, PortraitMediaActivity.class);
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, LandscapeMediaActivity.class);
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        }
+    }
+
 
     @Subscribe
-    public void modifyPlayerVolume(VideoMuteEvent event)
-    {
-        if(currentPlayer!=null)
-        {
-            if(currentPlayer.isPlaying())
-            {
-                if(event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.Mute))
-                {
-                    currentPlayer.setVolume(0,0);
-                }
-                else if(event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.UnMute))
-                {
-                    currentPlayer.setVolume(100,100);
+    public void modifyPlayerVolume(VideoMuteEvent event) {
+        if (currentPlayer != null) {
+            if (currentPlayer.isPlaying()) {
+                if (event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.Mute)) {
+                    currentPlayer.setVolume(0, 0);
+                } else if (event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.UnMute)) {
+                    currentPlayer.setVolume(100, 100);
 
                 }
             }

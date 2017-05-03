@@ -41,9 +41,12 @@ import digify.tv.db.models.MediaType;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.events.PlaylistContentRemovedEvent;
+import digify.tv.ui.events.QueueModeEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
 import es.dmoral.toasty.Toasty;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
@@ -309,9 +312,20 @@ public class LandscapeMediaActivity extends BaseActivity implements
     public void orientationEvent(ScreenOrientationEvent event) {
         if (event.getScreenOrientation().equals(ScreenOrientation.Portrait)) {
             Intent intent = new Intent(this, PortraitMediaActivity.class);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
+
+    @Subscribe
+    public void queueModeEvent(QueueModeEvent event) {
+        if (event.isEnabled()) {
+            Intent intent = new Intent(this, QueueModeActivity.class);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

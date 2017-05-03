@@ -39,12 +39,14 @@ import digify.tv.db.models.MediaType;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.events.PlaylistContentRemovedEvent;
+import digify.tv.ui.events.QueueModeEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
 import digify.tv.util.Utils;
 import es.dmoral.toasty.Toasty;
 import io.realm.Realm;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.text.TextUtils.isEmpty;
 
 public class PortraitMediaActivity extends BaseActivity implements PlaybackOverlayFragment.OnPlayPauseClickedListener {
@@ -359,6 +361,16 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     public void orientationEvent(ScreenOrientationEvent event) {
         if (event.getScreenOrientation().equals(ScreenOrientation.Landscape)) {
             Intent intent = new Intent(this, LandscapeMediaActivity.class);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    @Subscribe
+    public void queueModeEvent(QueueModeEvent event) {
+        if (event.isEnabled()) {
+            Intent intent = new Intent(this, QueueModeActivity.class);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }

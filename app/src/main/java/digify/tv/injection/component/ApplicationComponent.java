@@ -15,6 +15,7 @@ import digify.tv.db.MediaRepository;
 import digify.tv.injection.module.ApplicationModule;
 import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.jobs.FetchSettingsJob;
+import digify.tv.jobs.FetchUserDeviceJob;
 import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.activities.BaseActivity;
 import digify.tv.ui.activities.LandscapeMediaActivity;
@@ -57,4 +58,5 @@ public interface ApplicationComponent {
     void inject(OnScreenOffReceiver onScreenOffReceiver);
     void inject(QueueFragment queueFragment);
     void inject(CustomerProcessor customerProcessor);
+    void inject(FetchUserDeviceJob fetchUserDeviceJob);
 }

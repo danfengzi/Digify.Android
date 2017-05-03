@@ -26,6 +26,7 @@ import digify.tv.injection.component.DaggerApplicationComponent;
 import digify.tv.injection.module.ApplicationModule;
 import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.jobs.FetchSettingsJob;
+import digify.tv.jobs.FetchUserDeviceJob;
 import digify.tv.jobs.GetDeviceInfoJob;
 import io.fabric.sdk.android.Fabric;
 import io.hypertrack.smart_scheduler.Job;
@@ -128,6 +129,7 @@ public class DigifyApp extends Application {
                 jobManager.addJobInBackground(new FetchPlaylistJob());
                 jobManager.addJobInBackground(new GetDeviceInfoJob());
                 jobManager.addJobInBackground(new FetchSettingsJob());
+                jobManager.addJobInBackground(new FetchUserDeviceJob());
             }
         };
 
