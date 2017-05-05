@@ -58,12 +58,14 @@ import javax.inject.Inject;
 import digify.tv.DigifyApp;
 import digify.tv.R;
 import digify.tv.core.DeviceInfoService;
+import digify.tv.core.GetUserDeviceService;
 import digify.tv.core.MediaItemType;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.PlaylistType;
 import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.jobs.FetchSettingsJob;
+import digify.tv.jobs.FetchUserDeviceJob;
 import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
@@ -328,7 +330,7 @@ public class MainFragment extends BrowseFragment {
 
                 } else if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Refresh)) {
 
-                    Toasty.normal(getActivity(), "Checking for Playlist Updates", Toast.LENGTH_SHORT).show();
+                    Toasty.normal(getActivity(), "Checking for Updates", Toast.LENGTH_SHORT).show();
 
                     serverSync();
 
@@ -350,7 +352,9 @@ public class MainFragment extends BrowseFragment {
         jobManager.addJobInBackground(new FetchPlaylistJob());
         jobManager.addJobInBackground(new GetDeviceInfoJob());
         jobManager.addJobInBackground(new FetchSettingsJob());
+        jobManager.addJobInBackground(new FetchUserDeviceJob());
         getActivity().startService(new Intent(getActivity(), DeviceInfoService.class));
+        getActivity().startService(new Intent(getActivity(), GetUserDeviceService.class));
     }
 
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {

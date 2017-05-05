@@ -93,7 +93,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.activities.QueueModeActivity"></activity>
+        <activity android:name=".ui.activities.QueueModeActivity" />
+
+        <service
+            android:name=".core.GetUserDeviceService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

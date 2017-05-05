@@ -7,6 +7,7 @@ import digify.tv.DigifyApp;
 import digify.tv.api.HostSelectionInterceptor;
 import digify.tv.api.RetrofitHelper;
 import digify.tv.core.DeviceInfoService;
+import digify.tv.core.GetUserDeviceService;
 import digify.tv.core.KioskService;
 import digify.tv.core.OnScreenOffReceiver;
 import digify.tv.core.CustomerProcessor;
@@ -59,4 +60,5 @@ public interface ApplicationComponent {
     void inject(QueueFragment queueFragment);
     void inject(CustomerProcessor customerProcessor);
     void inject(FetchUserDeviceJob fetchUserDeviceJob);
+    void inject(GetUserDeviceService getUserDeviceService);
 }

@@ -27,6 +27,7 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static digify.tv.util.Utils.createPortraitFile;
 import static digify.tv.util.Utils.getPortraitFile;
@@ -55,9 +56,6 @@ public class DeviceInfoService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         DigifyApp.get(getApplicationContext()).getComponent().inject(this);
-
-
-        eventBus.register(this);
 
         digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {
             @Override
@@ -135,7 +133,7 @@ public class DeviceInfoService extends IntentService {
 
             @Override
             public void onFailure(Call<DeviceInfo> call, Throwable t) {
-
+                Timber.e(t);
             }
         });
 
