@@ -28,6 +28,8 @@ import digify.tv.db.MediaRepository;
 import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.Media;
 import digify.tv.jobs.FetchPlaylistJob;
+import digify.tv.ui.events.KioskStatusEvent;
+import digify.tv.ui.events.QueueStatusEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
 import digify.tv.util.Utils;
@@ -165,6 +167,30 @@ public class MainActivity extends BaseActivity {
                 break;
             }
         }
+    }
+
+    @Subscribe
+    public void queueStatusChanged(QueueStatusEvent event)
+    {
+        if(event.isEnabled())
+        {
+            Toasty.success(this,"Queue Mode Enabled!").show();
+        }
+        else
+            Toasty.error(this,"Queue Mode Disabled!").show();
+
+
+    }
+
+    @Subscribe
+    public void kioskStatusChanged(KioskStatusEvent event)
+    {
+        if(event.isEnabled())
+        {
+            Toasty.success(this,"Kiosk Mode Enabled!").show();
+        }
+        else
+            Toasty.error(this,"Kiosk Mode Disabled!").show();
     }
 
     @Subscribe

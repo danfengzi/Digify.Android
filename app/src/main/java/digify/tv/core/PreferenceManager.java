@@ -17,6 +17,7 @@ public class PreferenceManager {
     public static final String KEY_QUEUE = "queue";
     public static final String KEY_CUSTOMER_ID = "customer_id";
     public static final String KEY_TENANT = "tenant";
+    public static final String KEY_CODE = "code";
     public static final String KEY_ORIENTATION = "orientation";
     public static final String KEY_SETUP = "setup";
     public static final String KEY_KIOSK_MODE = "kiosk_mode";
@@ -72,6 +73,12 @@ public class PreferenceManager {
         editor.commit();
     }
 
+    public void setCode(String code) {
+        editor.putString(KEY_CODE, code);
+        editor.commit();
+    }
+
+
 
     public String getCustomerId() {
         return preferences.getString(KEY_CUSTOMER_ID, "");
@@ -84,6 +91,10 @@ public class PreferenceManager {
 
     public String getQueueMessage() {
         return preferences.getString(KEY_QUEUE_MESSAGE, ",Could you please come to the counter.");
+    }
+
+    public String getCode() {
+        return preferences.getString(KEY_CODE, "");
     }
 
 

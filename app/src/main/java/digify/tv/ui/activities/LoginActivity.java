@@ -122,6 +122,7 @@ public class LoginActivity extends BaseActivity {
                             instruction.setText("Enter this code into your dashboard");
                             loadingView.hide();
                             code.setText(response.body().getCode());
+                            preferenceManager.setCode(response.body().getCode());
                             syncInfo.setVisibility(View.VISIBLE);
 
                             checkAssignment(false);

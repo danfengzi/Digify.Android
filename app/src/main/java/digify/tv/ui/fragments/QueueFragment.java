@@ -69,7 +69,7 @@ public class QueueFragment extends Fragment {
 
     public Query getCustomersQuery() {
         return db
-                .child("joel")
+                .child(preferenceManager.getCode())
                 .limitToFirst(5);
     }
 
