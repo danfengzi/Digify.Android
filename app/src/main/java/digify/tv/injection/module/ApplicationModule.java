@@ -20,6 +20,7 @@ import digify.tv.BuildConfig;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
 import digify.tv.api.RetrofitHelper;
+import digify.tv.core.CustomerProcessor;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.MediaRepository;
 import io.realm.Realm;
@@ -124,12 +125,19 @@ public class ApplicationModule {
         return Realm.getInstance(provideRealmConfiguration());
     }
 
+    @Singleton
     @Provides
     DatabaseReference provideDatabaseReference()
     {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         return FirebaseDatabase.getInstance().getReference("customers");
+    }
+
+    @Provides
+    CustomerProcessor provideCustomerProcessor()
+    {
+        return new CustomerProcessor(app);
     }
 
     @Provides

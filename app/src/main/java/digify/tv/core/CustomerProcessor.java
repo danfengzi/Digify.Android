@@ -1,6 +1,6 @@
 package digify.tv.core;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
@@ -31,7 +31,7 @@ import digify.tv.ui.events.VideoMuteEvent;
  */
 
 public class CustomerProcessor {
-    private Activity activity;
+    private Context context;
     private List<CustomerModel> models;
 
     @Inject
@@ -41,15 +41,15 @@ public class CustomerProcessor {
     Bus eventBus;
 
 
-    public CustomerProcessor(Activity activity) {
-        this.activity = activity;
+    public CustomerProcessor(Context context) {
+        this.context = context;
         applicationComponent().inject(this);
+        Speech.getInstance().setLocale(Locale.US);
         models = new ArrayList<>();
-        Speech.getInstance().setLocale(Locale.CANADA);
+
     }
 
     public void process(DataSnapshot snapshot) {
-
         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
             CustomerModel customerModel = dataSnapshot.getValue(CustomerModel.class);
@@ -62,6 +62,8 @@ public class CustomerProcessor {
             return;
 
         CustomerModel model = models.get(0);
+
+        models.clear();
 
         if (model.getServing().equals(false))
             return;
@@ -95,12 +97,12 @@ public class CustomerProcessor {
                 Intent installIntent = new Intent();
                 installIntent.setAction(
                         TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                activity.startActivity(installIntent);
+                context.startActivity(installIntent);
             }
         });
     }
 
     protected ApplicationComponent applicationComponent() {
-        return DigifyApp.get(activity).getComponent();
+        return DigifyApp.get(context).getComponent();
     }
 }

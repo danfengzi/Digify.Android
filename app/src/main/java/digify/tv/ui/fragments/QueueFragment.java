@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import net.gotev.speech.Speech;
+
 import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
@@ -35,6 +37,8 @@ public class QueueFragment extends Fragment {
     @Inject
     PreferenceManager preferenceManager;
     private FirebaseRecyclerAdapter adapter;
+    @Inject
+    CustomerProcessor customerProcessor;
 
     public QueueFragment() {
     }
@@ -43,6 +47,7 @@ public class QueueFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DigifyApp.get(getActivity()).getComponent().inject(this);
+        Speech.getInstance();
         customerChanges();
     }
 
@@ -61,7 +66,7 @@ public class QueueFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            adapter=new QueueAdapter(getActivity(), CustomerModel.class, R.layout.fragment_customer, QueueAdapter.CustomerHolder.class, getCustomersQuery());
+            adapter = new QueueAdapter(getActivity(), CustomerModel.class, R.layout.fragment_customer, QueueAdapter.CustomerHolder.class, getCustomersQuery());
             recyclerView.setAdapter(adapter);
         }
         return view;
@@ -69,7 +74,7 @@ public class QueueFragment extends Fragment {
 
     public Query getCustomersQuery() {
         return db
-                .child(preferenceManager.getCode())
+                .child(preferenceManager.getCode().toLowerCase())
                 .limitToFirst(5);
     }
 
@@ -77,7 +82,7 @@ public class QueueFragment extends Fragment {
         getCustomersQuery().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                new CustomerProcessor(getActivity()).process(dataSnapshot);
+                customerProcessor.process(dataSnapshot);
                 adapter.notifyDataSetChanged();
             }
 
@@ -94,6 +99,11 @@ public class QueueFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 
     @Override
     public void onDetach() {
