@@ -53,6 +53,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.crashlytics.android.Crashlytics;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -401,6 +403,14 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
     private void next() {
         if (++mCurrentItem >= mItems.size()) {
             mCurrentItem = 0;
+        }
+
+        MediaViewModel media = mItems.get(mCurrentItem);
+
+        if (media.getStartTime() != null && media.getEndTime() != null) {
+            if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow())) {
+               next();
+            }
         }
 
         if (mPlayPauseAction.getIndex() == PlayPauseAction.PLAY) {

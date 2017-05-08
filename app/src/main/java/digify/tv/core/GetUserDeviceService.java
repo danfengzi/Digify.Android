@@ -11,7 +11,9 @@ import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
 import digify.tv.db.models.DeviceInfo;
 import digify.tv.jobs.GetDeviceInfoJob;
+import digify.tv.ui.events.KioskStatusEvent;
 import digify.tv.ui.events.QueueModeEvent;
+import digify.tv.ui.events.QueueStatusEvent;
 import digify.tv.util.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,21 +47,24 @@ public class GetUserDeviceService extends IntentService {
 
 
                 if (response.isSuccessful()) {
+
+                    if(preferenceManager.isKioskModeEnabled()!=response.body().isKioskMode())
+                        eventBus.post(new KioskStatusEvent(response.body().isKioskMode()));
+
                     preferenceManager.setKioskMode(response.body().isKioskMode());
 
-                    if(response.body().isKioskMode())
-                    {
+                    if (response.body().isKioskMode()) {
                         startKioskMode();
-                    }
-                    else
-                    {
+                    } else {
                         stopKioskMode();
                     }
 
                     preferenceManager.setQueueMode(response.body().isQueueMode());
 
-                    eventBus.post(new QueueModeEvent(response.body().isQueueMode()));
+                    if(preferenceManager.isQueueModeEnabled()!=response.body().isQueueMode())
+                        eventBus.post(new QueueStatusEvent(response.body().isQueueMode()));
 
+                    eventBus.post(new QueueModeEvent(response.body().isQueueMode()));
                 }
                 else
                 {

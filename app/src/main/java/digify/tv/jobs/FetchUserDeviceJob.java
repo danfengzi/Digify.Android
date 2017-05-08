@@ -16,7 +16,9 @@ import digify.tv.api.DigifyApiService;
 import digify.tv.core.KioskService;
 import digify.tv.core.PreferenceManager;
 import digify.tv.db.models.DeviceInfo;
+import digify.tv.ui.events.KioskStatusEvent;
 import digify.tv.ui.events.QueueModeEvent;
+import digify.tv.ui.events.QueueStatusEvent;
 import digify.tv.util.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +61,10 @@ public class FetchUserDeviceJob extends Job {
 
 
                 if (response.isSuccessful()) {
+
+                    if(preferenceManager.isKioskModeEnabled()!=response.body().isKioskMode())
+                        eventBus.post(new KioskStatusEvent(response.body().isKioskMode()));
+
                     preferenceManager.setKioskMode(response.body().isKioskMode());
 
                     if (response.body().isKioskMode()) {
@@ -68,6 +74,9 @@ public class FetchUserDeviceJob extends Job {
                     }
 
                     preferenceManager.setQueueMode(response.body().isQueueMode());
+
+                    if(preferenceManager.isQueueModeEnabled()!=response.body().isQueueMode())
+                        eventBus.post(new QueueStatusEvent(response.body().isQueueMode()));
 
                     eventBus.post(new QueueModeEvent(response.body().isQueueMode()));
 

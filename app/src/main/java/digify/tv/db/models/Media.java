@@ -1,6 +1,5 @@
 package digify.tv.db.models;
 
-import java.util.Comparator;
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -10,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Joel on 12/12/2016.
  */
 
-public class Media extends RealmObject implements Comparable<Media> {
+public class Media extends RealmObject {
 
     @PrimaryKey
     private Integer id;
@@ -140,14 +139,5 @@ public class Media extends RealmObject implements Comparable<Media> {
         this.position = position;
     }
 
-    @Override
-    public int compareTo(Media media) {
-        return (this.getPosition()).compareTo(media.getPosition());
-    }
 
-    public static final Comparator<Media> ASCENDING_COMPARATOR = new Comparator<Media>() {
-        public int compare(Media lhs, Media rhs) {
-            return rhs.getPosition() - lhs.getPosition();
-        }
-    };
 }

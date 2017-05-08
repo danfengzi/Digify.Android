@@ -21,7 +21,6 @@ import digify.tv.db.models.MediaType;
 import digify.tv.db.models.PlaylistType;
 import digify.tv.ui.activities.MediaViewModel;
 import digify.tv.ui.events.PlaylistContentRemovedEvent;
-import digify.tv.util.MediaPositionComparator;
 import digify.tv.util.Utils;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -61,16 +60,16 @@ public class MediaRepository extends BaseComponent {
 
         for (Media media : results) {
 
-
             MediaViewModel mediaViewModel = new MediaViewModel();
             if (media.getStartTime() != null && media.getEndTime() != null) {
                 if (!(new DateTime(media.getStartTime()).isAfterNow() && new DateTime(media.getEndTime()).isBeforeNow())) {
                     mediaViewModel.setNotScheduled(true);
-                    if (playlistType.equals(PlaylistType.Playback))
-                        continue;
+
                 }
             }
             mediaViewModel.setId(media.getId());
+            mediaViewModel.setStartTime(media.getStartTime());
+            mediaViewModel.setEndTime(media.getEndTime());
             mediaViewModel.setTitle(media.getName());
             mediaViewModel.setPosition(media.getPosition());
             mediaViewModel.setCategory("Playlist");
@@ -101,7 +100,7 @@ public class MediaRepository extends BaseComponent {
             }
 
             models.add(mediaViewModel);
-            Collections.sort(models, new MediaPositionComparator());
+            Collections.sort(models,MediaViewModel.ASCENDING_COMPARATOR);
         }
 
         return models;
@@ -138,6 +137,8 @@ public class MediaRepository extends BaseComponent {
             if (mediaViewModel.getMediaType().equals(mediaType))
                 filtered.add(mediaViewModel);
         }
+
+        Collections.sort(list,MediaViewModel.ASCENDING_COMPARATOR);
 
         return filtered;
     }

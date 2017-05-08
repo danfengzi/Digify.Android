@@ -19,6 +19,8 @@ import android.util.Log;
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Comparator;
+import java.util.Date;
 
 import digify.tv.db.models.MediaType;
 import digify.tv.ui.events.MediaDownloadStatus;
@@ -27,7 +29,7 @@ import digify.tv.ui.events.MediaDownloadStatus;
  * Movie class represents video entity with title, description, image thumbs and video url.
  *
  */
-public class MediaViewModel implements Serializable {
+public class MediaViewModel implements Serializable,Comparable<MediaViewModel> {
     static final long serialVersionUID = 727566175075960653L;
     private static long count = 0;
     private int id;
@@ -43,6 +45,8 @@ public class MediaViewModel implements Serializable {
     private double progress;
     private Boolean notScheduled;
     private Integer position;
+    private Date startTime;
+    private Date endTime;
 
     public MediaViewModel() {
     }
@@ -191,4 +195,31 @@ public class MediaViewModel implements Serializable {
     public void setPosition(Integer position) {
         this.position = position;
     }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    @Override
+    public int compareTo(MediaViewModel media) {
+        return (this.getPosition()).compareTo(media.getPosition());
+    }
+
+    public static final Comparator<MediaViewModel> ASCENDING_COMPARATOR = new Comparator<MediaViewModel>() {
+        public int compare(MediaViewModel lhs, MediaViewModel rhs) {
+            return rhs.getPosition() - lhs.getPosition();
+        }
+    };
 }
