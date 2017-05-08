@@ -198,8 +198,6 @@ public class LoginActivity extends BaseActivity {
                     preferenceManager.setName(response.body().getName());
                     preferenceManager.setBaseUrl(response.body().getTenantUrl());
                     preferenceManager.setTenant(response.body().getTenant());
-                    preferenceManager.setKioskMode(response.body().isKioskMode());
-                    preferenceManager.setQueueMode(response.body().isQueueMode());
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |

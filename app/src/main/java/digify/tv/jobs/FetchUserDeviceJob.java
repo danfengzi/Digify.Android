@@ -13,14 +13,15 @@ import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
-import digify.tv.api.models.UserDeviceModel;
 import digify.tv.core.KioskService;
 import digify.tv.core.PreferenceManager;
+import digify.tv.db.models.DeviceInfo;
 import digify.tv.ui.events.QueueModeEvent;
 import digify.tv.util.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by Joel on 5/3/2017.
@@ -50,21 +51,19 @@ public class FetchUserDeviceJob extends Job {
     public void onRun() throws Throwable {
         DigifyApp.get(getApplicationContext()).getComponent().inject(this);
 
-        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID(getApplicationContext()));
+        Call<DeviceInfo> request = digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext()));
 
-        request.enqueue(new Callback<UserDeviceModel>() {
+        request.enqueue(new Callback<DeviceInfo>() {
             @Override
-            public void onResponse(Call<UserDeviceModel> call, Response<UserDeviceModel> response) {
+            public void onResponse(Call<DeviceInfo> call, Response<DeviceInfo> response) {
+
 
                 if (response.isSuccessful()) {
                     preferenceManager.setKioskMode(response.body().isKioskMode());
 
-                    if(response.body().isKioskMode())
-                    {
+                    if (response.body().isKioskMode()) {
                         startKioskMode();
-                    }
-                    else
-                    {
+                    } else {
                         stopKioskMode();
                     }
 
@@ -72,11 +71,18 @@ public class FetchUserDeviceJob extends Job {
 
                     eventBus.post(new QueueModeEvent(response.body().isQueueMode()));
 
+                } else {
+                    try {
+                        if(response.errorBody()!=null)
+                        Timber.e(response.errorBody().string(), null);
+                    } catch (Exception e) {
+                    }
                 }
+
             }
 
             @Override
-            public void onFailure(Call<UserDeviceModel> call, Throwable t) {
+            public void onFailure(Call<DeviceInfo> call, Throwable t) {
             }
         });
 

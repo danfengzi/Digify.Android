@@ -20,6 +20,8 @@ public class DeviceInfo extends RealmObject {
     private String mode;
     private String portraitLogo;
     private String portraitMessage;
+    private boolean kioskMode;
+    private boolean queueMode;
 
     public int getDeviceId() {
         return deviceId;
@@ -91,5 +93,21 @@ public class DeviceInfo extends RealmObject {
 
     public void setPortraitMessage(String portraitMessage) {
         this.portraitMessage = portraitMessage;
+    }
+
+    public boolean isKioskMode() {
+        return kioskMode;
+    }
+
+    public void setKioskMode(boolean kioskMode) {
+        this.kioskMode = kioskMode;
+    }
+
+    public boolean isQueueMode() {
+        return queueMode;
+    }
+
+    public void setQueueMode(boolean queueMode) {
+        this.queueMode = queueMode;
     }
 }

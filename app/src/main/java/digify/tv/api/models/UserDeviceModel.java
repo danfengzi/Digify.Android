@@ -15,8 +15,7 @@ public class UserDeviceModel {
     private String deviceIdString;
     private String tenant;
     private String tenantUrl;
-    private boolean kioskMode;
-    private boolean queueMode;
+
 
     public String getDeviceId() {
         return deviceId;
@@ -82,19 +81,5 @@ public class UserDeviceModel {
         this.tenantUrl = tenantUrl;
     }
 
-    public boolean isKioskMode() {
-        return kioskMode;
-    }
 
-    public void setKioskMode(boolean kioskMode) {
-        this.kioskMode = kioskMode;
-    }
-
-    public boolean isQueueMode() {
-        return queueMode;
-    }
-
-    public void setQueueMode(boolean queueMode) {
-        this.queueMode = queueMode;
-    }
 }

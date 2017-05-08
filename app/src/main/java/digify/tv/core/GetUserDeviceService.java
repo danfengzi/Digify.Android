@@ -5,13 +5,11 @@ import android.content.Intent;
 
 import com.squareup.otto.Bus;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
 import digify.tv.DigifyApp;
 import digify.tv.api.DigifyApiService;
-import digify.tv.api.models.UserDeviceModel;
+import digify.tv.db.models.DeviceInfo;
 import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.events.QueueModeEvent;
 import digify.tv.util.Utils;
@@ -39,11 +37,11 @@ public class GetUserDeviceService extends IntentService {
         DigifyApp.get(getApplicationContext()).getComponent().inject(this);
 
 
-        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID(getApplicationContext()));
+        Call<DeviceInfo> request = digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext()));
 
-        request.enqueue(new Callback<UserDeviceModel>() {
+        request.enqueue(new Callback<DeviceInfo>() {
             @Override
-            public void onResponse(Call<UserDeviceModel> call, Response<UserDeviceModel> response) {
+            public void onResponse(Call<DeviceInfo> call, Response<DeviceInfo> response) {
 
 
                 if (response.isSuccessful()) {
@@ -66,14 +64,15 @@ public class GetUserDeviceService extends IntentService {
                 else
                 {
                     try {
+                        if(response.errorBody()!=null)
                         Timber.e(response.errorBody().string(),null);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<UserDeviceModel> call, Throwable t) {
+            public void onFailure(Call<DeviceInfo> call, Throwable t) {
                 Timber.e(t);
             }
         });
