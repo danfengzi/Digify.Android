@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import digify.tv.core.KioskService;
 import digify.tv.core.OnScreenOffReceiver;
 import digify.tv.core.PreferenceManager;
-import digify.tv.core.SocketService;
 import digify.tv.injection.component.ApplicationComponent;
 import digify.tv.injection.component.DaggerApplicationComponent;
 import digify.tv.injection.module.ApplicationModule;
@@ -83,7 +82,6 @@ public class DigifyApp extends Application {
         applicationComponent.inject(this);
 
         scheduleJob();
-        startSocketService();
         setupInAppKioskService();
         registerKioskModeScreenOffReceiver();
     }
@@ -98,10 +96,6 @@ public class DigifyApp extends Application {
         return (DigifyApp) context.getApplicationContext();
     }
 
-    private void startSocketService()
-    {
-        startService(new Intent(this, SocketService.class));
-    }
 
     public void initializeCustomFontAndIconProvider() {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

@@ -64,20 +64,7 @@
         <service
             android:name=".core.DeviceInfoService"
             android:exported="false" />
-        <service
-            android:name=".core.SocketService"
-            android:enabled="true"
-            android:exported="true" />
 
-        <receiver
-            android:name=".core.SocketStarterReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="digify.tv.socket.start" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
         <receiver
             android:name=".core.AdminReceiver"
             android:enabled="true"

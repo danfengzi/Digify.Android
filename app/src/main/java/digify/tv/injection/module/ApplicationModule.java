@@ -8,7 +8,6 @@ import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.log.CustomLogger;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.pusher.client.Pusher;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
@@ -17,7 +16,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import digify.tv.BuildConfig;
-import digify.tv.R;
 import digify.tv.api.DigifyApiService;
 import digify.tv.api.RetrofitHelper;
 import digify.tv.core.CustomerProcessor;
@@ -112,12 +110,6 @@ public class ApplicationModule {
 
         return builder.build();
 
-    }
-
-    @Provides
-    Pusher providePusher()
-    {
-        return new Pusher(app.getApplicationContext().getString(R.string.pusher_key));
     }
 
     @Provides
