@@ -48,6 +48,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import org.joda.time.DateTime;
+
 import java.net.URI;
 import java.util.List;
 import java.util.Timer;
@@ -298,13 +300,12 @@ public class MainFragment extends BrowseFragment {
                         return;
                     }
 
-                if (mediaViewModel.getNotScheduled() != null) {
-                    if (mediaViewModel.getNotScheduled()) {
+                if (mediaViewModel.getStartTime() != null && mediaViewModel.getEndTime() != null) {
+                    if (!(new DateTime(mediaViewModel.getStartTime()).isAfterNow() && new DateTime(mediaViewModel.getEndTime()).isBeforeNow())) {
                         Toasty.info(getActivity(), "Item can be viewed during scheduled time.").show();
                         return;
                     }
                 }
-
 
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
