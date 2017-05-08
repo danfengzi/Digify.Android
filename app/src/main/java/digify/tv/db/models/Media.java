@@ -147,7 +147,7 @@ public class Media extends RealmObject implements Comparable<Media> {
 
     public static final Comparator<Media> ASCENDING_COMPARATOR = new Comparator<Media>() {
         public int compare(Media lhs, Media rhs) {
-            return lhs.getPosition() - rhs.getPosition();
+            return rhs.getPosition() - lhs.getPosition();
         }
     };
 }
