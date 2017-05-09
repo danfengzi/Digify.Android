@@ -22,6 +22,7 @@ import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,6 +38,8 @@ import com.novoda.merlin.registerable.connection.Connectable;
 import com.novoda.merlin.registerable.disconnection.Disconnectable;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -63,6 +66,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 public class QueueModeActivity extends BaseActivity implements
         PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
+    private static final int MY_DATA_CHECK_CODE = 234;
 
     @BindView(R.id.online_text)
     TextView onlineText;
@@ -115,6 +119,8 @@ public class QueueModeActivity extends BaseActivity implements
         mSession.setActive(true);
 
         setupFragment();
+
+        ttsChecker();
 
     }
 
@@ -428,6 +434,29 @@ public class QueueModeActivity extends BaseActivity implements
 
                 }
             }
+        }
+    }
+
+    public void ttsChecker()
+    {
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+
+        checkTTSIntent.putExtra(
+                TextToSpeech.Engine.EXTRA_CHECK_VOICE_DATA_FOR,
+                Locale.US);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_FAIL) {
+                //TTS is not installed for the default language
+                Intent installIntent = new Intent();
+                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+
         }
     }
 
