@@ -29,6 +29,7 @@ import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.Media;
 import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.ui.events.KioskStatusEvent;
+import digify.tv.ui.events.PlayEvent;
 import digify.tv.ui.events.QueueStatusEvent;
 import digify.tv.ui.events.ScreenOrientationEvent;
 import digify.tv.ui.viewmodels.ScreenOrientation;
@@ -167,6 +168,12 @@ public class MainActivity extends BaseActivity {
                 break;
             }
         }
+    }
+
+    @Subscribe
+    public void playbackActionEvent(PlayEvent playEvent)
+    {
+        startPlayback();
     }
 
     @Subscribe

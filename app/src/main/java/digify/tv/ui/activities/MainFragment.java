@@ -71,6 +71,7 @@ import digify.tv.jobs.FetchUserDeviceJob;
 import digify.tv.jobs.GetDeviceInfoJob;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
+import digify.tv.ui.events.PlayEvent;
 import digify.tv.ui.events.PlaylistContentRemovedEvent;
 import digify.tv.ui.viewmodels.PreferencesItemModel;
 import digify.tv.ui.viewmodels.PreferencesItemType;
@@ -145,7 +146,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
 
         for (MediaViewModel model : list) {
-            Log.v("position ",model.getMediaUrl()+" "+" position "+model.getPosition());
+            Log.v("position ", model.getMediaUrl() + " " + " position " + model.getPosition());
             listRowAdapter.add(model);
 
         }
@@ -157,6 +158,7 @@ public class MainFragment extends BrowseFragment {
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
 
+        gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Play, "Start Playlist"));
         gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Refresh, "Refresh Playlist"));
         gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Logout, "Log Out"));
         mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
@@ -337,6 +339,8 @@ public class MainFragment extends BrowseFragment {
                     serverSync();
 
                     loadRows();
+                } else if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Refresh)) {
+                    eventBus.post(new PlayEvent());
                 }
             } else if (item instanceof String) {
                 if (((String) item).indexOf(getString(R.string.error_fragment)) >= 0) {

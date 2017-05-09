@@ -6,5 +6,6 @@ package digify.tv.ui.viewmodels;
 
 public enum  PreferencesItemType {
     Refresh,
-    Logout
+    Logout,
+    Play
 }
