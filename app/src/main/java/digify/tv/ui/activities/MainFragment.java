@@ -145,6 +145,7 @@ public class MainFragment extends BrowseFragment {
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
 
         for (MediaViewModel model : list) {
+            Log.v("position ",model.getMediaUrl()+" "+" position "+model.getPosition());
             listRowAdapter.add(model);
 
         }

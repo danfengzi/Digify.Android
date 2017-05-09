@@ -65,12 +65,10 @@ public class DigifyApp extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
 
+
         JodaTimeAndroid.init(this);
 
-        if (!isEmulator()) {
-            Fabric.with(this, new Crashlytics());
-            Crashlytics.setUserName(preferenceManager.getTenant());
-        }
+
         initializeCustomFontAndIconProvider();
 
         if (BuildConfig.DEBUG) {
@@ -80,6 +78,11 @@ public class DigifyApp extends Application {
         FileDownloader.init(getApplicationContext());
 
         applicationComponent.inject(this);
+
+        if (!isEmulator()) {
+            Fabric.with(this, new Crashlytics());
+            Crashlytics.setUserName(preferenceManager.getTenant());
+        }
 
         scheduleJob();
         setupInAppKioskService();
@@ -171,7 +174,7 @@ public class DigifyApp extends Application {
     }
 
     public PowerManager.WakeLock getWakeLock() {
-        if(wakeLock == null) {
+        if (wakeLock == null) {
             // lazy loading: first call, create wakeLock via PowerManager.
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "wakeup");

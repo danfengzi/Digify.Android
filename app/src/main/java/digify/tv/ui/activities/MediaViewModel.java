@@ -219,7 +219,7 @@ public class MediaViewModel implements Serializable,Comparable<MediaViewModel> {
 
     public static final Comparator<MediaViewModel> ASCENDING_COMPARATOR = new Comparator<MediaViewModel>() {
         public int compare(MediaViewModel lhs, MediaViewModel rhs) {
-            return rhs.getPosition() - lhs.getPosition();
+            return lhs.getPosition() - rhs.getPosition();
         }
     };
 }
