@@ -1,73 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/background"
-    android:background="@drawable/queue_background"
-    android:layout_height="match_parent">
-<RelativeLayout
-    android:paddingTop="20dp"
-    android:layout_alignParentTop="true"
-    android:id="@+id/company_details"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:layout_alignParentLeft="true"
-        android:padding="20dp"
-        android:id="@+id/tenant_name"
-        android:text="Digify Queue"
-        android:layout_centerVertical="true"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:layout_height="match_parent"
+    android:background="@drawable/queue_background">
+
     <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:id="@+id/online_layout"
-        android:layout_margin="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_width="120dp"
-        android:background="@drawable/online"
-        android:layout_height="40dp"><TextView
+        android:id="@+id/company_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/tenant_name"
+            fontPath="Roboto-Thin.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="20dp"
+            android:textSize="32sp"
+            tools:ignore="MissingPrefix" />
+
+        <RelativeLayout
+            android:id="@+id/online_layout"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/online">
+
+            <TextView
+                android:id="@+id/online_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:text="Online"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/queue_layout"
         android:layout_width="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"
-        android:text="Online"
-        android:layout_marginLeft="15dp"
-        android:layout_centerVertical="true"
-        android:id="@+id/online_text"
-        android:layout_alignParentLeft="true"
-        android:layout_height="wrap_content" /></RelativeLayout>
-</RelativeLayout>
-<LinearLayout
-    android:id="@+id/queue_layout"
-    android:layout_below="@id/company_details"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent">
-<TextView
-    android:layout_width="wrap_content"
-    android:text="NOW SERViNG"
-    android:textAppearance="?android:textAppearanceLarge"
-    android:layout_marginLeft="20dp"
-    android:layout_marginBottom="10dp"
-    android:layout_height="wrap_content" />
-    <fragment
-        android:layout_alignParentLeft="true"
-        android:id="@+id/fragment"
-        android:name="digify.tv.ui.fragments.QueueFragment"
-        android:layout_width="400dp"
         android:layout_height="match_parent"
-         />
-</LinearLayout>
+        android:layout_below="@id/company_details"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/now_serving"
+            fontPath="Roboto-Regular.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="NOW SERVING"
+            android:textSize="35sp"
+            tools:ignore="MissingPrefix" />
+
+        <fragment
+            android:id="@+id/fragment"
+            android:name="digify.tv.ui.fragments.QueueFragment"
+            android:layout_width="400dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true" />
+    </LinearLayout>
 
     <FrameLayout
-        android:layout_toLeftOf="@+id/queue_layout"
-        android:layout_margin="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_below="@id/company_details"
+        android:id="@+id/media_layout"
         android:layout_width="800dp"
-        android:layout_height="600dp">
+        android:layout_height="500dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:layout_toLeftOf="@+id/queue_layout"
+        android:background="@android:color/black">
 
         <VideoView
             android:id="@+id/videoView"
@@ -88,4 +102,18 @@
             android:visibility="gone" />
 
     </FrameLayout>
+    <RelativeLayout
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextClock
+            fontPath="Roboto-Regular.ttf"
+            android:textStyle="bold"
+            android:textSize="50sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingPrefix" />
+    </RelativeLayout>
 </RelativeLayout>

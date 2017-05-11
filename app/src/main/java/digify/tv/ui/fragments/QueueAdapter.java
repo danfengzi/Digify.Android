@@ -1,6 +1,7 @@
 package digify.tv.ui.fragments;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,9 +39,11 @@ public class QueueAdapter extends FirebaseRecyclerAdapter<CustomerModel, QueueAd
         if (model.getServing()) {
             viewHolder.name.setVisibility(View.GONE);
             viewHolder.nameServing.setText(name);
+            viewHolder.nameServing.setTypeface(null, Typeface.BOLD);
             viewHolder.serving.setVisibility(View.VISIBLE);
         } else {
             viewHolder.name.setVisibility(View.VISIBLE);
+            viewHolder.name.setTypeface(null, Typeface.BOLD);
             viewHolder.name.setText(name);
             viewHolder.serving.setVisibility(View.GONE);
         }

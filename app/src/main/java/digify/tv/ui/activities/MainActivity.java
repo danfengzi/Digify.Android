@@ -79,7 +79,6 @@ public class MainActivity extends BaseActivity {
 
         applicationComponent().inject(this);
 
-        eventBus.register(this);
 
         if (!preferenceManager.isLoggedIn())
             return;
@@ -131,9 +130,21 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-    private void startPlayback() {
+        eventBus.register(this);
 
+    }
+
+    private void startPlayback()
+    {
+        startPlayback(true);
+    }
+    private void startPlayback(boolean onlyAtStartup) {
+
+        if(onlyAtStartup)
         if (!getIntent().hasExtra(StartupReceiver.FROM_STARTUP_RECEIVER))
             return;
 
@@ -173,7 +184,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void playbackActionEvent(PlayEvent playEvent)
     {
-        startPlayback();
+        startPlayback(false);
     }
 
     @Subscribe

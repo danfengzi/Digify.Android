@@ -28,11 +28,17 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.novoda.merlin.Merlin;
 import com.novoda.merlin.registerable.connection.Connectable;
 import com.novoda.merlin.registerable.disconnection.Disconnectable;
@@ -80,12 +86,23 @@ public class QueueModeActivity extends BaseActivity implements
     FrameLayout playbackControlsFragment;
     @BindView(R.id.background)
     RelativeLayout background;
+    @BindView(R.id.tenant_name)
+    TextView tenantName;
+    @BindView(R.id.company_details)
+    RelativeLayout companyDetails;
+    @BindView(R.id.now_serving)
+    TextView nowServing;
+    @BindView(R.id.queue_layout)
+    LinearLayout queueLayout;
+    @BindView(R.id.media_layout)
+    FrameLayout mediaLayout;
 
     private LeanbackPlaybackState mPlaybackState = LeanbackPlaybackState.IDLE;
     private MediaSession mSession;
     private String barcode;
     private Merlin merlin;
     private MediaPlayer currentPlayer;
+    private Boolean firebaseOnline  = true;
 
     @Inject
     PreferenceManager preferenceManager;
@@ -111,6 +128,8 @@ public class QueueModeActivity extends BaseActivity implements
 
         setupCallbacks();
 
+        setupFirebaseStatus();
+
         mSession = new MediaSession(this, "Digify");
         mSession.setCallback(new MediaSessionCallback());
         mSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS |
@@ -119,8 +138,8 @@ public class QueueModeActivity extends BaseActivity implements
         mSession.setActive(true);
 
         setupFragment();
-
         ttsChecker();
+        tenantName.setText(preferenceManager.getTenant());
 
     }
 
@@ -379,13 +398,23 @@ public class QueueModeActivity extends BaseActivity implements
         merlin.registerConnectable(new Connectable() {
             @Override
             public void onConnect() {
-                if (onlineLayout != null) {
-                    onlineLayout.setBackgroundResource(R.drawable.online);
-                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                if (onlineText != null) {
-                    onlineText.setText("Online");
-                }
+                        if(!firebaseOnline)
+                            return;
+
+                        if (onlineLayout != null) {
+                            onlineLayout.setBackgroundResource(R.drawable.online);
+                        }
+
+                        if (onlineText != null) {
+                            onlineText.setText("Online");
+                        }
+
+                    }
+                });
 
             }
         });
@@ -393,13 +422,18 @@ public class QueueModeActivity extends BaseActivity implements
         merlin.registerDisconnectable(new Disconnectable() {
             @Override
             public void onDisconnect() {
-                if (onlineLayout != null) {
-                    onlineLayout.setBackgroundResource(R.drawable.offline);
-                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (onlineLayout != null) {
+                            onlineLayout.setBackgroundResource(R.drawable.offline);
+                        }
 
-                if (onlineText != null) {
-                    onlineText.setText("Offline");
-                }
+                        if (onlineText != null) {
+                            onlineText.setText("Offline");
+                        }
+                    }
+                });
 
             }
         });
@@ -437,8 +471,7 @@ public class QueueModeActivity extends BaseActivity implements
         }
     }
 
-    public void ttsChecker()
-    {
+    public void ttsChecker() {
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 
@@ -458,6 +491,43 @@ public class QueueModeActivity extends BaseActivity implements
             }
 
         }
+    }
+
+    public void setupFirebaseStatus()
+    {
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                firebaseOnline = snapshot.getValue(Boolean.class);
+
+
+                if(firebaseOnline)
+                {
+                    if (onlineLayout != null) {
+                        onlineLayout.setBackgroundResource(R.drawable.online);
+                    }
+
+                    if (onlineText != null) {
+                        onlineText.setText("Online");
+                    }
+                }
+                else
+                {
+                    if (onlineLayout != null) {
+                        onlineLayout.setBackgroundResource(R.drawable.offline);
+                    }
+
+                    if (onlineText != null) {
+                        onlineText.setText("Offline");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
     }
 
 

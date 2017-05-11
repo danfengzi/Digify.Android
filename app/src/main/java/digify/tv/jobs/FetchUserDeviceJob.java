@@ -73,10 +73,11 @@ public class FetchUserDeviceJob extends Job {
                         stopKioskMode();
                     }
 
-                    preferenceManager.setQueueMode(response.body().isQueueMode());
 
                     if(preferenceManager.isQueueModeEnabled()!=response.body().isQueueMode())
                         eventBus.post(new QueueStatusEvent(response.body().isQueueMode()));
+
+                    preferenceManager.setQueueMode(response.body().isQueueMode());
 
                     eventBus.post(new QueueModeEvent(response.body().isQueueMode()));
 

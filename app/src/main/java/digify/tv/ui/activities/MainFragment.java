@@ -158,7 +158,7 @@ public class MainFragment extends BrowseFragment {
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
 
-        gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Play, "Start Playlist"));
+        gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Play, "Play All"));
         gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Refresh, "Refresh Playlist"));
         gridRowAdapter.add(new PreferencesItemModel(PreferencesItemType.Logout, "Log Out"));
         mRowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
@@ -339,7 +339,7 @@ public class MainFragment extends BrowseFragment {
                     serverSync();
 
                     loadRows();
-                } else if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Refresh)) {
+                } else if (((PreferencesItemModel) item).getItemType().equals(PreferencesItemType.Play)) {
                     eventBus.post(new PlayEvent());
                 }
             } else if (item instanceof String) {
