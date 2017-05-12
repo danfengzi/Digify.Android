@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,7 +59,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.sync_info)
     LinearLayout syncInfo;
     @BindView(R.id.login_button)
-    ImageView loginButton;
+    IconicsImageView loginButton;
     @BindView(R.id.login_layout)
     LinearLayout loginLayout;
 
