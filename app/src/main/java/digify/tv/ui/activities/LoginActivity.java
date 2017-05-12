@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikepenz.iconics.view.IconicsImageView;
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -55,7 +56,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.activity_login)
     RelativeLayout activityLogin;
     @BindView(R.id.sync_button)
-    ImageView syncButton;
+    IconicsImageView syncButton;
     @BindView(R.id.sync_info)
     LinearLayout syncInfo;
     @BindView(R.id.login_button)
@@ -108,7 +109,7 @@ public class LoginActivity extends BaseActivity {
 
         syncButton.requestFocus();
 
-        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(Utils.getUniqueDeviceID(this));
+        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(Utils.getUniqueDeviceID());
 
         loginCall.enqueue(new Callback<LoginResponseModel>() {
             @Override
@@ -186,7 +187,7 @@ public class LoginActivity extends BaseActivity {
 
         scaleSyncButton();
 
-        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID(this));
+        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID());
 
         request.enqueue(new Callback<UserDeviceModel>() {
             @Override

@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity {
             startPlayback();
             return;
         }
-        digifyApiService.getDevice(getUniqueDeviceID(this)).enqueue(new Callback<DeviceInfo>() {
+        digifyApiService.getDevice(getUniqueDeviceID()).enqueue(new Callback<DeviceInfo>() {
             @Override
             public void onResponse(Call<DeviceInfo> call, final Response<DeviceInfo> response) {
                 if (response.isSuccessful()) {

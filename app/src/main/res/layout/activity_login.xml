@@ -115,24 +115,24 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                >
 
                 <RelativeLayout
                     android:layout_width="100dp"
                     android:layout_height="100dp">
-
-                    <ImageView
+                    <com.mikepenz.iconics.view.IconicsImageView
                         android:id="@+id/sync_button"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_centerInParent="true"
                         android:layout_gravity="center"
                         android:focusableInTouchMode="true"
-                        app:ico_color="@color/white"
-                        app:ico_icon="cmd-sync"
-                        app:ico_size="48dp"
-                        tools:ignore="MissingPrefix" />
+                        app:iiv_color="@android:color/white"
+                        app:iiv_icon="cmd-sync" />
+
                 </RelativeLayout>
+
+
 
                 <TextView
                     android:layout_width="wrap_content"

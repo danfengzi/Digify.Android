@@ -69,6 +69,7 @@ import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.jobs.FetchSettingsJob;
 import digify.tv.jobs.FetchUserDeviceJob;
 import digify.tv.jobs.GetDeviceInfoJob;
+import digify.tv.ui.events.DownloadQueueStatusEvent;
 import digify.tv.ui.events.MediaDownloadStatus;
 import digify.tv.ui.events.MediaDownloadStatusEvent;
 import digify.tv.ui.events.PlayEvent;
@@ -434,6 +435,17 @@ public class MainFragment extends BrowseFragment {
                     updateMediaViewModel(event.getMediaTag().getId(), event.getProgressPercent(), event.getDownloadStatus());
                 }
         }
+    }
+
+    @Subscribe
+    public void updatePlaylist(DownloadQueueStatusEvent event)
+    {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadRows();
+            }
+        });
     }
 
     @Subscribe

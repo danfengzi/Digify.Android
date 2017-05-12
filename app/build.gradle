@@ -1,8 +1,6 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
-
-
     }
 
     dependencies {
@@ -28,8 +26,8 @@ android {
         applicationId "digify.tv"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 17
-        versionName "1.1.7"
+        versionCode 19
+        versionName "1.1.9"
         multiDexEnabled true
     }
 

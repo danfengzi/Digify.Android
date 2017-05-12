@@ -57,7 +57,7 @@ public class DeviceInfoService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         DigifyApp.get(getApplicationContext()).getComponent().inject(this);
 
-        digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {
+        digifyApiService.getDevice(Utils.getUniqueDeviceID()).enqueue(new Callback<DeviceInfo>() {
             @Override
             public void onResponse(Call<DeviceInfo> call, final Response<DeviceInfo> response) {
                 if (response.isSuccessful()) {

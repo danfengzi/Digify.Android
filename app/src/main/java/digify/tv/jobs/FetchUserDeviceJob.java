@@ -53,7 +53,7 @@ public class FetchUserDeviceJob extends Job {
     public void onRun() throws Throwable {
         DigifyApp.get(getApplicationContext()).getComponent().inject(this);
 
-        Call<DeviceInfo> request = digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext()));
+        Call<DeviceInfo> request = digifyApiService.getDevice(Utils.getUniqueDeviceID());
 
         request.enqueue(new Callback<DeviceInfo>() {
             @Override

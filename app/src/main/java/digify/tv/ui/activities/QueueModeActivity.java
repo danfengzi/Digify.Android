@@ -22,7 +22,6 @@ import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,18 +33,11 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.novoda.merlin.Merlin;
 import com.novoda.merlin.registerable.connection.Connectable;
 import com.novoda.merlin.registerable.disconnection.Disconnectable;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -102,7 +94,6 @@ public class QueueModeActivity extends BaseActivity implements
     private String barcode;
     private Merlin merlin;
     private MediaPlayer currentPlayer;
-    private Boolean firebaseOnline  = true;
 
     @Inject
     PreferenceManager preferenceManager;
@@ -123,12 +114,10 @@ public class QueueModeActivity extends BaseActivity implements
         ButterKnife.bind(this);
 
         eventBus.register(this);
-
         loadViews();
 
         setupCallbacks();
 
-        setupFirebaseStatus();
 
         mSession = new MediaSession(this, "Digify");
         mSession.setCallback(new MediaSessionCallback());
@@ -138,7 +127,6 @@ public class QueueModeActivity extends BaseActivity implements
         mSession.setActive(true);
 
         setupFragment();
-        ttsChecker();
         tenantName.setText(preferenceManager.getTenant());
 
     }
@@ -297,6 +285,7 @@ public class QueueModeActivity extends BaseActivity implements
         super.onResume();
         mSession.setActive(true);
 
+
         setupMerlin();
     }
 
@@ -402,9 +391,6 @@ public class QueueModeActivity extends BaseActivity implements
                     @Override
                     public void run() {
 
-                        if(!firebaseOnline)
-                            return;
-
                         if (onlineLayout != null) {
                             onlineLayout.setBackgroundResource(R.drawable.online);
                         }
@@ -461,6 +447,7 @@ public class QueueModeActivity extends BaseActivity implements
     public void modifyPlayerVolume(VideoMuteEvent event) {
         if (currentPlayer != null) {
             if (currentPlayer.isPlaying()) {
+
                 if (event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.Mute)) {
                     currentPlayer.setVolume(0, 0);
                 } else if (event.getMuteStatus().equals(VideoMuteEvent.MuteStatus.UnMute)) {
@@ -471,64 +458,7 @@ public class QueueModeActivity extends BaseActivity implements
         }
     }
 
-    public void ttsChecker() {
-        Intent checkTTSIntent = new Intent();
-        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 
-        checkTTSIntent.putExtra(
-                TextToSpeech.Engine.EXTRA_CHECK_VOICE_DATA_FOR,
-                Locale.US);
-        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MY_DATA_CHECK_CODE) {
-            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_FAIL) {
-                //TTS is not installed for the default language
-                Intent installIntent = new Intent();
-                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                startActivity(installIntent);
-            }
-
-        }
-    }
-
-    public void setupFirebaseStatus()
-    {
-        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-        connectedRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                firebaseOnline = snapshot.getValue(Boolean.class);
-
-
-                if(firebaseOnline)
-                {
-                    if (onlineLayout != null) {
-                        onlineLayout.setBackgroundResource(R.drawable.online);
-                    }
-
-                    if (onlineText != null) {
-                        onlineText.setText("Online");
-                    }
-                }
-                else
-                {
-                    if (onlineLayout != null) {
-                        onlineLayout.setBackgroundResource(R.drawable.offline);
-                    }
-
-                    if (onlineText != null) {
-                        onlineText.setText("Offline");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
-    }
 
 
 }
