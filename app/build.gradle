@@ -26,8 +26,8 @@ android {
         applicationId "digify.tv"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 19
-        versionName "1.1.9"
+        versionCode 20
+        versionName "1.2.0"
         multiDexEnabled true
     }
 
