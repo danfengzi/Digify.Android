@@ -20,10 +20,10 @@ import javax.inject.Provider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import digify.tv.BuildConfig;
 import digify.tv.R;
 import digify.tv.api.DigifyApiService;
 import digify.tv.core.PreferenceManager;
-import digify.tv.core.StartupReceiver;
 import digify.tv.db.MediaRepository;
 import digify.tv.db.models.DeviceInfo;
 import digify.tv.db.models.Media;
@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity {
 
     public void checkDeviceInfoBeforePlayback() {
 
-        if (!preferenceManager.isInitialSetup()) {
+        if (!preferenceManager.isInitialSetup() && !BuildConfig.DEBUG) {
             startPlayback();
             return;
         }
@@ -138,16 +138,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void startPlayback()
-    {
-        startPlayback(true);
-    }
-    private void startPlayback(boolean onlyAtStartup) {
-
-        if(onlyAtStartup)
-        if (!getIntent().hasExtra(StartupReceiver.FROM_STARTUP_RECEIVER))
-            return;
-
+    private void startPlayback() {
 
         if (preferenceManager.isQueueModeEnabled()) {
             Intent intent = new Intent(this, QueueModeActivity.class);
@@ -184,7 +175,7 @@ public class MainActivity extends BaseActivity {
     @Subscribe
     public void playbackActionEvent(PlayEvent playEvent)
     {
-        startPlayback(false);
+        startPlayback();
     }
 
     @Subscribe
