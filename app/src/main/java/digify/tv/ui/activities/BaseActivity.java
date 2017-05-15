@@ -1,6 +1,7 @@
 package digify.tv.ui.activities;
 
 import android.app.admin.DevicePolicyManager;
+import android.app.backup.BackupManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.intrications.systemuihelper.SystemUiHelper;
+import com.thomashaertel.device.identification.DeviceIdentityProvider;
 
 import javax.inject.Inject;
 
@@ -32,6 +34,8 @@ public class BaseActivity extends FragmentActivity {
 
     @Inject
     PreferenceManager preferenceManager;
+
+    private DeviceIdentityProvider identityProvider;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +61,14 @@ public class BaseActivity extends FragmentActivity {
         }
 
         setupInAppbasedKioskMode();
+
+        identityProvider = DeviceIdentityProvider.getInstance(this);
+
+        // force backup for new device immediately
+        if (identityProvider.isNewDevice()) {
+            BackupManager backupManager = new BackupManager(this);
+            backupManager.dataChanged();
+        }
 
     }
 
@@ -133,6 +145,10 @@ public class BaseActivity extends FragmentActivity {
         uiHelper.hide();
     }
 
+    /**
+     * Useful so that the login activity can extend this without triggering log out.
+     * @return
+     */
     public boolean isAutoLogOutEnabled() {
         return true;
     }

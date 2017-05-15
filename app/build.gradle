@@ -106,6 +106,8 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.2.1'
     compile 'com.github.jd-alexander:android-speech:v.1.2.2'
     compile 'com.novoda:merlin:0.10.0'
+    compile('com.thomashaertel:android-device-identification:0.0.2@aar') {
+    }
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
