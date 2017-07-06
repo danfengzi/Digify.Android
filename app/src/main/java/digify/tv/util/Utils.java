@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.thomashaertel.device.identification.DeviceIdentityProvider;
 
 import java.io.File;
 import java.util.UUID;
@@ -119,8 +120,12 @@ public class Utils {
      * @return ID
      */
 
+    public static String getUniqueDeviceID(Context context) {
+        return DeviceIdentityProvider.getInstance(context).getDeviceId();
+    }
 
-    public static String getUniqueDeviceID() {
+
+    public static String OldGetUniqueDeviceID() {
         // If all else fails, if the user does have lower than API 9 (lower
         // than Gingerbread), has reset their device or 'Secure.ANDROID_ID'
         // returns 'null', then simply the ID returned will be solely based

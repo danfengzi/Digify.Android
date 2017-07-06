@@ -163,4 +163,16 @@ public class BaseActivity extends FragmentActivity {
             sendBroadcast(closeDialog);
         }
     }
+
+    @Override
+    protected void onStop() {
+        // allow backup authorized devices only
+        if(identityProvider!=null)
+        if (identityProvider.isAuthorizedDevice()) {
+            BackupManager backupManager = new BackupManager(this);
+            backupManager.dataChanged();
+        }
+
+        super.onStop();
+    }
 }
