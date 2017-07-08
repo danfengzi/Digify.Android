@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
 
         syncButton.requestFocus();
 
-        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(Utils.getUniqueDeviceID());
+        Call<LoginResponseModel> loginCall = digifyApiService.assignmentRequest(Utils.getUniqueDeviceID(this));
 
         loginCall.enqueue(new Callback<LoginResponseModel>() {
             @Override
@@ -186,7 +186,7 @@ public class LoginActivity extends BaseActivity {
 
         scaleSyncButton();
 
-        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID());
+        Call<UserDeviceModel> request = digifyApiService.checkAssignment(Utils.getUniqueDeviceID(this));
 
         request.enqueue(new Callback<UserDeviceModel>() {
             @Override

@@ -74,7 +74,7 @@ public class FetchPlaylistJob extends Job {
 
         eventBus.register(this);
 
-        final Call<List<Media>> request = digifyApiService.getDevicePlaylist(Utils.getUniqueDeviceID());
+        final Call<List<Media>> request = digifyApiService.getDevicePlaylist(Utils.getUniqueDeviceID(getApplicationContext()));
 
         request.enqueue(new Callback<List<Media>>() {
             @Override

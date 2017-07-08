@@ -63,7 +63,7 @@ public class GetDeviceInfoJob extends Job {
 
         eventBus.register(this);
 
-        digifyApiService.getDevice(Utils.getUniqueDeviceID()).enqueue(new Callback<DeviceInfo>() {
+        digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {
             @Override
             public void onResponse(Call<DeviceInfo> call, final Response<DeviceInfo> response) {
                 if (response.isSuccessful()) {
