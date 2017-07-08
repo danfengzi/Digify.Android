@@ -41,6 +41,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static digify.tv.util.Utils.getUniqueDeviceID;
+import static digify.tv.util.Utils.register;
+import static digify.tv.util.Utils.unregister;
 
 /*
  * MainActivity class that loads MainFragment
@@ -134,7 +136,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        eventBus.register(this);
+        register(eventBus,this);
 
     }
 
@@ -215,6 +217,14 @@ public class MainActivity extends BaseActivity {
             if (getResources().getConfiguration().orientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregister(eventBus,this);
+
     }
 
     @Override

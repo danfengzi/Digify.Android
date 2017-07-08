@@ -28,13 +28,16 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloader;
-import com.thomashaertel.device.identification.DeviceIdentityProvider;
+import com.squareup.otto.Bus;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import java.io.File;
 import java.util.UUID;
@@ -49,6 +52,7 @@ import digify.tv.db.models.MediaType;
  * A collection of utility methods, all static.
  */
 public class Utils {
+    public static final String UNIQUE_KEY = "UniqueKey";
 
     /*
      * Making sure public utility methods remain static
@@ -121,7 +125,18 @@ public class Utils {
      */
 
     public static String getUniqueDeviceID(Context context) {
-        return DeviceIdentityProvider.getInstance(context).getDeviceId();
+        AppPreferences prefs = new AppPreferences(context);
+        String key = prefs.getString(UNIQUE_KEY,"");
+
+        if(key.equals(""))
+        {
+            key = UUID.randomUUID().toString();
+            prefs.put(UNIQUE_KEY,key);
+        }
+
+        Log.v("Unique Key",key);
+
+        return key;
     }
 
 
@@ -446,6 +461,32 @@ public class Utils {
             }
         }
         return false;
+    }
+
+    public static void register(Bus eventBus,Object object)
+    {
+        try
+        {
+            eventBus.register(object);
+
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
+    public static void unregister(Bus eventBus,Object object)
+    {
+        try
+        {
+            eventBus.unregister(object);
+
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 
 

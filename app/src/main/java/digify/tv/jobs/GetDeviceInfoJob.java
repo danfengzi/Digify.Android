@@ -61,7 +61,6 @@ public class GetDeviceInfoJob extends Job {
     public void onRun() throws Throwable {
         DigifyApp.get(getApplicationContext()).getComponent().inject(this);
 
-        eventBus.register(this);
 
         digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {
             @Override

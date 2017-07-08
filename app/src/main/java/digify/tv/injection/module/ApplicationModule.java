@@ -11,6 +11,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
+import net.grandcentrix.tray.AppPreferences;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -124,6 +126,12 @@ public class ApplicationModule {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         return FirebaseDatabase.getInstance().getReference("customers");
+    }
+
+    @Provides
+    AppPreferences provideAppPreferences()
+    {
+        return new AppPreferences(app);
     }
 
     @Provides

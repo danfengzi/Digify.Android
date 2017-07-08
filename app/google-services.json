@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "681146373090-98j213otqa9hfd28e8cs4fncccec3i42.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "digify.tv",
+            "certificate_hash": "4592acd1e301f89d4a9982e3235d446681cc6847"
+          }
+        },
+        {
           "client_id": "681146373090-p2tsdegev2op459q1hn155gbf06akip1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

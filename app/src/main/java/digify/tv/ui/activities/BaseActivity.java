@@ -1,7 +1,6 @@
 package digify.tv.ui.activities;
 
 import android.app.admin.DevicePolicyManager;
-import android.app.backup.BackupManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +11,10 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.intrications.systemuihelper.SystemUiHelper;
-import com.thomashaertel.device.identification.DeviceIdentityProvider;
 
 import javax.inject.Inject;
 
@@ -35,7 +36,6 @@ public class BaseActivity extends FragmentActivity {
     @Inject
     PreferenceManager preferenceManager;
 
-    private DeviceIdentityProvider identityProvider;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,15 +61,6 @@ public class BaseActivity extends FragmentActivity {
         }
 
         setupInAppbasedKioskMode();
-
-        identityProvider = DeviceIdentityProvider.getInstance(this);
-
-        // force backup for new device immediately
-        if (identityProvider.isNewDevice()) {
-            BackupManager backupManager = new BackupManager(this);
-            backupManager.dataChanged();
-        }
-
     }
 
     protected ApplicationComponent applicationComponent() {
@@ -164,14 +155,11 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+
+
     @Override
     protected void onStop() {
         // allow backup authorized devices only
-        if(identityProvider!=null)
-        if (identityProvider.isAuthorizedDevice()) {
-            BackupManager backupManager = new BackupManager(this);
-            backupManager.dataChanged();
-        }
 
         super.onStop();
     }

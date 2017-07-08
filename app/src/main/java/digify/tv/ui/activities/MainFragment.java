@@ -78,6 +78,9 @@ import digify.tv.ui.viewmodels.PreferencesItemModel;
 import digify.tv.ui.viewmodels.PreferencesItemType;
 import es.dmoral.toasty.Toasty;
 
+import static digify.tv.util.Utils.register;
+import static digify.tv.util.Utils.unregister;
+
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
 
@@ -117,7 +120,7 @@ public class MainFragment extends BrowseFragment {
         setupUIElements();
         loadRows();
         setupEventListeners();
-        eventBus.register(this);
+        register(eventBus,this);
     }
 
     @Override
@@ -128,7 +131,7 @@ public class MainFragment extends BrowseFragment {
             mBackgroundTimer.cancel();
         }
 
-        eventBus.unregister(this);
+        unregister(eventBus,this);
     }
 
     @Override

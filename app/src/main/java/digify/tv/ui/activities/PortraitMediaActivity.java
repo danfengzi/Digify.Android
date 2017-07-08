@@ -48,6 +48,8 @@ import io.realm.Realm;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.text.TextUtils.isEmpty;
+import static digify.tv.util.Utils.register;
+import static digify.tv.util.Utils.unregister;
 
 public class PortraitMediaActivity extends BaseActivity implements PlaybackOverlayFragment.OnPlayPauseClickedListener {
     private static final String TAG = "PlaybackOverlayActivity";
@@ -87,7 +89,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
         ButterKnife.bind(this);
         applicationComponent().inject(this);
 
-        eventBus.register(this);
+        register(eventBus,this);
 
         if (!preferenceManager.isPortrait()) {
             Intent intent = new Intent(this, LandscapeMediaActivity.class);
@@ -186,7 +188,7 @@ public class PortraitMediaActivity extends BaseActivity implements PlaybackOverl
     public void onDestroy() {
         super.onDestroy();
         videoView.suspend();
-        eventBus.unregister(this);
+        unregister(eventBus,this);
     }
 
     @Override

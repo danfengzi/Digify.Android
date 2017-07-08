@@ -57,6 +57,8 @@ import digify.tv.ui.viewmodels.ScreenOrientation;
 import es.dmoral.toasty.Toasty;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static digify.tv.util.Utils.register;
+import static digify.tv.util.Utils.unregister;
 
 /**
  * PlaybackOverlayActivity for video playback that loads PlaybackOverlayFragment
@@ -113,7 +115,7 @@ public class QueueModeActivity extends BaseActivity implements
         setContentView(R.layout.queue_mode);
         ButterKnife.bind(this);
 
-        eventBus.register(this);
+        register(eventBus,this);
         loadViews();
 
         setupCallbacks();
@@ -142,7 +144,7 @@ public class QueueModeActivity extends BaseActivity implements
     public void onDestroy() {
         super.onDestroy();
         videoView.suspend();
-        eventBus.unregister(this);
+        unregister(eventBus,this);
     }
 
     @Override

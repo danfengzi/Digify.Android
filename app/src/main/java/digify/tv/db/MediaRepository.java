@@ -41,7 +41,6 @@ public class MediaRepository extends BaseComponent {
         super(context);
 
         applicationComponent().inject(this);
-        eventBus.register(this);
     }
 
     public List<Media> getMedia() {

@@ -8,6 +8,8 @@ import android.os.PowerManager;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.Iconics;
@@ -27,6 +29,7 @@ import digify.tv.jobs.FetchPlaylistJob;
 import digify.tv.jobs.FetchSettingsJob;
 import digify.tv.jobs.FetchUserDeviceJob;
 import digify.tv.jobs.GetDeviceInfoJob;
+import digify.tv.util.Utils;
 import io.fabric.sdk.android.Fabric;
 import io.hypertrack.smart_scheduler.Job;
 import io.hypertrack.smart_scheduler.SmartScheduler;
@@ -87,6 +90,7 @@ public class DigifyApp extends Application {
         scheduleJob();
         setupInAppKioskService();
         registerKioskModeScreenOffReceiver();
+        logDeviceDetailsToServices();
     }
 
     public void setupInAppKioskService() {
@@ -187,4 +191,20 @@ public class DigifyApp extends Application {
     }
 
 
+    private void logDeviceDetailsToServices()
+    {
+
+
+        FirebaseAnalytics.getInstance(this).setUserId(preferenceManager.getName());
+        FirebaseAnalytics.getInstance(this).setUserProperty("Tenant",preferenceManager.getTenant());
+        FirebaseAnalytics.getInstance(this).setUserProperty("Code",preferenceManager.getCode());
+        FirebaseAnalytics.getInstance(this).setUserProperty("Device Id", Utils.getUniqueDeviceID(this));
+
+        if(!isEmulator()) {
+            Crashlytics.setUserIdentifier(preferenceManager.getName());
+            Crashlytics.setUserName(preferenceManager.getTenant());
+            Crashlytics.setUserEmail(preferenceManager.getCode());
+            Crashlytics.setString("Device Id",Utils.getUniqueDeviceID(this));
+        }
+    }
 }
