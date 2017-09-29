@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="digify.tv.ui.fragments.PortraitVideoFragment">
+    tools:context="nobi.tv.ui.fragments.PortraitVideoFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

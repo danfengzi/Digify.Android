@@ -67,7 +67,7 @@
 
         <fragment
             android:id="@+id/fragment"
-            android:name="digify.tv.ui.fragments.QueueFragment"
+            android:name="nobi.tv.ui.fragments.QueueFragment"
             android:layout_width="400dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true" />
