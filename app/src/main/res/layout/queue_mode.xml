@@ -67,7 +67,7 @@
 
         <fragment
             android:id="@+id/fragment"
-            android:name="nobi.tv.ui.fragments.QueueFragment"
+            android:name="genius.tv.ui.fragments.QueueFragment"
             android:layout_width="400dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true" />

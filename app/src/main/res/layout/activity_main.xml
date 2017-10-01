@@ -45,7 +45,7 @@ android:visibility="gone"
 
     <fragment
         android:id="@+id/main_browse_fragment"
-        android:name="nobi.tv.ui.activities.MainFragment"
+        android:name="genius.tv.ui.activities.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:deviceIds="tv"

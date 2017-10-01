@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="nobi.tv.ui.activities.Main2Activity">
+    tools:context="genius.tv.ui.activities.Main2Activity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

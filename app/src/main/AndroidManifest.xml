@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nobi.tv">
+    package="genius.tv">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,24 +12,24 @@
         android:required="false" />
 
     <application
-        android:name="nobi.tv.DigifyApp"
+        android:name="genius.tv.DigifyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Leanback">
         <activity
-            android:name="nobi.tv.ui.activities.MainActivity"
+            android:name="genius.tv.ui.activities.MainActivity"
             android:banner="@drawable/app_icon_your_company"
             android:icon="@drawable/app_icon_your_company"
             android:label="@string/title_activity_main"
             android:logo="@drawable/app_icon_your_company"
             android:screenOrientation="landscape" />
-        <activity android:name="nobi.tv.ui.activities.DetailsActivity" />
-        <activity android:name="nobi.tv.ui.activities.LandscapeMediaActivity" />
-        <activity android:name="nobi.tv.ui.activities.BrowseErrorActivity" />
+        <activity android:name="genius.tv.ui.activities.DetailsActivity" />
+        <activity android:name="genius.tv.ui.activities.LandscapeMediaActivity" />
+        <activity android:name="genius.tv.ui.activities.BrowseErrorActivity" />
         <activity
-            android:name="nobi.tv.ui.activities.LoginActivity"
+            android:name="genius.tv.ui.activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
@@ -40,7 +40,7 @@
             android:value="768dcc5d76524e55929e9a8f2e83798fbccb26db" />
 
         <receiver
-            android:name="nobi.tv.core.StartupReceiver"
+            android:name="genius.tv.core.StartupReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -49,7 +49,7 @@
         </receiver>
 
         <activity
-            android:name="nobi.tv.ui.activities.SplashActivity"
+            android:name="genius.tv.ui.activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,33 +59,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="nobi.tv.ui.activities.PortraitMediaActivity"
+            android:name="genius.tv.ui.activities.PortraitMediaActivity"
             android:label="@string/title_activity_portrait"
             android:screenOrientation="portrait" />
 
         <service
-            android:name="nobi.tv.core.DeviceInfoService"
+            android:name="genius.tv.core.DeviceInfoService"
             android:exported="false" />
 
         <receiver
-            android:name="nobi.tv.core.AdminReceiver"
+            android:name="genius.tv.core.AdminReceiver"
             android:enabled="true"
             android:exported="true" />
 
         <service
-            android:name="nobi.tv.core.KioskService"
+            android:name="genius.tv.core.KioskService"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name="nobi.tv.core.OnScreenOffReceiver"
+            android:name="genius.tv.core.OnScreenOffReceiver"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name="nobi.tv.ui.activities.QueueModeActivity" />
+        <activity android:name="genius.tv.ui.activities.QueueModeActivity" />
 
         <service
-            android:name="nobi.tv.core.GetUserDeviceService"
+            android:name="genius.tv.core.GetUserDeviceService"
             android:exported="false"></service>
     </application>
 

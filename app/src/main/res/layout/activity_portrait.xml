@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="10"
-        tools:context="nobi.tv.ui.activities.PortraitMediaActivity">
+        tools:context="genius.tv.ui.activities.PortraitMediaActivity">
 
         <VideoView
             android:id="@+id/videoView"
