@@ -1,51 +1,35 @@
 {
   "project_info": {
-    "project_number": "681146373090",
-    "firebase_url": "https://digify-38b68.firebaseio.com",
-    "project_id": "digify-38b68",
-    "storage_bucket": "digify-38b68.appspot.com"
+    "project_number": "423116056716",
+    "firebase_url": "https://geniustv-c429f.firebaseio.com",
+    "project_id": "geniustv-c429f",
+    "storage_bucket": "geniustv-c429f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:681146373090:android:ca5851bf5e5dfd79",
+        "mobilesdk_app_id": "1:423116056716:android:72a3c8627a7e1040",
         "android_client_info": {
-          "package_name": "digify.tv"
+          "package_name": "genius.tv"
         }
       },
       "oauth_client": [
         {
-          "client_id": "681146373090-98j213otqa9hfd28e8cs4fncccec3i42.apps.googleusercontent.com",
+          "client_id": "423116056716-kgr4dnjdmovl0sta350p2vcl2epquaju.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "digify.tv",
+            "package_name": "genius.tv",
             "certificate_hash": "4592acd1e301f89d4a9982e3235d446681cc6847"
           }
         },
         {
-          "client_id": "681146373090-p2tsdegev2op459q1hn155gbf06akip1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "digify.tv",
-            "certificate_hash": "e2b58de458b948cf2cbf567298c9b90c582bbcd0"
-          }
-        },
-        {
-          "client_id": "681146373090-gl93okciqnqeb4o3d0fnis2u5cvu191n.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "digify.tv",
-            "certificate_hash": "ad457b39bdef63370d0ce23b3f4c04d01c4b50a2"
-          }
-        },
-        {
-          "client_id": "681146373090-s08n9lhjoipldqevc997pgoibl30supv.apps.googleusercontent.com",
+          "client_id": "423116056716-q2lbu2ge00fj747pd1c1oidmo4ch3f52.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDTcAlAtyf_-Ta0kONQIhr4ZdQYyQdVLL8"
+          "current_key": "AIzaSyAVSr6-dhfSFMXBGirSUKclBaQruJ4R6m4"
         }
       ],
       "services": {
@@ -56,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "681146373090-s08n9lhjoipldqevc997pgoibl30supv.apps.googleusercontent.com",
+              "client_id": "423116056716-q2lbu2ge00fj747pd1c1oidmo4ch3f52.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
