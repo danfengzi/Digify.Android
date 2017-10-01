@@ -20,7 +20,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.api.DigifyApiService;
 import genius.tv.core.PreferenceManager;
 import genius.tv.db.models.DeviceInfo;
@@ -59,7 +59,7 @@ public class GetDeviceInfoJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        DigifyApp.get(getApplicationContext()).getComponent().inject(this);
+        GeniusApp.get(getApplicationContext()).getComponent().inject(this);
 
 
         digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {

@@ -15,7 +15,7 @@ import com.intrications.systemuihelper.SystemUiHelper;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.R;
 import genius.tv.core.AdminReceiver;
 import genius.tv.core.PreferenceManager;
@@ -61,7 +61,7 @@ public class BaseActivity extends FragmentActivity {
     }
 
     protected ApplicationComponent applicationComponent() {
-        return DigifyApp.get(this).getComponent();
+        return GeniusApp.get(this).getComponent();
     }
 
     @Override

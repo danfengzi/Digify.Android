@@ -7,7 +7,7 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.api.DigifyApiService;
 import genius.tv.db.models.DeviceInfo;
 import genius.tv.jobs.GetDeviceInfoJob;
@@ -36,7 +36,7 @@ public class GetUserDeviceService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        DigifyApp.get(getApplicationContext()).getComponent().inject(this);
+        GeniusApp.get(getApplicationContext()).getComponent().inject(this);
 
 
         Call<DeviceInfo> request = digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext()));

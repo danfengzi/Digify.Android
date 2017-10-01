@@ -6,7 +6,7 @@ import android.os.PowerManager;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.injection.component.ApplicationComponent;
 
 public class OnScreenOffReceiver extends BroadcastReceiver {
@@ -20,15 +20,15 @@ public class OnScreenOffReceiver extends BroadcastReceiver {
         applicationComponent(context).inject(this);
 
         if(Intent.ACTION_SCREEN_OFF.equals(intent.getAction())){
-            DigifyApp ctx = (DigifyApp) context.getApplicationContext();
+            GeniusApp ctx = (GeniusApp) context.getApplicationContext();
             // is Kiosk Mode active?
                 wakeUpDevice(ctx);
 
         }
     }
 
-    private void wakeUpDevice(DigifyApp digifyApp) {
-        PowerManager.WakeLock wakeLock = digifyApp.getWakeLock(); // get WakeLock reference via AppContext
+    private void wakeUpDevice(GeniusApp geniusApp) {
+        PowerManager.WakeLock wakeLock = geniusApp.getWakeLock(); // get WakeLock reference via AppContext
         if (wakeLock.isHeld()) {
             wakeLock.release(); // release old wake lock
         }
@@ -41,7 +41,7 @@ public class OnScreenOffReceiver extends BroadcastReceiver {
     }
 
     protected ApplicationComponent applicationComponent(Context context) {
-        return DigifyApp.get(context).getComponent();
+        return GeniusApp.get(context).getComponent();
     }
 
 

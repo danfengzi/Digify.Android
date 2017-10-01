@@ -57,7 +57,7 @@ import java.util.TimerTask;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.R;
 import genius.tv.core.DeviceInfoService;
 import genius.tv.core.GetUserDeviceService;
@@ -114,7 +114,7 @@ public class MainFragment extends BrowseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onActivityCreated(savedInstanceState);
-        DigifyApp.get(getActivity()).getComponent().inject(this);
+        GeniusApp.get(getActivity()).getComponent().inject(this);
 
         prepareBackgroundManager();
         setupUIElements();

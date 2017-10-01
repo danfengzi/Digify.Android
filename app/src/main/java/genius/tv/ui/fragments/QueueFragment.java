@@ -21,7 +21,7 @@ import net.gotev.speech.Speech;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.R;
 import genius.tv.api.models.CustomerModel;
 import genius.tv.core.CustomerProcessor;
@@ -46,7 +46,7 @@ public class QueueFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DigifyApp.get(getActivity()).getComponent().inject(this);
+        GeniusApp.get(getActivity()).getComponent().inject(this);
         Speech.getInstance();
         customerChanges();
     }

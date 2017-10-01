@@ -11,7 +11,7 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.api.DigifyApiService;
 import genius.tv.core.KioskService;
 import genius.tv.core.PreferenceManager;
@@ -51,7 +51,7 @@ public class FetchUserDeviceJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        DigifyApp.get(getApplicationContext()).getComponent().inject(this);
+        GeniusApp.get(getApplicationContext()).getComponent().inject(this);
 
         Call<DeviceInfo> request = digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext()));
 

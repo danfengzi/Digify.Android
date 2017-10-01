@@ -2,7 +2,7 @@ package genius.tv.core;
 
 import android.content.Context;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.injection.component.ApplicationComponent;
 
 /**
@@ -17,7 +17,7 @@ public abstract class BaseComponent {
     }
 
     protected ApplicationComponent applicationComponent() {
-        return DigifyApp.get(context).getComponent();
+        return GeniusApp.get(context).getComponent();
     }
 
     public Context getContext() {

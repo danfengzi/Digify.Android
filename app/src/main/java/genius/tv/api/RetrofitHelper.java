@@ -12,7 +12,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 import genius.tv.BuildConfig;
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.core.GsonDateDeserializer;
 import genius.tv.core.MediaGsonConverter;
 import genius.tv.core.PreferenceManager;
@@ -37,7 +37,7 @@ public class RetrofitHelper {
     public RetrofitHelper(Context context) {
         this.context = context;
 
-        DigifyApp.get(this.context).getComponent().inject(this);
+        GeniusApp.get(this.context).getComponent().inject(this);
     }
 
     public DigifyApiService newDigifyApiService() {

@@ -60,7 +60,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.R;
 import genius.tv.core.PreferenceManager;
 import genius.tv.db.MediaRepository;
@@ -121,7 +121,7 @@ public class PlaybackOverlayFragment extends android.support.v17.leanback.app.Pl
                 isVideoModeOnly = true;
         }
 
-        DigifyApp.get(getActivity()).getComponent().inject(this);
+        GeniusApp.get(getActivity()).getComponent().inject(this);
 
         mItems = new ArrayList<>();
 

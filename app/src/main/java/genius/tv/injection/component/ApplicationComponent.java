@@ -3,7 +3,7 @@ package genius.tv.injection.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.api.HostSelectionInterceptor;
 import genius.tv.api.RetrofitHelper;
 import genius.tv.core.CustomerProcessor;
@@ -42,7 +42,7 @@ public interface ApplicationComponent {
     void inject(PortraitMediaActivity portraitActivity);
     void inject(MainActivity mainActivity);
     void inject(LandscapeMediaActivity landscapeMediaActivity);
-    void inject(DigifyApp digifyApp);
+    void inject(GeniusApp geniusApp);
     void inject(FetchPlaylistJob fetchPlaylistJob);
     void inject(MainFragment mainFragment);
     void inject(VideoDetailsFragment videoDetailsFragment);

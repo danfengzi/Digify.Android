@@ -17,7 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.api.DigifyApiService;
 import genius.tv.db.models.DeviceInfo;
 import genius.tv.ui.events.ScreenOrientationEvent;
@@ -55,7 +55,7 @@ public class DeviceInfoService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        DigifyApp.get(getApplicationContext()).getComponent().inject(this);
+        GeniusApp.get(getApplicationContext()).getComponent().inject(this);
 
         digifyApiService.getDevice(Utils.getUniqueDeviceID(getApplicationContext())).enqueue(new Callback<DeviceInfo>() {
             @Override

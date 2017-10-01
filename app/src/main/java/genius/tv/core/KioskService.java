@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.injection.component.ApplicationComponent;
 import genius.tv.ui.activities.MainActivity;
 import timber.log.Timber;
@@ -104,6 +104,6 @@ public class KioskService extends Service {
     }
 
     protected ApplicationComponent applicationComponent() {
-        return DigifyApp.get(getApplicationContext()).getComponent();
+        return GeniusApp.get(getApplicationContext()).getComponent();
     }
 }

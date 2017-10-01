@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.core.PreferenceManager;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -29,7 +29,7 @@ public final class HostSelectionInterceptor implements Interceptor {
 
     public HostSelectionInterceptor(Context context) {
 
-        DigifyApp.get(context).getComponent().inject(this);
+        GeniusApp.get(context).getComponent().inject(this);
 
 
     }

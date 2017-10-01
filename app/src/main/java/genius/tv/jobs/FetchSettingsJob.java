@@ -10,7 +10,7 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.api.DigifyApiService;
 import genius.tv.api.models.SettingsModel;
 import genius.tv.core.PreferenceManager;
@@ -44,7 +44,7 @@ public class FetchSettingsJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        DigifyApp.get(getApplicationContext()).getComponent().inject(this);
+        GeniusApp.get(getApplicationContext()).getComponent().inject(this);
 
 
         digifyApiService.getOrganizationSettings().enqueue(new Callback<SettingsModel>() {

@@ -21,7 +21,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.api.models.CustomerModel;
 import genius.tv.injection.component.ApplicationComponent;
 import genius.tv.ui.events.VideoMuteEvent;
@@ -103,6 +103,6 @@ public class CustomerProcessor {
     }
 
     protected ApplicationComponent applicationComponent() {
-        return DigifyApp.get(context).getComponent();
+        return GeniusApp.get(context).getComponent();
     }
 }

@@ -41,7 +41,7 @@ import static genius.tv.util.Utils.isEmulator;
  * Created by Joel on 12/7/2016.
  */
 
-public class DigifyApp extends Application {
+public class GeniusApp extends Application {
 
     ApplicationComponent applicationComponent;
     private static final int JOB_ID = 42334;
@@ -98,8 +98,8 @@ public class DigifyApp extends Application {
         }
     }
 
-    public static DigifyApp get(Context context) {
-        return (DigifyApp) context.getApplicationContext();
+    public static GeniusApp get(Context context) {
+        return (GeniusApp) context.getApplicationContext();
     }
 
 

@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.R;
 import genius.tv.api.DigifyApiService;
 import genius.tv.api.models.LoginResponseModel;
@@ -162,7 +162,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     protected ApplicationComponent applicationComponent() {
-        return DigifyApp.get(this).getComponent();
+        return GeniusApp.get(this).getComponent();
     }
 
     @Override

@@ -47,7 +47,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import genius.tv.DigifyApp;
+import genius.tv.GeniusApp;
 import genius.tv.R;
 import genius.tv.db.MediaRepository;
 import genius.tv.util.Utils;
@@ -85,7 +85,7 @@ public class VideoDetailsFragment extends DetailsFragment {
         Log.d(TAG, "onCreate DetailsFragment");
         super.onCreate(savedInstanceState);
 
-        DigifyApp.get(getActivity()).getComponent().inject(this);
+        GeniusApp.get(getActivity()).getComponent().inject(this);
 
 
         prepareBackgroundManager();
