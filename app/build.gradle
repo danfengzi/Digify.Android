@@ -23,7 +23,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "digify.tv"
+        applicationId "genius.tv"
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 1

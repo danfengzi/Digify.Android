@@ -62,14 +62,11 @@ public class GeniusApp extends Application {
 
         Speech.init(this);
 
-
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
 
-
         JodaTimeAndroid.init(this);
-
 
         initializeCustomFontAndIconProvider();
 
