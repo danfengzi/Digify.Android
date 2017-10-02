@@ -133,7 +133,7 @@ public class PreferenceManager {
     }
 
     public boolean isQueueModeEnabled() {
-        return preferences.getBoolean(KEY_QUEUE, true);
+        return preferences.getBoolean(KEY_QUEUE, false);
     }
 
 

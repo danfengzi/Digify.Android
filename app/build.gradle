@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
+
     }
 
     dependencies {
@@ -14,13 +15,16 @@ apply plugin: 'com.github.triplet.play'
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url "https://jitpack.io" }
+    maven {
+        url "https://maven.google.com" // Google's Maven repository
+    }
 }
 
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "genius.tv"
@@ -65,7 +69,7 @@ dependencies {
     })
 
     final DAGGER_VERSION = '2.7'
-    final APP_COMPAT_VERSION = '25.0.0'
+    final APP_COMPAT_VERSION = '26.1.0'
 
     compile "com.google.dagger:dagger:$DAGGER_VERSION"
     apt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
@@ -104,13 +108,13 @@ dependencies {
     compile 'com.github.intrications:SystemUiHelper:1.1'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.firebaseui:firebase-ui-database:1.2.0'
-    compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'com.firebaseui:firebase-ui-database:2.4.0'
+    compile 'com.google.firebase:firebase-database:11.4.0'
     compile 'com.github.jd-alexander:android-speech:v.1.2.2'
     compile 'com.novoda:merlin:0.10.0'
     compile 'net.grandcentrix.tray:tray:0.12.0'
-    compile 'com.google.firebase:firebase-core:10.0.1'
-    compile 'com.google.firebase:firebase-crash:10.0.1'
+    compile 'com.google.firebase:firebase-core:11.4.0'
+    compile 'com.google.firebase:firebase-crash:11.4.0'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'

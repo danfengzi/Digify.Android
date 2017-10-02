@@ -189,8 +189,6 @@ public class GeniusApp extends Application {
 
     private void logDeviceDetailsToServices()
     {
-
-
         FirebaseAnalytics.getInstance(this).setUserId(preferenceManager.getName());
         FirebaseAnalytics.getInstance(this).setUserProperty("Tenant",preferenceManager.getTenant());
         FirebaseAnalytics.getInstance(this).setUserProperty("Code",preferenceManager.getCode());
