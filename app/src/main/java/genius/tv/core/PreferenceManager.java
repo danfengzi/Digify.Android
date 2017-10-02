@@ -137,7 +137,6 @@ public class PreferenceManager {
     }
 
 
-
     public void setKioskMode(boolean status) {
         editor.putBoolean(KEY_KIOSK_MODE, status);
         editor.commit();
