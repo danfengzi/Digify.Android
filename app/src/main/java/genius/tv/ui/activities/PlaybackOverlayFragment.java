@@ -72,8 +72,8 @@ import genius.tv.db.models.MediaType;
 public class PlaybackOverlayFragment extends android.support.v17.leanback.app.PlaybackOverlayFragment {
     private static final String TAG = "PlaybackControlsFragmnt";
 
-    private static final boolean SHOW_DETAIL = true;
-    private static final boolean HIDE_MORE_ACTIONS = false;
+    private static final boolean SHOW_DETAIL = false;
+    private static final boolean HIDE_MORE_ACTIONS = true;
     private static final int PRIMARY_CONTROLS = 5;
     private static final boolean SHOW_IMAGE = PRIMARY_CONTROLS <= 5;
     private static final int BACKGROUND_TYPE = PlaybackOverlayFragment.BG_LIGHT;

@@ -14,8 +14,11 @@
 
 package genius.tv.util;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
@@ -487,6 +490,19 @@ public class Utils {
         {
 
         }
+    }
+
+    public static String getVersionName(Activity activity)
+    {
+        try {
+            PackageInfo pInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
+            return pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+
+            return "";
+        }
+
     }
 
 

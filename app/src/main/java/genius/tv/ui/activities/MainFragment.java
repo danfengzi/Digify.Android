@@ -78,6 +78,7 @@ import genius.tv.ui.viewmodels.PreferencesItemModel;
 import genius.tv.ui.viewmodels.PreferencesItemType;
 import es.dmoral.toasty.Toasty;
 
+import static genius.tv.util.Utils.getVersionName;
 import static genius.tv.util.Utils.register;
 import static genius.tv.util.Utils.unregister;
 
@@ -236,9 +237,8 @@ public class MainFragment extends BrowseFragment {
     }
 
     private void setupUIElements() {
-        // setBadgeDrawable(getActivity().getResources().getDrawable(
-        // R.drawable.videos_by_google_banner));
-        setTitle(getString(R.string.browse_title)); // Badge, when set, takes precedent
+
+        setTitle("Hi-Pro TV - v"+getVersionName(getActivity()));
         // over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);

@@ -70,9 +70,8 @@ public class BaseActivity extends FragmentActivity {
     }
 
     protected void setupInAppbasedKioskMode() {
-        if (preferenceManager.isKioskModeEnabled()) {
             hideSystemUI();
-        }
+
     }
 
     protected void setupAndroidBasedKioskMode() {
