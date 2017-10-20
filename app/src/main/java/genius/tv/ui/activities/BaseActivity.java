@@ -95,7 +95,6 @@ public class BaseActivity extends FragmentActivity {
 //            mDpm.clearDeviceOwnerApp(getPackageName());
         }
 
-        hideSystemUI();
     }
 
     protected void enableKioskMode(boolean enabled) {
@@ -143,6 +142,9 @@ public class BaseActivity extends FragmentActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+
+        if(hasFocus)
+            hideSystemUI();
 
         if (!hasFocus && preferenceManager.isKioskModeEnabled()) {
             // Close every kind of system dialog
